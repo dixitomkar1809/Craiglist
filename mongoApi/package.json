@@ -1,0 +1,30 @@
+{
+  "name": "mongoapi",
+  "version": "1.0.0",
+  "description": "this is a trial api for connecting mongodb and nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dixitomkar1809/Craiglist.git"
+  },
+  "keywords": [
+    "node",
+    "npm",
+    "mongo"
+  ],
+  "author": "Omkar Dixit",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dixitomkar1809/Craiglist/issues"
+  },
+  "homepage": "https://github.com/dixitomkar1809/Craiglist#readme",
+  "dependencies": {
+    "all": "0.0.0",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "mongoose": "^5.0.12"
+  }
+}
