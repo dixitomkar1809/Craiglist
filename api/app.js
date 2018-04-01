@@ -1,7 +1,7 @@
-var mysql = requestuire('mysql');
-var expresults = requestuire('expresults');
-var app = expresults();
-var router = expresults.Router();
+var mysql = require('mysql');
+var express = require('express');
+var app = express();
+var router = express.Router();
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -33,101 +33,157 @@ app.use(function(request, result, next) {
 
 // List of all Products
 app.get('/api/products/productList', (request, result) => {
-    connection.query('select * from product', function(err, rows, fields){
+    connection.query('SELECT * FROM service', function(err, rows, fields){
         if(err){
-            console.log('something went wrong !');
+            console.log(err);
         }
         else{
-            console.log(rows);
-            // result.send(rows);
+            result.send(rows);
         }
     });
 });
 
 // Delete a product
 app.get('/api/products/delete/:id', (request, result) => {
-    console.log("delete product with id " + request.params.id);
+    connection.query("DELETE FROM service WHERE service.serviceId=?",[request.params.id], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
 });
 
 
 // List of products with one category
 app.get('/api/products/productCategory/:categoryId', (request, result) => {
-    console.log("products with category Id ", request.params.categoryId);
-    connection.query('select * from product where categoryId='+request.params.categoryId, function(err, rows, fields){
+    connection.query("SELECT * FROM service WHERE serviceCategoryId= ?",[request.params.categoryId], function(err, rows, fields){
         if(err){
-            console.log('something went wrong !');
+            console.log(err);
         }
         else{
-            console.log(rows);
-            // result.send(rows);
+            result.send(rows);
         }
     });
 });
 
 // hide a specific product for a specific user
-app.get('/api/hideProduct/add/:productId/:userId', (request, result) => {
-    console.log("ProductId UserId ",request.params.productId, request.params.userId );
+app.get('/api/hideProduct/add/:serviceId/:userId', (request, result) => {
+    connection.query("INSERT INTO `hiddenservices` (`serviceId`, `userId`) VALUES (?, ?)", [request.params.serviceId, request.params.userId], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
 });
 
 //remove a hidden product for a specific user
-app.get('api/hideProduct/remove/:productId/:userId', (request, result) => {
-    console.log("ProductId UserId ", request.params.productId, request.params.userId);
+app.get('/api/hideProduct/remove/:hiddenProductId/:userId', (request, result) => {
+    connection.query("DELETE FROM hiddenservices WHERE hiddenservices.serviceId = ? and hiddeservices.userId= ?", [request.params.hiddenProductId, request.params.userId], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
 });
 
 // user register
-app.get('/api/users/register/:username/:password/:emailId', (request, result) => {
-    console.log("User Register ",request.params.username, request.params.password, request.params.emailId);
+app.get('/api/users/register/:fullName/:password/:emailId', (request, result) => {
+    connection.query("INSERT INTO `users` (`fullName`, `emailId`, `password`) VALUES (?, ? ?)", [request.params.fullName, request.params.emailId, request.params.password], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
 });
 
 // user login
-app.get('/api/users/login/:username/:password', (request, result) => {
-    console.log("User login creds ",request.params.username, request.params.password);
+app.get('/api/users/login/:emailId/:password', (request, result) => {
+    connection.query("SELECT * from users WHERE emailId= ? and password= ?",[request.params.emailId, request.params.password], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
 });
 
 // Change Password
-app.get('/api/users/changePassword/:newPassword',(request, result) => {
-    console.log(request.params.newPassword);
+app.get('/api/users/changePassword/:userId/:newPassword',(request, result) => {
+    connection.query("UPDATE users SET users.password= ? WHERE userId= ?",[request.params.newPassword,request.params.userId], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
 });
 
 // Change Email
-app.get('/api/users/changeEmail/:newEmail', (request, result) => {
-    console.log("New EmailId ", request.params.newEmail);
+app.get('/api/users/changeEmail/:userId/:newEmail', (request, result) => {
+    connection.query('UPDATE users SET users.emailId= ? WHERE userId= ?',[request.params.newEmail, request.params.userId], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
 });
 
 // delete a user
-app.get('/api/users/delete/:id', (request, result) => {
-    console.log("delete user with id ", request.params.id);
+app.get('/api/users/delete/:userId', (request, result) => {
+    connection.query('DELECT FROM users WHERE userId= ?',[request.params.userId], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
 });
 
 // Specific User 
 app.get('/api/users/get/:id', (request, result) => {
-    console.log("User Id " + request.params.id);
-    connection.query('select * from users where userId='+request.params.id, function(err, rows, fields){
+    connection.query('SELECT * FROM users WHERE userId= ?',[request.params.userId], function(err, rows, fields){
         if(err){
-            console.log('something went wrong !');
+            console.log(err);
         }
         else{
-            console.log(rows);
-            // result.send(rows);
+            result.send(rows);
         }
     });
 });
 
 // Specific Product
 app.get('/api/products/:id', (request, result) => {
-    console.log("product Id - " + request.params.id);
+    connection.query('SELECT * FROM service WHERE serviceId= ?',[request.params.userId], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
 });
 
 // List of all users
 app.get('/api/users/usersList',(request, result) => {
-    console.log("print Users list");
-    connection.query('select * from users', function(err, rows, fields){
+    connection.query('SELECT * FROM users', function(err, rows, fields){
         if(err){
             console.log('something went wrong !');
         }
         else{
-            console.log(rows);
-            // result.send(rows);
+            result.send(rows); 
         }
     });
 });
