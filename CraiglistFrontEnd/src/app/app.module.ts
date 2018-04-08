@@ -3,18 +3,16 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RouterModule, Routes } from '@angular/router';
-import { LandingPageComponent } from './landing-page/landing-page.component';
 import { IndexComponent } from './index/index.component';
 
 const appRoutes: Routes = [
-  { path: '', component: LandingPageComponent },
-  { path: 'index', component: IndexComponent }];
+  { path: '', component: IndexComponent },
+  { path: 'dashboard', component: DashboardComponent }];
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    LandingPageComponent,
     IndexComponent
   ],
   imports: [
