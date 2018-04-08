@@ -12,9 +12,16 @@ angular.module('Craiglist', ['ngRoute'])
 				redirectTo: '/'
 			});
     }])
-    .controller('DashboardCtrl',function($scope){
+    .controller('DashboardCtrl',function($scope, $http){
         console.log("Dashboard Controller");
+
+        userLogin=function(){
+            console.log("Login Fucntion");
+        };
+        userRegister = function(){
+            console.log("User Register");
+        };
     })
-    .controller('MainCtrl', function($scope, $window){
+    .controller('MainCtrl', function($scope, $window, $http){
         console.log("Main Controller");
     });
