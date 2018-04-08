@@ -1,17 +1,17 @@
 angular.module('Craiglist', ['ngRoute'])
-	.config( ['$routeProvider', function($routeProvider) {
-		$routeProvider
-			.when('/', {
-                templateUrl: 'main.html',
-			})
-			.when('/dashboard', {
-                templateUrl: 'dashboard.html',
-                controller: 'DashboardCtrl'
-			})
-			.otherwise({
-				redirectTo: '/'
-			});
-    }])
+	// .config( ['$routeProvider', function($routeProvider) {
+	// 	$routeProvider
+	// 		.when('/', {
+    //             templateUrl: 'main.html',
+	// 		})
+	// 		.when('/dashboard', {
+    //             templateUrl: 'dashboard.html',
+    //             controller: 'DashboardCtrl'
+	// 		})
+	// 		.otherwise({
+	// 			redirectTo: '/'
+	// 		});
+    // }])
     .controller('DashboardCtrl',function($scope, $http){
         console.log("Dashboard Controller");
 
