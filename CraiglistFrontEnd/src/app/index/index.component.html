@@ -1,22 +1,14 @@
 <nav class="#006064 cyan darken-4">
   <div class="nav-wrapper">
-    &nbsp;
-    <a href="#" class="brand-logo">Logo</a>
+    <img ngSrc="/src/images/logo.png" alt="">
+    <a href="#" class="brand-logo">Craiglist</a>
   </div>
 </nav>
 
 <div class="container">
   <div class="row">
     <div class="col s6">
-      <p class="flow-text teal lighten-2">
-        At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti
-        quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia
-        deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio.
-        Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere
-        possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis
-        aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum
-        rerum hic tenetur a sapiente delectus,
-      </p>
+      <!-- <img [src]="E:\Projects\Craiglist\CraiglistFrontEnd\src\images\logo.png" alt=""> -->
     </div>
     <div class="col s6">
       <ul class="collapsible popout" data-collapsible="accordion">
@@ -25,22 +17,22 @@
             <h5>Log in</h5>
           </div>
           <div class="collapsible-body">
-            <form>
+            <form (ngSubmit)="userLogin()">
               <div class="input-field row">
                 <i class="material-icons prefix">email</i>
-                <input id="loginemail" type="email" class="validate">
+                <input id="loginemail" type="email" class="validate" [(ngModel)]="loginEmailId" [ngModelOptions]="{standalone:true}">
                 <label for="loginemail">Email</label>
               </div>
               <div class="input-field row">
                 <i class="material-icons prefix">security</i>
-                <input id="loginpassword" type="password" class="validate">
+                <input id="loginpassword" type="password" class="validate" [(ngModel)]="loginPassword" [ngModelOptions]="{standalone:true}">
                 <label for="loginpassword">Password</label>
                 <span class="helper-text">
                   <a href="#">Forgot Password?</a>
                 </span>
               </div>
               <div class="row">
-                <button class="btn waves-effect waves-light ">Log In</button>
+                <button type="submit" class="btn waves-effect waves-light ">Log In</button>
               </div>
             </form>
           </div>

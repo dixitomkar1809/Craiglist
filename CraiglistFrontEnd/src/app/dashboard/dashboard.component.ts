@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,22 +9,41 @@ import { NgForm } from '@angular/forms';
 })
 export class DashboardComponent implements OnInit {
 
-  public fullName = "Omkar Dixit"
-  public address = "7825, Mccallum Blvd, Apt 402";
-  public city  = "Dallas";
-  public state = "Texas";
-  public country = "USA";
-  public phoneNo = "6824149338";
-  public emailId = "ond170030@utdallas.edu";
+  public fullName: string = "Omkar Dixit"
+  public address: string = "7825, Mccallum Blvd, Apt 402";
+  public city: string  = "Dallas";
+  public state: string = "Texas";
+  public country: string = "USA";
+  public phoneNo: string = "6824149338";
+  public emailId: string = "ond170030@utdallas.edu";
+  private searchServiceByInput: string = "http://localhost:3000/api/services/searchInput/so";
+  data:any = {};
+
   
-  constructor() { }
+  constructor(private httpClient: HttpClient) {
+   }
+
+   getData(searchInput){
+     console.log("http://localhost:3000/api/services/searchInput/"+searchInput);
+    //  return this.httpClient.get(this.searchServiceByInput)
+    //  .subscribe(
+    //    (data:any[]) => {
+    //      console.log(data);
+    //    }
+    //  )
+   }
 
   ngOnInit() {
-    console.log(this.fullName);
   }
 
   searchService(data){
-    console.log(data);
+    console.log("http://localhost:3000/api/services/searchInput/"+data);
+    return this.httpClient.get("http://localhost:3000/api/services/searchInput/"+data)
+    .subscribe(
+      (data:any[]) => {
+        console.log(data)
+      }
+    )
   }
 
   searchServiceByCategory(data){
