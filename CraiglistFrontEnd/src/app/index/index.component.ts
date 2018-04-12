@@ -25,10 +25,10 @@ export class IndexComponent implements OnInit {
   }
 
   ngOnInit() {
-    // console.log(Md5.hashStr("omkar"));
-    // console.log(Md5.hashStr("omkar", true));
-    // console.log(Md5.hashAsciiStr("omkar"));
-    // console.log(Md5.hashAsciiStr("omkar", true));
+    console.log(Md5.hashStr("omkar"));
+    console.log(Md5.hashStr("omkar", true));
+    console.log(Md5.hashAsciiStr("omkar"));
+    console.log(Md5.hashAsciiStr("omkar", true));
   }
 
   userLogin(){

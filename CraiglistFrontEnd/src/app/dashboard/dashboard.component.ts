@@ -17,23 +17,16 @@ export class DashboardComponent implements OnInit {
   public phoneNo: string = "6824149338";
   public emailId: string = "ond170030@utdallas.edu";
   private searchServiceByInput: string = "http://localhost:3000/api/services/searchInput/so";
+  public refCount = 1;
   data:any = {};
 
-  
+  public searchString: string;
   constructor(private httpClient: HttpClient) {
-   }
-
-   getData(searchInput){
-     console.log("http://localhost:3000/api/services/searchInput/"+searchInput);
-    //  return this.httpClient.get(this.searchServiceByInput)
-    //  .subscribe(
-    //    (data:any[]) => {
-    //      console.log(data);
-    //    }
-    //  )
+    this.searchString = "";
    }
 
   ngOnInit() {
+    console.log("ngoninit")
   }
 
   searchService(data){
