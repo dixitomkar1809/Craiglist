@@ -2,7 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var monk = require('monk');
 var mongo = require('mongodb');
-
+var mongoose = require('mongoose');
 // create express app
 var app = express();
 
@@ -24,10 +24,8 @@ app.listen(3000, function () {
 
 // Configuration the database
 var dbConfig = require('./config/database.config.js');
-var mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
-
 mongoose.connect(dbConfig.url);
 
 mongoose.connection.on('error', function () {
@@ -75,7 +73,7 @@ app.get('/api/serviceCategory/:serviceCategoryId', function (request, result) {
         serviceCategoryId: request.params.serviceCategoryId
     }, function (err, categories) {
         if (err) throw err;
-        result.json(categories);
+        result.json(services);
     });
 });
 
@@ -87,18 +85,18 @@ app.get('/api/hideService/add/:serviceId/:userId', function (request, result) {
         userId: request.params.userId
     }, function (err, categories) {
         if (err) throw err;
-        result.json(categories);
+        result.json(hiddenservices);
     });
 });
 
-//remove a hidden service for a specific user
+// Remove a hidden service for a specific user
 app.get('/api/hideService/remove/hiddenServiceId', function (request, result) {
     var collection = db.get('hiddenServices');
     collection.remove({
         _id: request.params.hiddenServiceId
     }, function (err, categories) {
         if (err) throw err;
-        result.json(categories);
+        result.json(hiddenservices);
     });
 });
 
@@ -112,11 +110,10 @@ app.get('/api/user/all', function (request, result) {
 });
 
 // Get specific user
-app.get('/api/user/:', function (request, result) {
+app.get('/api/user/:userId', function (request, result) {
     var collection = db.get('users');
     collection.find({
-        email: request.params.useremail,
-        password: request.params.password
+        _id: request.params.userId
     },
         function (err, users) {
             if (err) throw err;
@@ -144,66 +141,123 @@ app.get('/api/service/:serviceId', function (request, result) {
     });
 });
 
-// // user register
-// app.get('/api/users/register/:fullName/:password/:emailId', (request, result) => {
-//     connection.query("INSERT INTO `users` (`fullName`, `emailId`, `password`) VALUES (?, ? ?)", [request.params.fullName, request.params.emailId, request.params.password], function(err, rows, fields){
-//         if(err){
-//             console.log(err);
-//         }
-//         else{
-//             result.send(rows);
-//         }
-//     });
-// });
+// User Register
+app.get('/api/user/register/:fullName/:password/:emailId', function (request, result) {
+    var collection = db.get('users');
+    collection.insert({
+        fullName: request.params.fullName,
+        email: request.params.emailId,
+        password: request.params.password
+    }, function (err, users) {
+        if (err) throw err;
+        result.json(users);
+    });
+});
 
-// // delete a user
-// app.get('/api/users/delete/:userId', (request, result) => {
-//     connection.query('DELETE FROM users WHERE userId= ?',[request.params.userId], function(err, rows, fields){
-//         if(err){
-//             console.log(err);
-//         }
-//         else{
-//             result.send(rows);
-//         }
-//     });
-// });
+// Delete a user
+app.get('/api/users/delete/:userId', function (request, result) {
+    var collection = db.get('users');
+    collection.remove({
+        _id: request.params.userId
+    },
+        function (err, users) {
+            if (err) throw err;
+            result.json(users);
+        });
+});
 
-// // user login
-// app.get('/api/users/login/:emailId/:password', (request, result) => {
-//     connection.query("SELECT * from users WHERE emailId= ? and password= ?",[request.params.emailId, request.params.password], function(err, rows, fields){
-//         if(err){
-//             console.log(err);
-//         }
-//         else{
-//             result.send(rows);
-//         }
-//     });
-// });
+// User login
+app.get('/api/user/:emailId/:password', function (request, result) {
+    var collection = db.get('users');
+    collection.find({
+        $and: [
+            {email: request.params.emailId},
+            {password: request.params.password}
+        ]     
+    },
+        function (err, users) {
+            if (err) throw err;
+            result.json(users);
+        });
+});
 
-// // Change Password
-// app.get('/api/users/changePassword/:userId/:newPassword',(request, result) => {
-//     connection.query("UPDATE users SET users.password= ? WHERE userId= ?",[request.params.newPassword,request.params.userId], function(err, rows, fields){
-//         if(err){
-//             console.log(err);
-//         }
-//         else{
-//             result.send(rows);
-//         }
-//     });
-// });
+// Update Password
+app.get('/api/user/update/:userId/:password', function (request, result) {
+    var collection = db.get('users');
+    collection.update(
+        {_id: request.params.userId},
+        {$set: {password: request.params.password}}
+    ,
+        function (err, users) {
+            if (err) throw err;
+            result.json(users);
+        });
+});
 
-// // Change Email
-// app.get('/api/users/changeEmail/:userId/:newEmail', (request, result) => {
-//     connection.query('UPDATE users SET users.emailId= ? WHERE userId= ?',[request.params.newEmail, request.params.userId], function(err, rows, fields){
-//         if(err){
-//             console.log(err);
-//         }
-//         else{
-//             result.send(rows);
-//         }
-//     });
-// });
+// Update Email
+app.get('/api/user/update/:userId/:email', function (request, result) {
+    var collection = db.get('users');
+    collection.update(
+        {_id: request.params.userId},
+        {$set: {email: request.params.email}}
+    ,
+        function (err, users) {
+            if (err) throw err;
+            result.json(users);
+        });
+});
 
+// Update Details
+app.get('/api/user/update/:userId/:address/:city/:state/:zipcode', function (request, result) {
+    var collection = db.get('users');
+    collection.update(
+        {_id: request.params.userId},
+        {$set: {address: request.params.address,
+            city: request.params.city,
+            state: request.params.state,
+            zipcode: request.params.zipcode }}
+    ,
+        function (err, users) {
+            if (err) throw err;
+            result.json(users);
+        });
+});
 
+// Update Phone
+app.get('/api/user/update/:userId/:phoneno', function (request, result) {
+    var collection = db.get('users');
+    collection.update(
+        {_id: request.params.userId},
+        {$set: {phoneNo: request.params.phoneno}}
+    ,
+        function (err, users) {
+            if (err) throw err;
+            result.json(users);
+        });
+});
 
+//Add New Service
+app.get('/api/service/add/:name/:quantity/:isavail/:catId/:desc/:userid/:city/:state/:country/:price/:rating/:doc/:dor/:attId/:spamcount', function (request, result) {
+    var collection = db.get('Service');
+    collection.insert({
+        serviceName: request.params.name,
+        serviceQuantity: request.params.quantity,
+        isAvailable: request.params.isavail,
+        serviceCategoryId: request.params.catId,
+        serviceDescription: request.params.desc,
+        serviceUserId: request.params.userid,
+        serviceCity: request.params.city,
+        serviceState: request.params.state,
+        serviceCountry: request.params.country,
+        servicePrice: request.params.price,
+        serviceRating: request.params.rating,
+        serviceDoc: request.params.doc,
+        serviceDor: request.params.dor,
+        serviceAttributesId: request.params.attId,
+        serviceSpamCount: request.params.spamcount
+    }, function (err, users) {
+        if (err) throw err;
+        result.json(services);
+    });
+});
 
