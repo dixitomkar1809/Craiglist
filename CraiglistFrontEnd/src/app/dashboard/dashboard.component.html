@@ -1,7 +1,8 @@
 <nav class="nav-extended #006064 cyan darken-4">
   <div class="nav-wrapper">
     &nbsp;
-    <a href="#" class="brand-logo"><img src="assets\images\logo2.png" height="50" width="50" style="margin-top:10px"> <span style="padding-bottom:30px">raiglist</span></a>
+    <a href="#" class="brand-logo">
+      <img src="assets\images\logo2.png" height="30" width="30" style="display:inline">raiglist</a>
   </div>
   <div class="nav-content">
     <ul class="tabs tabs-transparent">
@@ -22,13 +23,88 @@
   <div class="container">
     <h2>Hello {{fullName}} !</h2>
     <div class="row">
-      <div class="col s6">
-        <p>Address: {{address}}</p>
-        <p>Contact: {{phoneNo}}, {{emailId}}</p>
-        <p>My Posts</p>
-        <p>Add a Service</p>
-        <p>My Wishlist</p>
-        <p>Hidden Services</p>
+      <div class="col s12 m3 l3 center-align">
+        <button class="waves-effect waves-light btn-large btn modal-trigger" data-target="myPosts" (click)="getServicesByUser()">My Posts</button>
+      </div>
+      <!-- My Posts Modal Structure -->
+      <div id="myPosts" class="modal modal-fixed-footer">
+        <div class="modal-content">
+          <h5>My Posts</h5>
+          <ul class="collection">
+            <li *ngFor="let x of userServices" class="collection-item">
+              <div class="row">
+                <div class="col s6 m6 l6">{{x.serviceName}}</div>
+                <div class="col s6 m6 l6 right-align"><a class="waves-effect waves-light btn">See More</a></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a> -->
+        </div>
+      </div>
+      <div class="col s12 m3 l3 center-align">
+        <a class="waves-effect waves-light btn-large btn modal-trigger" data-target="addService">Add a Service</a>
+      </div>
+      <!-- Add Service Modal Structure -->
+      <div id="addService" class="modal modal-fixed-footer">
+        <div class="modal-content">
+          <h4>Add Service</h4>
+          <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+          <!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a> -->
+        </div>
+      </div>
+      <div class="col s12 m3 l3 center-align">
+        <a class="waves-effect waves-light btn-large btn modal-trigger" data-target="wishlist">My Wishlist</a>
+      </div>
+      <!-- Wishlist Modal Structure -->
+      <div id="wishlist" class="modal modal-fixed-footer">
+        <div class="modal-content">
+          <h4>Wishlist</h4>
+          <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+          <!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a> -->
+        </div>
+      </div>
+      <div class="col s12 m3 l3 center-align">
+        <a class="waves-effect waves-light btn-large btn modal-trigger" data-target="hiddenService">Hidden Services</a>
+      </div>
+      <!-- Hidden Service Modal Structure -->
+      <div id="hiddenService" class="modal modal-fixed-footer">
+        <div class="modal-content">
+          <h4>Hidden Service</h4>
+          <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+          <!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a> -->
+        </div>
+      </div>
+    </div>
+    <div class="row valign-wrapper">
+      <div class="col s6 m6 l6">
+        <div class="row">
+          <div class="col s8 m8 l8">
+            <span class="bold-text">Address:</span> {{address}}</div>
+          <div class="col s4 m4 l4">
+            <span class="bold-text">Zipcode:</span> {{zipcode}}</div>
+        </div>
+        <div class="row">
+          <div class="col s4 m4 l4">
+            <span class="bold-text">City:</span> {{city}}</div>
+          <div class="col s4 m4 l4">
+            <span class="bold-text">State:</span> {{state}}</div>
+          <div class="col s4 m4 l4">
+            <span class="bold-text">Country:</span> {{country}}</div>
+        </div>
+        <div class="row">
+          <div class="col s6 m6 l6">
+            <span class="bold-text">Phone-No:</span> {{phoneNo}}</div>
+          <div class="col s6 m6 l6">
+            <span class="bold-text">Email-Id:</span> {{emailId}}</div>
+        </div>
       </div>
       <div class="col s6">
         <ul class="collapsible">
@@ -36,15 +112,15 @@
             <div class="collapsible-header">Change Email Address</div>
             <div class="collapsible-body">
               <div class="row">
-                <form (ngSubmit)="changeEmail(emailId)" class="col s12">
+                <form (ngSubmit)="changeEmail()" class="col s12">
                   <div class="row">
                     <div class="input-field col s12 m6 l6">
-                        <input id="emailId" [(ngModel)]="emailId" [ngModelOptions]="{standalone:true}" type="text" class="validate">
-                        <label for="emailId">Email-Id</label>
-                      </div>
-                      <div class="input-field col s12 m6 l6">
-                          <button type="submit" class="waves-effect waves-light btn">Change Email</button>
-                      </div>
+                      <input id="emailId" [(ngModel)]="emailId" [ngModelOptions]="{standalone:true}" type="text" class="validate">
+                      <label for="emailId">Email-Id</label>
+                    </div>
+                    <div class="input-field col s12 m6 l6">
+                      <button type="submit" class="waves-effect waves-light btn">Change Email</button>
+                    </div>
                   </div>
                 </form>
               </div>
@@ -53,49 +129,58 @@
           <li>
             <div class="collapsible-header">Change Phone Number</div>
             <div class="collapsible-body">
-                <div class="row">
-                    <form (ngSubmit)="changePhoneNo(phoneNo)" class="col s12">
-                      <div class="row">
-                        <div class="input-field col s12 m6 l6">
-                            <input id="phoneNo" [(ngModel)]="phoneNo" [ngModelOptions]="{standalone: true}" type="text" class="validate">
-                            <label for="phoneNo">Phone-No</label>
-                          </div>
-                          <div class="input-field col s12 m6 l6">
-                              <button type="submit" class="waves-effect waves-light btn">Change Phone-No</button>
-                          </div>
-                      </div>
-                    </form>
+              <div class="row">
+                <form (ngSubmit)="changePhoneNo()" class="col s12">
+                  <div class="row">
+                    <div class="input-field col s12 m6 l6">
+                      <input id="phoneNo" [(ngModel)]="phoneNo" [ngModelOptions]="{standalone: true}" type="text" class="validate">
+                      <label for="phoneNo">Phone-No</label>
+                    </div>
+                    <div class="input-field col s12 m6 l6">
+                      <button type="submit" class="waves-effect waves-light btn">Change Phone-No</button>
+                    </div>
                   </div>
+                </form>
+              </div>
             </div>
           </li>
           <li>
             <div class="collapsible-header">Change Address</div>
             <div class="collapsible-body">
-                <div class="row">
-                    <form (ngSubmit)="changeAddress(address, city, state, country)" class="col s12">
-                      <div class="row">
-                        <div class="input-field col s12 m3 l3">
-                            <input id="address" [(ngModel)]="address" [ngModelOptions]="{standalone:true}" type="text" class="validate">
-                            <label for="address">Address</label>
-                          </div>
-                          <div class="input-field col s12 m3 l3">
-                              <input id="city" [(ngModel)]="city" [ngModelOptions]="{standalone:true}" type="text" class="validate">
-                              <label for="city">City</label>
-                            </div>
-                            <div class="input-field col s12 m3 l3">
-                                <input id="state" [(ngModel)]="state" [ngModelOptions]="{standalone:true}" type="text" class="validate">
-                                <label for="state">State</label>
-                              </div>
-                              <div class="input-field col s12 m3 l3">
-                                  <input id="country" [(ngModel)]="country" [ngModelOptions]="{standalone:true}" type="text" class="validate">
-                                  <label for="country">Country</label>
-                                </div>
-                          <div class="input-field col s12 m3 l3">
-                              <button type="submit" class="waves-effect waves-light btn">Change Address</button>
-                          </div>
-                      </div>
-                    </form>
+              <div class="row">
+                <form (ngSubmit)="changeAddress()" class="col s12">
+                  <div class="row">
+                    <div class="input-field col s12 m9 l9">
+                      <input id="address" [(ngModel)]="address" [ngModelOptions]="{standalone:true}" type="text" class="validate">
+                      <label for="address">Address</label>
+                    </div>
+                    <div class="input-field col s12 m3 l3">
+                      <input id="zipcode" [(ngModel)]="zipcode" [ngModelOptions]="{standalone:true}" type="text" class="validate">
+                      <label for="zipcode">Zipcode</label>
+                    </div>
                   </div>
+                  <div class="row">
+                    <div class="input-field col s12 m4 l4">
+                      <input id="city" [(ngModel)]="city" [ngModelOptions]="{standalone:true}" type="text" class="validate">
+                      <label for="city">City</label>
+                    </div>
+                    <div class="input-field col s12 m4 l4">
+                      <input id="state" [(ngModel)]="state" [ngModelOptions]="{standalone:true}" type="text" class="validate">
+                      <label for="state">State</label>
+                    </div>
+                    <div class="input-field col s12 m4 l4">
+                      <input id="country" [(ngModel)]="country" [ngModelOptions]="{standalone:true}" type="text" class="validate">
+                      <label for="country">Country</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col m3 l3"></div>
+                    <div class="input-field col s12 m6 l6">
+                      <button type="submit" class="waves-effect waves-light btn">Change Address</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
             </div>
           </li>
         </ul>
@@ -104,11 +189,11 @@
   </div>
 </div>
 <div id="Search" class="col s12">
-  <nav class=" #006064 cyan darken-4">
+  <nav class=" #006064 cyan darken-4" style="z-index: inherit -2;">
     <div class="nav-wrapper">
       <form (ngSubmit)="searchService(searchInput)">
         <div class="input-field">
-          <input [(ngModel)]="searchInput" [ngModelOptions]="{standalone:true}" id="search" type="search" required>
+          <input [(ngModel)]="searchInput" [ngModelOptions]="{standalone:true}" id="search" type="search" required placeholder=" Search ">
           <label class="label-icon" for="search">
             <i class="material-icons">search</i>
           </label>
@@ -118,23 +203,22 @@
     </div>
   </nav>
   <div class="container">
-    <p>Search Results for {{searchInput}}</p>
-      <div class="row">
-          <div class="col s6 m3">
-            <div class="card blue-grey darken-1">
-              <div class="card-content white-text">
-                <span class="card-title">Card Title</span>
-                <p>I am a very simple card. I am good at containing small bits of information.
-                I am convenient because I require little markup to use effectively.</p>
-              </div>
-              <div class="card-action">
-                  <button class="btn waves-effect waves-light">open
-                      <i class="material-icons right">send</i>
-                    </button>
-              </div>
-            </div>
+    <p *ngIf="serviceInfo">Search Results for {{searchInput}}</p>
+    <div class="row">
+      <div class="col s6 m3" *ngFor="let service of serviceInfo">
+        <div class="card blue-grey darken-1">
+          <div class="card-content white-text">
+            <span class="card-title">{{service.serviceName}}</span>
+            <p>{{service.serviceDescription}}</p>
+          </div>
+          <div class="card-action">
+            <button class="btn waves-effect waves-light">open
+              <i class="material-icons right">send</i>
+            </button>
           </div>
         </div>
+      </div>
+    </div>
   </div>
 </div>
 <div id="SearchByC" class="col s12"></div>
