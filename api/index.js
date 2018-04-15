@@ -43,6 +43,18 @@ app.get('/api/service/all', (request, result) => {
     });
 });
 
+// services by a specific user
+app.get('/api/service/getByUser/:userId', (request, result) => {
+    connection.query("select * from service where serviceUserId = ? ", [request.params.userId], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
+});
+
 // product categories all
 app.get('/api/service/serviceCategoriesAll',(request, result) =>{
     connection.query('Select * from serviceCategory', function(err, rows, fields){
@@ -106,7 +118,7 @@ app.get('/api/hideService/remove/:hiddenProductId/:userId', (request, result) =>
 
 // user register
 app.get('/api/users/register/:fullName/:password/:emailId', (request, result) => {
-    connection.query("INSERT INTO `users` (`fullName`, `emailId`, `password`) VALUES (?, ? ?)", [request.params.fullName, request.params.emailId, request.params.password], function(err, rows, fields){
+    connection.query("INSERT INTO users (`fullName`, `emailId`, `password`) VALUES (?, ?, ?)", [request.params.fullName, request.params.emailId, request.params.password], function(err, rows, fields){
         if(err){
             console.log(err);
         }
@@ -131,6 +143,30 @@ app.get('/api/users/login/:emailId/:password', (request, result) => {
 // Change Password
 app.get('/api/users/changePassword/:userId/:newPassword',(request, result) => {
     connection.query("UPDATE users SET users.password= ? WHERE userId= ?",[request.params.newPassword,request.params.userId], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
+});
+
+// Change PhoneNo
+app.get('/api/users/changePhoneNo/:userId/:phoneNo', (request, result) => {
+    connection.query('Update users set users.phoneNo = ? where userId = ?', [request.params.phoneNo, request.params.userId], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
+});
+
+// change Address
+app.get('/api/users/changeAddress/:userId/:address/:city/:state/:country/:zipcode',(request, result) => {
+    connection.query('update users set users.address= ?, users.city= ?, users.state= ?, users.country= ?, users.zipcode= ? where users.userId= ?', [request.params.address, request.params.city, request.params.state, request.params.country, request.params.zipcode, request.params.userId], function(err, rows, fields){
         if(err){
             console.log(err);
         }
@@ -166,12 +202,13 @@ app.get('/api/users/delete/:userId', (request, result) => {
 
 // Specific User 
 app.get('/api/users/get/:id', (request, result) => {
-    connection.query('SELECT * FROM users WHERE userId= ?',[request.params.userId], function(err, rows, fields){
+    connection.query('SELECT * FROM users WHERE userId = ?',[request.params.id], function(err, rows, fields){
         if(err){
             console.log(err);
         }
         else{
             result.send(rows);
+            console.log(rows);
         }
     });
 });
@@ -209,6 +246,26 @@ app.get('/api/services/searchInput/:searchInput', (request, result) => {
         }
         else{
             result.send(rows);
+        }
+    });
+});
+
+// check if the user exists 
+app.get('/api/users/findUser/:emailId', (request, result) => {
+    console.log("select * from users where users.emailId="+request.params.emailId);
+    connection.query("select * from users where users.emailId='"+request.params.emailId+"'", function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            if(rows.length > 0){
+                // result.send("User Exists");
+                result.send(rows);
+            }
+            else{
+                // result.send("User does not exist");
+                result.send(rows);
+            }
         }
     });
 });

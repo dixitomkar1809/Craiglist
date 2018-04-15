@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import {LOCAL_STORAGE, WebStorageService} from 'angular-webstorage-service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,24 +10,44 @@ import { HttpClient } from '@angular/common/http';
 })
 export class DashboardComponent implements OnInit {
 
-  public fullName: string = "Omkar Dixit"
-  public address: string = "7825, Mccallum Blvd, Apt 402";
-  public city: string  = "Dallas";
-  public state: string = "Texas";
-  public country: string = "USA";
-  public phoneNo: string = "6824149338";
-  public emailId: string = "ond170030@utdallas.edu";
-  private searchServiceByInput: string = "http://localhost:3000/api/services/searchInput/so";
-  public refCount = 1;
-  data:any = {};
-
+  private userData:any[];
+  private fullName: string;
+  private address: string;
+  private city: string;
+  private state: string;
+  private country: string;
+  private phoneNo: string;
+  private emailId: string;
+  private serviceInfo: any[] ;
+  private userId:string;
+  private zipcode: string;
   public searchString: string;
+  private myPosts: any[];
+  private userServices: any[];
+  
   constructor(private httpClient: HttpClient) {
     this.searchString = "";
+    this.userId = JSON.parse(sessionStorage.getItem('user')).userId;
+    // getting user details
+    this.httpClient.get("http://localhost:3000/api/users/get/"+this.userId)
+    .subscribe(
+      (data:any[]) => {
+        // console.log(data[0]);
+        this.userData = data[0];
+        this.fullName = this.userData["fullName"];
+        this.address = this.userData["address"]; 
+        this.city = this.userData["city"];
+        this.state = this.userData["state"];
+        this.country = this.userData["country"];
+        this.phoneNo = this.userData["phoneNo"];
+        this.emailId = this.userData["emailId"];
+        this.zipcode = this.userData["zipcode"];
+      }
+    )
    }
 
   ngOnInit() {
-    console.log("ngoninit")
+    
   }
 
   searchService(data){
@@ -34,7 +55,9 @@ export class DashboardComponent implements OnInit {
     return this.httpClient.get("http://localhost:3000/api/services/searchInput/"+data)
     .subscribe(
       (data:any[]) => {
-        console.log(data)
+        // console.log(data);
+        this.serviceInfo = data;
+        console.log(this.serviceInfo);
       }
     )
   }
@@ -43,16 +66,55 @@ export class DashboardComponent implements OnInit {
     console.log(data);
   }
 
-  changeEmail(data){
-    console.log(data);
+  getServicesByUser(){
+    console.log("here");
+    return this.httpClient.get('http://localhost:3000/api/service/getByUser/'+this.userId)
+    .subscribe(
+      (data:any[]) => {
+        console.log(data);
+        this.userServices = data;
+      }
+    )
   }
 
-  changePhoneNo(data){
-    console.log(data);
+  getHiddenServices(){
+
   }
 
-  changeAddress(data1, data2, data3, data4){
-    console.log(data1, data2, data3, data4);
+  getWishlistItems(){
+
   }
 
+  addItemsToWishlist(){
+
+  }
+
+  
+
+  changeEmail(){
+    return this.httpClient.get("http://localhost:3000/api/users/changeEmail/"+this.userId+"/"+this.emailId)
+    .subscribe(
+      (data:any[]) => {
+        console.log(data);
+      }
+    )
+  }
+
+  changePhoneNo(){
+    return this.httpClient.get("http://localhost:3000/api/users/changePhoneNo/"+this.userId+"/"+this.phoneNo)
+    .subscribe(
+      (data:any[]) => {
+        console.log(data);
+      }
+    )
+  }
+
+  changeAddress(){
+    return this.httpClient.get("http://localhost:3000/api/users/changeAddress/"+this.userId+"/"+this.address+"/"+this.city+"/"+this.state+"/"+this.country+"/"+this.zipcode)
+    .subscribe(
+      (data:any[]) => {
+        console.log(data);
+      }
+    )
+  }
 }

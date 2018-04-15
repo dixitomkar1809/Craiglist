@@ -1,31 +1,33 @@
 <nav class="#006064 cyan darken-4">
   <div class="nav-wrapper">
-    <img ngSrc="/src/images/logo.png" alt="">
-    <a href="#" class="brand-logo">Craiglist</a>
+      &nbsp;
+      <a href="#" class="brand-logo"><img src="assets\images\logo2.png" height="30" width="30" style="display:inline">raiglist</a>
   </div>
 </nav>
 
 <div class="container">
   <div class="row">
     <div class="col s6">
-      <!-- <img [src]="E:\Projects\Craiglist\CraiglistFrontEnd\src\images\logo.png" alt=""> -->
+      <h2 class="center-align">What can you find ?</h2>
+      <p class="grey-text center-align"> jobs, housing, for sale, items wanted, services, community, gigs, résumés</p>
+      <img class="responsive-img" src="https://ae01.alicdn.com/kf/HTB1MrJqIXXXXXa6XpXXq6xXFXXXm/Free-shipping-2015-new-world-globe-geography-geography-HD-Map-teaching-standard-paper-Diameter-of-32cm.jpg" alt="">
     </div>
     <div class="col s6">
       <ul class="collapsible popout" data-collapsible="accordion">
         <li>
           <div class="collapsible-header active">
-            <h5>Log in</h5>
+            <h5 class="cyan-text text-darken-4">Log in</h5>
           </div>
           <div class="collapsible-body">
             <form (ngSubmit)="userLogin()">
               <div class="input-field row">
                 <i class="material-icons prefix">email</i>
-                <input id="loginemail" type="email" class="validate" [(ngModel)]="loginEmailId" [ngModelOptions]="{standalone:true}">
+                <input id="loginemail" type="email" class="validate" [(ngModel)]="loginEmailId" [ngModelOptions]="{standalone:true}" required>
                 <label for="loginemail">Email</label>
               </div>
               <div class="input-field row">
                 <i class="material-icons prefix">security</i>
-                <input id="loginpassword" type="password" class="validate" [(ngModel)]="loginPassword" [ngModelOptions]="{standalone:true}">
+                <input id="loginpassword" type="password" class="validate" [(ngModel)]="loginPassword" [ngModelOptions]="{standalone:true}" required>
                 <label for="loginpassword">Password</label>
                 <span class="helper-text">
                   <a href="#">Forgot Password?</a>
@@ -39,33 +41,35 @@
         </li>
         <li>
           <div class="collapsible-header">
-            <h5>Sign up</h5>
+            <h5 class="cyan-text text-darken-4">Sign up</h5>
           </div>
           <div class="collapsible-body">
-            <form>
+            <form (ngSubmit)="userRegister()">
               <div class="input-field row">
                 <i class="material-icons prefix">account_circle</i>
-                <input id="fullname" type="text" class="validate">
+                <input id="fullname" type="text" class="validate" [(ngModel)]="registerFullName" [ngModelOptions]="{standalone:true}" required>
                 <label for="fullname">Full Name</label>
               </div>
               <div class="input-field row">
                 <i class="material-icons prefix">email</i>
-                <input id="signinemail" type="email" class="validate">
+                <input id="signinemail" type="email" class="validate" [(ngModel)]="registerEmailId" [ngModelOptions]="{standalone:true}" required>
                 <label for="siginemail">Email</label>
               </div>
               <div class="input-field row">
                 <i class="material-icons prefix">security</i>
-                <input id="signinpassword" type="password" class="validate">
+                <input id="signinpassword" type="password" class="validate" [(ngModel)]="registerPassword" [ngModelOptions]="{standalone:true}" required>
                 <label for="signinpassword">Password</label>
               </div>
               <div class="input-field row">
                 <i class="material-icons prefix">security</i>
-                <input id="confirmpassword" type="password" class="validate">
+                <input id="confirmpassword" type="password" class="validate" [(ngModel)]="registerPasswordC" [ngModelOptions]="{standalone:true}" required>
                 <label for="confirmpassword">Confirm Password</label>
               </div>
               <div class="row">
-                <button class="btn waves-effect waves-light" [routerLink]="['dashboard']">Create Account</button>
+                <button type="submit" class="btn waves-effect waves-light" [disabled]="!(registerPassword==registerPasswordC) || (registerPassword=='' || registerPasswordC=='')">Create Account</button>
               </div>
+              <p class="center-align green-text" *ngIf="registerSuccess">{{registerSuccess}}</p>
+              <p class="center-align red-text" *ngIf="registerError">{{registerError}}</p>
             </form>
           </div>
         </li>
@@ -73,23 +77,6 @@
     </div>
   </div>
 </div>
-
-<!-- Footer -->
-<footer class="page-footer #006064 cyan darken-4">
-  <div class="container">
-    <div class="row">
-      <div class="col l6 s12">
-        <h5 class="white-text">WPL Project</h5>
-      </div>
-    </div>
-  </div>
-  <div class="footer-copyright">
-    <div class="container">
-      © 2018 Copyright Omkar Dixit Tushar Chemburkar
-    </div>
-  </div>
-</footer>
-
 
 <!-- Terms and Condition Modal-->
 <div id="termsmodal" class="modal">
