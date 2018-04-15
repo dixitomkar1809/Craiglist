@@ -24,7 +24,12 @@ export class DashboardComponent implements OnInit {
   public searchString: string;
   private myPosts: any[];
   private userServices: any[];
-  
+  private serviceCategories: any[];
+  private hiddenServices: any[];
+  private wishlist: any[];
+
+  private wishlistitems: any[];
+
   constructor(private httpClient: HttpClient) {
     this.searchString = "";
     this.userId = JSON.parse(sessionStorage.getItem('user')).userId;
@@ -44,6 +49,41 @@ export class DashboardComponent implements OnInit {
         this.zipcode = this.userData["zipcode"];
       }
     )
+    // make a call to the api that gives you list of all service categories
+    this.httpClient.get("http://localhost:3000/api/service/serviceCategoriesAll")
+    .subscribe(
+      (data:any[]) => {
+        //console.log(data);
+        this.serviceCategories = data;
+      }
+    )
+
+    // make a call to the api that gives you list of all hidden services
+    this.httpClient.get("http://localhost:3000/api/hideService/get/"+this.userId)
+        .subscribe(
+          (data:any[]) => {
+            //console.log(data);
+            this.hiddenServices = data;
+          }
+        )
+    
+    // make a call to the api that gives you list of all wishlist
+    this.httpClient.get("http://localhost:3000/api/wishlist/get/"+this.userId)
+        .subscribe(
+          (data:any[]) => {
+            //console.log(data);
+            this.wishlist = data;
+          }
+        )
+
+    // make a call to the api that gives you list of all wishlistitems
+    this.httpClient.get("http://localhost:3000/api/wishlistitems/get/"+"")
+        .subscribe(
+          (data:any[]) => {
+            //console.log(data);
+            this.wishlistitems = data;
+          }
+        )        
    }
 
   ngOnInit() {
@@ -89,7 +129,9 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  
+  addService(){
+
+  }
 
   changeEmail(){
     return this.httpClient.get("http://localhost:3000/api/users/changeEmail/"+this.userId+"/"+this.emailId)

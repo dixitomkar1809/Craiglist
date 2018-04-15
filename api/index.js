@@ -104,9 +104,45 @@ app.get('/api/hideService/add/:serviceId/:userId', (request, result) => {
     });
 });
 
-//remove a hidden product for a specific user
+//remove  hidden product for a specific user
 app.get('/api/hideService/remove/:hiddenProductId/:userId', (request, result) => {
     connection.query("DELETE FROM hiddenservices WHERE hiddenservices.serviceId = ? and hiddeservices.userId= ?", [request.params.hiddenProductId, request.params.userId], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
+});
+
+//get hidden product for a specific user
+app.get('/api/hideService/get/:userId', (request, result) => {
+    connection.query("SELECT * FROM service, hiddenservices WHERE hiddenservices.serviceId = service.serviceId and hiddenservices.userId= ?", [request.params.userId], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
+});
+
+//get wishlist for a specific user
+app.get('/api/wishlist/get/:userId', (request, result) => {
+    connection.query("SELECT * FROM wishlist WHERE wishlist.wishlistUserId = ?", [request.params.userId], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
+});
+
+//get wishlistitems from a wishlist for a specific user
+app.get('/api/wishlistitems/get/:wishlistId', (request, result) => {
+    connection.query("SELECT * FROM wishlistitems WHERE wishlistitems.wishlistId = ?", [request.params.wishlistId], function(err, rows, fields){
         if(err){
             console.log(err);
         }
