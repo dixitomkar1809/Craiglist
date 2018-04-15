@@ -32,7 +32,7 @@
           <h5>My Posts</h5>
           <ul class="collection">
             <li *ngFor="let x of userServices" class="collection-item">
-                {{x.serviceName}}
+              {{x.serviceName}}
             </li>
           </ul>
         </div>
@@ -89,7 +89,7 @@
               </div>
             </div>
           </div>
-          
+
         </div>
         <div class="modal-footer">
           <!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a> -->
@@ -162,6 +162,7 @@
                     </div>
                   </div>
                 </form>
+                <div *ngIf="emailIdChangedMessage" class="green-text center-align">{{emailIdChangedMessage}}</div>
               </div>
             </div>
           </li>
@@ -180,6 +181,7 @@
                     </div>
                   </div>
                 </form>
+                <div *ngIf="phoneNoChangedMessage" class="green-text center-align">{{phoneNoChangedMessage}}</div>
               </div>
             </div>
           </li>
@@ -213,12 +215,13 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="input-field col m3 l3"></div>
-                    <div class="input-field col s12 m6 l6">
+                    <!-- <div class="input-field col m3 l3"></div> -->
+                    <div class="input-field col s12 m12 l12 center-align">
                       <button type="submit" class="waves-effect waves-light btn">Change Address</button>
                     </div>
                   </div>
                 </form>
+                <div *ngIf="addressChangedMessage" class="green-text center-align">{{addressChangedMessage}}</div>
               </div>
             </div>
           </li>
@@ -243,22 +246,66 @@
   </nav>
   <div class="container">
     <p *ngIf="serviceInfo">Search Results for {{searchInput}}</p>
+    <ul *ngIf="pager.pages && pager.pages.length" class="pagination center-align">
+      <li [ngClass]="{disabled:pager.currentPage === 1}" class="waves-effect">
+        <a (click)="setPage(pager.currentPage - 1)">
+          <i class="material-icons">chevron_left</i>
+        </a>
+      </li>
+      <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page, '#006064 cyan darken-2':pager.currentPage === page}">
+        <a (click)="setPage(page)"> {{page}} </a>
+        <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="waves-effect">
+          <a (click)="setPage(pager.currentPage + 1)">
+            <i class="material-icons">chevron_right</i>
+          </a>
+        </li>
+    </ul>
     <div class="row">
-      <div class="col s6 m3" *ngFor="let service of serviceInfo">
-        <div class="card blue-grey darken-1">
+      <div class="col s6 m3" *ngFor="let service of pagedItems">
+        <div class="card small blue-grey darken-1">
           <div class="card-content white-text">
             <span class="card-title">{{service.serviceName}}</span>
             <p>{{service.serviceDescription}}</p>
           </div>
           <div class="card-action">
-            <button class="btn waves-effect waves-light">open
+            <button class="btn waves-effect waves-light">See More
               <i class="material-icons right">send</i>
             </button>
           </div>
         </div>
       </div>
     </div>
+    <!-- <ul *ngIf="pager.pages && pager.pages.length" class="pagination center-align ">
+      <li [ngClass]="{disabled:pager.currentPage === 1}">
+          <a (click)="setPage(1)">First</a>
+      </li>
+      <li [ngClass]="{disabled:pager.currentPage === 1}">
+          <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+      </li>
+      <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+          <a (click)="setPage(page)"> {{page}} </a>
+      </li>
+      <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+          <a (click)="setPage(pager.currentPage + 1)">Next</a>
+      </li>
+      <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+          <a (click)="setPage(pager.totalPages)">Last</a>
+      </li>
+  </ul> -->
+    <ul *ngIf="pager.pages && pager.pages.length" class="pagination center-align">
+      <li [ngClass]="{disabled:pager.currentPage === 1}" class="waves-effect">
+        <a (click)="setPage(pager.currentPage - 1)">
+          <i class="material-icons">chevron_left</i>
+        </a>
+      </li>
+      <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page, '#006064 cyan darken-2':pager.currentPage === page} ">
+        <a (click)="setPage(page)"> {{page}} </a>
+        <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="waves-effect">
+          <a (click)="setPage(pager.currentPage + 1)">
+            <i class="material-icons">chevron_right</i>
+          </a>
+        </li>
+    </ul>
   </div>
 </div>
 <div id="SearchByC" class="col s12"></div>
-

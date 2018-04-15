@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { Md5 } from 'ts-md5/dist/md5';
 import { StorageServiceModule } from 'angular-webstorage-service';
-
+import { PagerService } from './_services/index';
 
 
 const appRoutes: Routes = [
@@ -28,7 +28,9 @@ const appRoutes: Routes = [
     FormsModule,
     StorageServiceModule
   ],
-  providers: [],
+  providers: [
+    PagerService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { 

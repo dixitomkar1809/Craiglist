@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import {LOCAL_STORAGE, WebStorageService} from 'angular-webstorage-service';
+import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
+import { PagerService } from "../_services/index";
 
 @Component({
   selector: 'app-dashboard',
@@ -24,9 +25,18 @@ export class DashboardComponent implements OnInit {
   public searchString: string;
   private myPosts: any[];
   private userServices: any[];
+  private emailIdChangedMessage: string;
+  private phoneNoChangedMessage: string;
+  private addressChangedMessage: string;
+  pager: any ={};
+
+  pagedItems:any[];
   
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private pagerService: PagerService) {
     this.searchString = "";
+    this.emailIdChangedMessage = "";
+    this.phoneNoChangedMessage = "";
+    this.addressChangedMessage = "";
     this.userId = JSON.parse(sessionStorage.getItem('user')).userId;
     // getting user details
     this.httpClient.get("http://localhost:3000/api/users/get/"+this.userId)
@@ -42,9 +52,26 @@ export class DashboardComponent implements OnInit {
         this.phoneNo = this.userData["phoneNo"];
         this.emailId = this.userData["emailId"];
         this.zipcode = this.userData["zipcode"];
-      }
-    )
+      })
+    this.httpClient.get("http://localhost:3000/api/service/all")
+    .subscribe(
+    (data:any[]) => {
+      this.serviceInfo = data;
+      this.setPage(1);
+    })
    }
+
+   setPage(page: number) {
+    if (page < 1 || page > this.pager.totalPages) {
+        return;
+    }
+
+    // get pager object from service
+    this.pager = this.pagerService.getPager(this.serviceInfo.length, page);
+
+    // get current page of items
+    this.pagedItems = this.serviceInfo.slice(this.pager.startIndex, this.pager.endIndex + 1);
+}
 
   ngOnInit() {
     
@@ -57,6 +84,7 @@ export class DashboardComponent implements OnInit {
       (data:any[]) => {
         // console.log(data);
         this.serviceInfo = data;
+        this.setPage(1);
         console.log(this.serviceInfo);
       }
     )
@@ -96,6 +124,7 @@ export class DashboardComponent implements OnInit {
     .subscribe(
       (data:any[]) => {
         console.log(data);
+        this.emailIdChangedMessage = "Email-Id Changed !";
       }
     )
   }
@@ -105,6 +134,7 @@ export class DashboardComponent implements OnInit {
     .subscribe(
       (data:any[]) => {
         console.log(data);
+        this.phoneNoChangedMessage = "Phone Number Changed !";
       }
     )
   }
@@ -114,6 +144,7 @@ export class DashboardComponent implements OnInit {
     .subscribe(
       (data:any[]) => {
         console.log(data);
+        this.addressChangedMessage = "Address Changed !";
       }
     )
   }
