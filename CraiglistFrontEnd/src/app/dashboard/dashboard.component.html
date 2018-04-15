@@ -46,10 +46,10 @@
       <!-- Add Service Modal Structure -->
       <div id="addService" class="modal modal-fixed-footer">
         <div class="modal-content">
+          <h5>Add Service</h5>
           <div class="container">
-            <div class="row">
-              <div class="col">
-                <form>
+            <div class="row">        
+                <form (ngSubmit)="addService()">
                   <div class="input-field row">
                     <input id="servicename" type="text" class="validate">
                     <label for="servicename">Name</label>
@@ -59,34 +59,24 @@
                     <label for="servicequantity">Quantity</label>
                   </div>
                   <div class="input-field row">
-                    <input id="servicecategory" type="text" class="validate">
-                    <label for="servicecategory">Category</label>
-                  </div>
+                      <select>
+                        <option value="" *ngFor="let x of serviceCategories">{{x.serviceCategoryName}}</option>
+                      </select>
+                      <label>Service Category</label>
+                    </div>
                   <div class="input-field row">
                     <input id="servicedesc" type="text" class="validate">
                     <label for="servicedesc">Description</label>
-                  </div>
-                  <div class="input-field row">
-                    <input id="servicecity" type="text" class="validate">
-                    <label for="servicecity">City</label>
-                  </div>
-                  <div class="input-field row">
-                    <input id="servicestate" type="text" class="validate">
-                    <label for="servicestate">State</label>
-                  </div>
-                  <div class="input-field row">
-                    <input id="servicecountry" type="text" class="validate">
-                    <label for="servicecountry">Country</label>
                   </div>
                   <div class="input-field row">
                     <input id="serviceprice" type="text" class="validate">
                     <label for="serviceprice">Price</label>
                   </div>
                   <div class="row">
-                    <button class="btn waves-effect waves-light">Add Service</button>
+                    <button type="submit" class="btn waves-effect waves-light" >Add Service</button>
                   </div>
                 </form>
-              </div>
+              
             </div>
           </div>
 
@@ -102,7 +92,16 @@
       <div id="wishlist" class="modal modal-fixed-footer">
         <div class="modal-content">
           <h4>Wishlist</h4>
-          <p>A bunch of text</p>
+          <ul class="collapsible">
+              <li *ngFor="let x of wishlist" (click)="getWishlistItems(x.wishlistId)">
+                  <div class="collapsible-header">{{x.wishlistName}}</div>
+                  <div class="collapsible-body">
+                    <li *ngFor="let x of wishlistitems" >
+                      {{x.serviceName}}
+                    </li>
+                  </div>
+              </li>
+            </ul>
         </div>
         <div class="modal-footer">
           <!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a> -->
@@ -115,7 +114,11 @@
       <div id="hiddenService" class="modal modal-fixed-footer">
         <div class="modal-content">
           <h4>Hidden Service</h4>
-          <p>A bunch of text</p>
+          <ul class="collection">
+              <li *ngFor="let x of hiddenServices" class="collection-item">
+                {{x.serviceName}}
+              </li>
+            </ul>
         </div>
         <div class="modal-footer">
           <!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a> -->
@@ -309,3 +312,6 @@
   </div>
 </div>
 <div id="SearchByC" class="col s12"></div>
+
+
+
