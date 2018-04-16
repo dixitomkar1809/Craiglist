@@ -301,7 +301,6 @@
   </nav>
   <div class="container">
     <div class="row"></div>
-<<<<<<< HEAD
 <div class="row">
   <div class="col s4">
     <h5 *ngIf="serviceInfo">Search Results for {{searchInput}}</h5>
@@ -316,32 +315,6 @@
         <option *ngFor="let x of serviceCategories"  [ngValue]="x.serviceCategoryName">{{x.serviceCategoryName}}</option>
       </select>
       <label><h6>Search by Category</h6></label>
-=======
-    <div class="row">
-      <div class="col s4">
-        <h5 *ngIf="serviceInfo">Search Results for {{searchInput}}</h5>
-      </div>
-      <div class="col s1"></div>
-      <!-- Search by Category -->
-      <form (ngSubmit)="searchByCategory()">
-        <div class="col s4">
-          <div class="input-field ">
-            <select multiple>
-              <option value="" disabled selected>Choose your option</option>
-              <option value="{{x.serviceCategoryId}}" *ngFor="let x of serviceCategories" [(ngModel)]="x.Checked" [ngModelOptions]="{standalone: true}"
-                ngDefaultControl>{{x.serviceCategoryName}}</option>
-            </select>
-            <label>
-              <h6>Search by Category</h6>
-            </label>
-          </div>
-        </div>
-        <div class="col s3">
-          <button type="submit" class="btn waves-effect waves-light">Search
-          </button>
-        </div>
-      </form>
->>>>>>> 746c0a0859a311da4be6a26096bc3da429ea80c6
     </div>
     <div class="row">
       <ul *ngIf="pager.pages && pager.pages.length" class="pagination center-align">
@@ -409,68 +382,10 @@
       </ul>
     </div>
   </div>
-</div>
+
 <div id="SearchByC" class="col s12"></div>
 
-<<<<<<< HEAD
    
      
 
 
-=======
-<!-- remove service -->
-<!-- <div *ngIf="this.isAdmin" class="col s12 m3 l3 center-align">
-        <a class="waves-effect waves-light btn-large btn modal-trigger" >Delete Service</a>
-      </div>
-     
-      <div *ngIf="this.isAdmin" class="col s12 m3 l3 center-align">
-        <a class="waves-effect waves-light btn-large btn modal-trigger" data-target="updateService">Update Service</a>
-      </div>
-      <div id="updateService" class="modal modal-fixed-footer">
-        <div class="modal-content">
-          <h5>Update Service</h5>
-          <div class="container">
-            <div class="row">        
-                <form (ngSubmit)="updateService()">
-                  <div class="input-field row">
-                    <input id="servicename" type="text" class="validate">
-                    <label for="servicename">Name</label>
-                  </div>
-                  <div class="input-field row">
-                    <input id="servicequantity" type="text" class="validate">
-                    <label for="servicequantity">Quantity</label>
-                  </div>
-                  <div class="input-field row">
-                      <select>
-                        <option value="" *ngFor="let x of serviceCategories">{{x.serviceCategoryName}}</option>
-                      </select>
-                      <label>Service Category</label>
-                    </div>
-                  <div class="input-field row">
-                    <input id="servicedesc" type="text" class="validate">
-                    <label for="servicedesc">Description</label>
-                  </div>
-                  <div class="input-field row">
-                    <input id="serviceprice" type="text" class="validate">
-                    <label for="serviceprice">Price</label>
-                  </div>
-                  <div class="file-field input-field row">
-                    <div class="btn">
-                      <span>Photos</span>
-                      <input type="file" (change)="onFileChanged($event)">
-                    </div>
-                    <div class="file-path-wrapper">
-                      <input class="file-path validate" type="text">
-                    </div>
-                    </div>
-                  <div class="row">
-                    <button type="submit" class="btn waves-effect waves-light" >Update Service</button>
-                  </div>
-                </form>
-              
-            </div>
-          </div>
-
-        </div>
-      </div> -->
->>>>>>> 746c0a0859a311da4be6a26096bc3da429ea80c6
