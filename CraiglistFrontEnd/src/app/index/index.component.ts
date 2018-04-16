@@ -23,12 +23,10 @@ export class IndexComponent implements OnInit {
   public loginMessage: string;
   public registerSuccess: string;
   public hashedPassword: any;
-<<<<<<< HEAD
   public isAdmin: boolean;
   
-  constructor(private httpClient: HttpClient, private router: Router) { 
+  // constructor(private httpClient: HttpClient, private router: Router) { 
     
-=======
   registrationForm: FormGroup;
   loginForm: FormGroup;
   private selectedFile = null;
@@ -43,7 +41,6 @@ export class IndexComponent implements OnInit {
       'loginEmailId': ['', Validators.compose([Validators.required, Validators.email])],
       'loginPassword': ['', Validators.compose([Validators.required, Validators.minLength(8)])]
     });
->>>>>>> 7524f8d333969ff755675022f49ddea8facb54d2
   }
 
   ngOnInit() {
