@@ -13,9 +13,17 @@ export class ServiceComponent implements OnInit {
   private serviceId: string;
   private serviceInfo: any[];
   private serviceImages: any[];
+  private userId: string;
+  private isAdmin: boolean;
 
   constructor(private httpClient: HttpClient) { 
     // this.userId = JSON.parse(sessionStorage.getItem('user')).userId;
+    this.userId = JSON.parse(sessionStorage.getItem('user')).userId;
+      // getting admin details
+  if(this.userId == "0"){
+    this.isAdmin=true;
+  }
+
     this.serviceId = JSON.parse(sessionStorage.getItem('service')).serviceId;
     console.log(this.serviceId);
     this.httpClient.get('http://localhost:3000/api/service/'+this.serviceId)

@@ -21,7 +21,18 @@
 
 <div id="Home" class="col s12">
   <div class="container">
+    <div class="row">
+      <div *ngIf="!isAdmin" class="col s8">
     <h2>Hello {{fullName}} !</h2>
+  </div>
+  <div *ngIf="isAdmin" class="col s8">
+      <h2>Hello Admin !</h2>
+    </div>
+  <div class="col s2"></div>
+  <div class="col s2" style="padding-top: 2%">
+      <button class="waves-effect waves-light btn-large btn #e53935 red darken-1" (click)="logout()">Logout</button>
+  </div>
+  </div>
     <div class="row">
       <div class="col s12 m3 l3 center-align">
         <button class="waves-effect waves-light btn-large btn modal-trigger" data-target="myPosts" (click)="getServicesByUser()">My Posts</button>
@@ -134,7 +145,7 @@
         </div>
       </div>
     </div>
-    <div class="row valign-wrapper">
+    <div  *ngIf="!isAdmin" class="row valign-wrapper">
       <div class="col s6 m6 l6">
         <div class="row">
           <div class="col s8 m8 l8">
@@ -240,6 +251,9 @@
         </ul>
       </div>
     </div>
+    <div  *ngIf="isAdmin" class="row valign-wrapper">
+        <button class="waves-effect waves-light btn-large btn #e53935 red darken-1 ">Kick User</button>
+    </div>
   </div>
 </div>
 
@@ -269,9 +283,9 @@
   <form (ngSubmit)="searchByCategory()">
   <div class="col s4">
     <div class="input-field ">
-      <select multiple>
+      <select  [(ngModel)]="selectedCategories" [ngModelOptions]="{standalone: true}">
         <option value="" disabled selected>Choose your option</option>
-        <option value="{{x.serviceCategoryId}}" *ngFor="let x of serviceCategories" [(ngModel)]="x.Checked" [ngModelOptions]="{standalone: true}" ngDefaultControl>{{x.serviceCategoryName}}</option>
+        <option *ngFor="let x of serviceCategories"  [ngValue]="x.serviceCategoryName">{{x.serviceCategoryName}}</option>
       </select>
       <label><h6>Search by Category</h6></label>
     </div>
@@ -350,60 +364,7 @@
 </div>
 <div id="SearchByC" class="col s12"></div>
 
-      <!-- remove service -->
-      <!-- <div *ngIf="this.isAdmin" class="col s12 m3 l3 center-align">
-        <a class="waves-effect waves-light btn-large btn modal-trigger" >Delete Service</a>
-      </div>
+   
      
-      <div *ngIf="this.isAdmin" class="col s12 m3 l3 center-align">
-        <a class="waves-effect waves-light btn-large btn modal-trigger" data-target="updateService">Update Service</a>
-      </div>
-      <div id="updateService" class="modal modal-fixed-footer">
-        <div class="modal-content">
-          <h5>Update Service</h5>
-          <div class="container">
-            <div class="row">        
-                <form (ngSubmit)="updateService()">
-                  <div class="input-field row">
-                    <input id="servicename" type="text" class="validate">
-                    <label for="servicename">Name</label>
-                  </div>
-                  <div class="input-field row">
-                    <input id="servicequantity" type="text" class="validate">
-                    <label for="servicequantity">Quantity</label>
-                  </div>
-                  <div class="input-field row">
-                      <select>
-                        <option value="" *ngFor="let x of serviceCategories">{{x.serviceCategoryName}}</option>
-                      </select>
-                      <label>Service Category</label>
-                    </div>
-                  <div class="input-field row">
-                    <input id="servicedesc" type="text" class="validate">
-                    <label for="servicedesc">Description</label>
-                  </div>
-                  <div class="input-field row">
-                    <input id="serviceprice" type="text" class="validate">
-                    <label for="serviceprice">Price</label>
-                  </div>
-                  <div class="file-field input-field row">
-                    <div class="btn">
-                      <span>Photos</span>
-                      <input type="file" (change)="onFileChanged($event)">
-                    </div>
-                    <div class="file-path-wrapper">
-                      <input class="file-path validate" type="text">
-                    </div>
-                    </div>
-                  <div class="row">
-                    <button type="submit" class="btn waves-effect waves-light" >Update Service</button>
-                  </div>
-                </form>
-              
-            </div>
-          </div>
-
-        </div>
-      </div> -->
 
 

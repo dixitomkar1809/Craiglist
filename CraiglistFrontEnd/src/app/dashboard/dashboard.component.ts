@@ -36,6 +36,7 @@ export class DashboardComponent implements OnInit {
   private wishlist: any[];
   private wishlistitems: any[];
   private isAdmin: boolean;
+  private selectedCategories: any;
 
   constructor(private httpClient: HttpClient, private pagerService: PagerService, private router: Router) {
     this.searchString = "";
@@ -174,8 +175,13 @@ export class DashboardComponent implements OnInit {
   openService(data){
     console.log(data);
     sessionStorage.setItem('service', JSON.stringify({serviceId: data}));
-    // console.log(JSON.parse(sessionStorage.getItem('userId')));
+       // console.log(JSON.parse(sessionStorage.getItem('userId')));
     this.router.navigate(['service']);
+  }
+
+  logout(){
+    sessionStorage.clear();
+    this.router.navigate(['/']);
   }
 
   addItemsToWishlist() {
@@ -185,7 +191,6 @@ export class DashboardComponent implements OnInit {
   addService() {
 
   }
-
   changeEmail() {
     return this.httpClient.get("http://localhost:3000/api/users/changeEmail/" + this.userId + "/" + this.emailId)
       .subscribe(
@@ -217,12 +222,6 @@ export class DashboardComponent implements OnInit {
   }
 
   searchByCategory(){
-    for(let x of this.serviceCategories){
-      console.log(x.Checked);
-      if(x.checked){
-        console.log("asd");
-        console.log(x.serviceCategoryName);
-      }
-    }
+    console.log(this.selectedCategories);
   }
 }
