@@ -20,6 +20,7 @@ export class IndexComponent implements OnInit {
   public loginMessage: string;
   public registerSuccess: string;
   public hashedPassword: any;
+  public isAdmin: boolean;
   
   constructor(private httpClient: HttpClient, private router: Router) { 
     
@@ -37,6 +38,9 @@ export class IndexComponent implements OnInit {
     if(this.loginEmailId=="admin@admin.com" && this.loginPassword=="admin1234"){
       // login with admin priviledges
       console.log("Admin Login with creds -> ", this.loginEmailId, this.loginPassword);
+      sessionStorage.setItem('user', JSON.stringify({userId: 0}));
+      // console.log(JSON.parse(sessionStorage.getItem('userId')));
+      this.router.navigate(['dashboard']);    
     }
     else{
       // check in db for the emailid and password

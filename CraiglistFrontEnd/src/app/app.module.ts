@@ -10,7 +10,6 @@ import { Md5 } from 'ts-md5/dist/md5';
 import { StorageServiceModule } from 'angular-webstorage-service';
 import { PagerService } from './_services/index';
 
-
 const appRoutes: Routes = [
   { path: '', component: IndexComponent },
   { path: 'dashboard', component: DashboardComponent }];
@@ -29,7 +28,7 @@ const appRoutes: Routes = [
     StorageServiceModule
   ],
   providers: [
-    PagerService
+    PagerService,
   ],
   bootstrap: [AppComponent]
 })

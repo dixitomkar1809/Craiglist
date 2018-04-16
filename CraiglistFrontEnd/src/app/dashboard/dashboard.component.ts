@@ -29,13 +29,12 @@ export class DashboardComponent implements OnInit {
   private phoneNoChangedMessage: string;
   private addressChangedMessage: string;
   pager: any = {};
-
   pagedItems: any[];
   private serviceCategories: any[];
   private hiddenServices: any[];
   private wishlist: any[];
-
   private wishlistitems: any[];
+  private isAdmin: boolean;
 
   constructor(private httpClient: HttpClient, private pagerService: PagerService) {
     this.searchString = "";
@@ -43,7 +42,27 @@ export class DashboardComponent implements OnInit {
     this.phoneNoChangedMessage = "";
     this.addressChangedMessage = "";
     this.userId = JSON.parse(sessionStorage.getItem('user')).userId;
-    // getting user details
+    // getting admin details
+    if(this.userId == "0"){
+      this.isAdmin=true;
+      this.httpClient.get("http://localhost:3000/api/service/all")
+      .subscribe(
+        (data: any[]) => {
+          this.serviceInfo = data;
+          this.setPage(1);
+        })
+
+        this.httpClient.get("http://localhost:3000/api/service/serviceCategoriesAll")
+        .subscribe(
+          (data: any[]) => {
+            //console.log(data);
+            this.serviceCategories = data;
+          }
+        )
+    }
+        // getting user details
+    else {
+  
     this.httpClient.get("http://localhost:3000/api/users/get/" + this.userId)
       .subscribe(
         (data: any[]) => {
@@ -90,7 +109,7 @@ export class DashboardComponent implements OnInit {
           this.wishlist = data;
         }
       )
-
+    }
   }
 
   setPage(page: number) {
@@ -137,10 +156,8 @@ export class DashboardComponent implements OnInit {
       )
   }
 
-  getHiddenServices() {
 
-  }
-    //make a call to the api that gives you list of all wishlistitems
+  //make a call to the api that gives you list of all wishlistitems
   getWishlistItems(wishlistid : number) {
 
     this.httpClient.get("http://localhost:3000/api/wishlistitems/get/"+wishlistid)
@@ -188,5 +205,15 @@ export class DashboardComponent implements OnInit {
           this.addressChangedMessage = "Address Changed !";
         }
       )
+  }
+
+  searchByCategory(){
+    for(let x of this.serviceCategories){
+      console.log(x.Checked);
+      if(x.checked){
+        console.log("asd");
+        console.log(x.serviceCategoryName);
+      }
+    }
   }
 }
