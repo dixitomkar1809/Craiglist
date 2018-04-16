@@ -1,16 +1,19 @@
 <nav class="#006064 cyan darken-4">
   <div class="nav-wrapper">
-      &nbsp;
-      <a href="#" class="brand-logo"><img src="assets\images\logo2.png" height="30" width="30" style="display:inline">raiglist</a>
+    &nbsp;
+    <a href="#" class="brand-logo">
+      <img src="assets\images\logo2.png" height="30" width="30" style="display:inline">raiglist</a>
   </div>
 </nav>
-
+<input type="file" (change)="onFileSelected($event)">
+<button type="button" (click)="onUpload()">Upload</button>
 <div class="container">
   <div class="row">
     <div class="col s6">
       <h2 class="center-align">What can you find ?</h2>
       <p class="grey-text center-align"> jobs, housing, for sale, items wanted, services, community, gigs, résumés</p>
-      <img class="responsive-img" src="https://ae01.alicdn.com/kf/HTB1MrJqIXXXXXa6XpXXq6xXFXXXm/Free-shipping-2015-new-world-globe-geography-geography-HD-Map-teaching-standard-paper-Diameter-of-32cm.jpg" alt="">
+      <img class="responsive-img" src="https://ae01.alicdn.com/kf/HTB1MrJqIXXXXXa6XpXXq6xXFXXXm/Free-shipping-2015-new-world-globe-geography-geography-HD-Map-teaching-standard-paper-Diameter-of-32cm.jpg"
+        alt="">
     </div>
     <div class="col s6">
       <ul class="collapsible popout" data-collapsible="accordion">
@@ -19,22 +22,43 @@
             <h5 class="cyan-text text-darken-4">Log in</h5>
           </div>
           <div class="collapsible-body">
-            <form (ngSubmit)="userLogin()">
+            <form (ngSubmit)="userLogin(loginForm.value)" [formGroup]="loginForm">
               <div class="input-field row">
                 <i class="material-icons prefix">email</i>
-                <input id="loginemail" type="email" class="validate" [(ngModel)]="loginEmailId" [ngModelOptions]="{standalone:true}" required>
-                <label for="loginemail">Email</label>
+                <input id="loginEmailId" formControlName="loginEmailId" type="email" class="validate" required>
+                <!--[(ngModel)]="loginEmailId" [ngModelOptions]="{standalone:true}" -->
+                <label for="loginEmailId">Email</label>
+              </div>
+              <div class="alert input-field row" *ngIf="!loginForm.controls['loginEmailId'].valid && (loginForm.controls['loginEmailId'].touched)">
+                <div class="red-text center-align" [hidden]="!loginForm.controls['loginEmailId'].errors.required">
+                  Email-Id is required
+                </div>
+                <div class="red-text center-align" [hidden]="!loginForm.controls['loginEmailId'].errors.email">
+                  Not a Valid Email Address
+                </div>
               </div>
               <div class="input-field row">
                 <i class="material-icons prefix">security</i>
-                <input id="loginpassword" type="password" class="validate" [(ngModel)]="loginPassword" [ngModelOptions]="{standalone:true}" required>
-                <label for="loginpassword">Password</label>
+                <input id="loginPassword" formControlName="loginPassword" type="password" class="validate" required>
+                <!-- [(ngModel)]="loginPassword" [ngModelOptions]="{standalone:true}"-->
+                <label for="loginPassword">Password</label>
+
+              </div>
+              <div class="alert input-field row" *ngIf="!loginForm.controls['loginPassword'].valid && (loginForm.controls['loginPassword'].touched)">
+                <div class="red-text center-align" [hidden]="!loginForm.controls['loginPassword'].errors.required">
+                  Password is required
+                </div>
+                <div class="red-text center-align" [hidden]="!loginForm.controls['loginPassword'].errors.minlength">
+                  Minimum 8 Characters
+                </div>
+              </div>
+              <div class="input-field row">
                 <span class="helper-text">
                   <a href="#">Forgot Password?</a>
                 </span>
               </div>
               <div class="row">
-                <button type="submit" class="btn waves-effect waves-light ">Log In</button>
+                <button type="submit" class="btn waves-effect waves-light " [disabled]="!loginForm.valid">Log In</button>
               </div>
             </form>
           </div>
@@ -44,29 +68,57 @@
             <h5 class="cyan-text text-darken-4">Sign up</h5>
           </div>
           <div class="collapsible-body">
-            <form (ngSubmit)="userRegister()">
+            <form (ngSubmit)="userRegister(registrationForm.value)" [formGroup]="registrationForm">
               <div class="input-field row">
                 <i class="material-icons prefix">account_circle</i>
-                <input id="fullname" type="text" class="validate" [(ngModel)]="registerFullName" [ngModelOptions]="{standalone:true}" required>
-                <label for="fullname">Full Name</label>
+                <input id="registerFullName" formControlName="registerFullName" type="text" class="validate" required>
+                <!--[(ngModel)]="registerFullName" [ngModelOptions]="{standalone:true}"-->
+                <label for="registerFullName">Full Name</label>
+              </div>
+              <div class="alert input-field row" *ngIf="!registrationForm.controls['registerFullName'].valid && (registrationForm.controls['registerFullName'].touched)">
+                <div class="red-text center-align" [hidden]="!registrationForm.controls['registerFullName'].errors.required">
+                  Full Name is required
+                </div>
+                <div class="red-text center-align" [hidden]="!registrationForm.controls['registerFullName'].errors.minlength">
+                  Minimum 8 Characters
+                </div>
               </div>
               <div class="input-field row">
                 <i class="material-icons prefix">email</i>
-                <input id="signinemail" type="email" class="validate" [(ngModel)]="registerEmailId" [ngModelOptions]="{standalone:true}" required>
+                <input id="registerEmailId" formControlName="registerEmailId" type="email" class="validate" required>
+                <!--[(ngModel)]="registerEmailId" [ngModelOptions]="{standalone:true}" -->
                 <label for="siginemail">Email</label>
               </div>
+              <div class="alert input-field row" *ngIf="!registrationForm.controls['registerEmailId'].valid && (registrationForm.controls['registerEmailId'].touched)">
+                <div class="red-text center-align" [hidden]="!registrationForm.controls['registerEmailId'].errors.required">
+                  Email-Id is required
+                </div>
+                <div class="red-text center-align" [hidden]="!registrationForm.controls['registerEmailId'].errors.email">
+                  Not a Valid Email Address
+                </div>
+              </div>
               <div class="input-field row">
                 <i class="material-icons prefix">security</i>
-                <input id="signinpassword" type="password" class="validate" [(ngModel)]="registerPassword" [ngModelOptions]="{standalone:true}" required>
+                <input id="registerPassword" formControlName="registerPassword" type="password" class="validate" required>
+                <!--[(ngModel)]="registerPassword" [ngModelOptions]="{standalone:true}"-->
                 <label for="signinpassword">Password</label>
               </div>
-              <div class="input-field row">
-                <i class="material-icons prefix">security</i>
-                <input id="confirmpassword" type="password" class="validate" [(ngModel)]="registerPasswordC" [ngModelOptions]="{standalone:true}" required>
-                <label for="confirmpassword">Confirm Password</label>
+              <div class="alert input-field row" *ngIf="!registrationForm.controls['registerPassword'].valid && (registrationForm.controls['registerPassword'].touched)">
+                <div class="red-text center-align" [hidden]="!registrationForm.controls['registerPassword'].errors.required">
+                  Password is required
+                </div>
+                <div class="red-text center-align" [hidden]="!registrationForm.controls['registerPassword'].errors.minlength">
+                  Minimum 8 Characters
+                </div>
               </div>
+              <!--<div class="input-field row">
+                <i class="material-icons prefix">security</i>
+                <input id="registerPasswordC" name="registerPasswordC" type="password" class="validate" [(ngModel)]="registerPasswordC" [ngModelOptions]="{standalone:true}" required>
+                <label for="confirmpassword">Confirm Password</label>
+              </div> -->
               <div class="row">
-                <button type="submit" class="btn waves-effect waves-light" [disabled]="!(registerPassword==registerPasswordC) || (registerPassword=='' || registerPasswordC=='')">Create Account</button>
+                <button type="submit" class="btn waves-effect waves-light" [disabled]="!registrationForm.valid">Create Account</button>
+                <!-- !(registerPassword==registerPasswordC) || (registerPassword=='' || registerPasswordC=='') -->
               </div>
               <p class="center-align green-text" *ngIf="registerSuccess">{{registerSuccess}}</p>
               <p class="center-align red-text" *ngIf="registerError">{{registerError}}</p>

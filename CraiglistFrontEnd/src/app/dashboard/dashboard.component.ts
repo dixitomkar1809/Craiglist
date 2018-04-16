@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { PagerService } from "../_services/index";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -36,7 +37,7 @@ export class DashboardComponent implements OnInit {
   private wishlistitems: any[];
   private isAdmin: boolean;
 
-  constructor(private httpClient: HttpClient, private pagerService: PagerService) {
+  constructor(private httpClient: HttpClient, private pagerService: PagerService, private router: Router) {
     this.searchString = "";
     this.emailIdChangedMessage = "";
     this.phoneNoChangedMessage = "";
@@ -76,7 +77,8 @@ export class DashboardComponent implements OnInit {
           this.phoneNo = this.userData["phoneNo"];
           this.emailId = this.userData["emailId"];
           this.zipcode = this.userData["zipcode"];
-        })
+        });
+    // get All Services
     this.httpClient.get("http://localhost:3000/api/service/all")
       .subscribe(
         (data: any[]) => {
@@ -167,6 +169,13 @@ export class DashboardComponent implements OnInit {
           this.wishlistitems = data;
         }
       )
+  }
+
+  openService(data){
+    console.log(data);
+    sessionStorage.setItem('service', JSON.stringify({serviceId: data}));
+    // console.log(JSON.parse(sessionStorage.getItem('userId')));
+    this.router.navigate(['service']);
   }
 
   addItemsToWishlist() {
