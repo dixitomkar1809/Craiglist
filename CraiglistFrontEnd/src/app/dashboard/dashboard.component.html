@@ -23,16 +23,16 @@
   <div class="container">
     <div class="row">
       <div *ngIf="!isAdmin" class="col s8">
-    <h2>Hello {{fullName}} !</h2>
-  </div>
-  <div *ngIf="isAdmin" class="col s8">
-      <h2>Hello Admin !</h2>
+        <h2>Hello {{fullName}} !</h2>
+      </div>
+      <div *ngIf="isAdmin" class="col s8">
+        <h2>Hello Admin !</h2>
+      </div>
+      <div class="col s2"></div>
+      <div class="col s2" style="padding-top: 2%">
+        <button class="waves-effect waves-light btn-large btn #e53935 red darken-1" (click)="logout()">Logout</button>
+      </div>
     </div>
-  <div class="col s2"></div>
-  <div class="col s2" style="padding-top: 2%">
-      <button class="waves-effect waves-light btn-large btn #e53935 red darken-1" (click)="logout()">Logout</button>
-  </div>
-  </div>
     <div class="row">
       <div class="col s12 m3 l3 center-align">
         <button class="waves-effect waves-light btn-large btn modal-trigger" data-target="myPosts" (click)="getServicesByUser()">My Posts</button>
@@ -64,61 +64,61 @@
                 <div class="col s12 m12 l12">
                   <div class="row">
                     <div class="col s6 m6 l6">
-                        <div class="input-field row">
-                            <input id="servicename" type="text" class="validate">
-                            <label for="servicename">Name</label>
-                          </div>
+                      <div class="input-field row">
+                        <input id="servicename" type="text" class="validate">
+                        <label for="servicename">Name</label>
+                      </div>
                     </div>
                     <div class="col s1 m1 l1">
 
                     </div>
                     <div class="col s2 m2 l2">
-                        <div class="input-field row">
-                            <input id="servicequantity" type="text" class="validate">
-                            <label for="servicequantity">Quantity</label>
-                          </div>
+                      <div class="input-field row">
+                        <input id="servicequantity" type="text" class="validate">
+                        <label for="servicequantity">Quantity</label>
+                      </div>
                     </div>
                     <div class="col s1 m1 l1">
 
                     </div>
                     <div class="col s2 m2 l2">
-                        <div class="input-field row">
-                            <input id="serviceprice" type="text" class="validate">
-                            <label for="serviceprice">Price</label>
-                          </div>
+                      <div class="input-field row">
+                        <input id="serviceprice" type="text" class="validate">
+                        <label for="serviceprice">Price</label>
+                      </div>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col s6 m6 l6">
-                        <div class="input-field row">
-                            <select>
-                              <option value="" *ngFor="let x of serviceCategories">{{x.serviceCategoryName}}</option>
-                            </select>
-                            <label>Service Category</label>
-                          </div>
+                      <div class="input-field row">
+                        <select>
+                          <option value="" *ngFor="let x of serviceCategories">{{x.serviceCategoryName}}</option>
+                        </select>
+                        <label>Service Category</label>
+                      </div>
                     </div>
                     <div class="col s1 m1 l1">
 
                     </div>
                     <div class="col s5 m5 l5">
-                        <div class="file-field input-field row">
-                            <div class="btn">
-                              <span>Photos</span>
-                              <input type="file" (change)="onFileChanged($event)">
-                            </div>
-                            <div class="file-path-wrapper">
-                              <input class="file-path validate" type="text">
-                            </div>
-                          </div>
+                      <div class="file-field input-field row">
+                        <div class="btn">
+                          <span>Photos</span>
+                          <input type="file" (change)="onFileChanged($event)">
+                        </div>
+                        <div class="file-path-wrapper">
+                          <input class="file-path validate" type="text">
+                        </div>
+                      </div>
                     </div>
 
                   </div>
-                  
+
                   <div class="input-field row">
                     <input id="servicedesc" type="text" class="validate">
                     <label for="servicedesc">Description</label>
                   </div>
-                  
+
                   <div class="row">
                     <button type="submit" class="btn waves-effect waves-light">Add Service</button>
                   </div>
@@ -129,7 +129,7 @@
 
         </div>
         <!-- <div class="modal-footer"> -->
-          <!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a> -->
+        <!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a> -->
         <!-- </div> -->
       </div>
       <div class="col s12 m3 l3 center-align">
@@ -172,7 +172,7 @@
         </div>
       </div>
     </div>
-    <div  *ngIf="!isAdmin" class="row valign-wrapper">
+    <div *ngIf="!isAdmin" class="row valign-wrapper">
       <div class="col s6 m6 l6">
         <div class="row">
           <div class="col s8 m8 l8">
@@ -278,8 +278,8 @@
         </ul>
       </div>
     </div>
-    <div  *ngIf="isAdmin" class="row valign-wrapper">
-        <button class="waves-effect waves-light btn-large btn #e53935 red darken-1 ">Kick User</button>
+    <div *ngIf="isAdmin" class="row valign-wrapper">
+      <button class="waves-effect waves-light btn-large btn #e53935 red darken-1 ">Kick User</button>
     </div>
   </div>
 </div>
@@ -300,21 +300,21 @@
     </div>
   </nav>
   <div class="container">
-    <div class="row"></div>
-<div class="row">
-  <div class="col s4">
-    <h5 *ngIf="serviceInfo">Search Results for {{searchInput}}</h5>
-  </div>
-  <div class="col s1"></div>
-  <!-- Search by Category -->
-  <form (ngSubmit)="searchByCategory()">
-  <div class="col s4">
-    <div class="input-field ">
-      <select  [(ngModel)]="selectedCategories" [ngModelOptions]="{standalone: true}">
-        <option value="" disabled selected>Choose your option</option>
-        <option *ngFor="let x of serviceCategories"  [ngValue]="x.serviceCategoryName">{{x.serviceCategoryName}}</option>
-      </select>
-      <label><h6>Search by Category</h6></label>
+    <div class="row">
+      <div class="col s6 m6 l6">
+        <form (ngSubmit)="searchByCategory()">
+          <div class="input-field row">
+            <select [(ngModel)]="selectedCategories" [ngModelOptions]="{standalone: true}" multiple>
+              <option value="" disabled selected>Choose your option</option>
+              <option *ngFor="let x of serviceCategories" [ngValue]="x.serviceCategoryName">{{x.serviceCategoryName}}</option>
+            </select>
+            <label>
+              <h6>Search by Category</h6>
+            </label>
+
+          </div>
+        </form>
+      </div>
     </div>
     <div class="row">
       <ul *ngIf="pager.pages && pager.pages.length" class="pagination center-align">
@@ -349,22 +349,22 @@
       </div>
     </div>
     <!-- <ul *ngIf="pager.pages && pager.pages.length" class="pagination center-align ">
-      <li [ngClass]="{disabled:pager.currentPage === 1}">
-          <a (click)="setPage(1)">First</a>
-      </li>
-      <li [ngClass]="{disabled:pager.currentPage === 1}">
-          <a (click)="setPage(pager.currentPage - 1)">Previous</a>
-      </li>
-      <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
-          <a (click)="setPage(page)"> {{page}} </a>
-      </li>
-      <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-          <a (click)="setPage(pager.currentPage + 1)">Next</a>
-      </li>
-      <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-          <a (click)="setPage(pager.totalPages)">Last</a>
-      </li>
-  </ul> -->
+          <li [ngClass]="{disabled:pager.currentPage === 1}">
+              <a (click)="setPage(1)">First</a>
+          </li>
+          <li [ngClass]="{disabled:pager.currentPage === 1}">
+              <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+          </li>
+          <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+              <a (click)="setPage(page)"> {{page}} </a>
+          </li>
+          <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+              <a (click)="setPage(pager.currentPage + 1)">Next</a>
+          </li>
+          <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+              <a (click)="setPage(pager.totalPages)">Last</a>
+          </li>
+      </ul> -->
     <div class="row">
       <ul *ngIf="pager.pages && pager.pages.length" class="pagination center-align">
         <li [ngClass]="{disabled:pager.currentPage === 1}" class="waves-effect">
@@ -383,9 +383,6 @@
     </div>
   </div>
 
+</div>
+
 <div id="SearchByC" class="col s12"></div>
-
-   
-     
-
-
