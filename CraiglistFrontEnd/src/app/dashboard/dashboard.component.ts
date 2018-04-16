@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEventType } from '@angular/common/http';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { PagerService } from "../_services/index";
 import { Router } from '@angular/router';
+
+import { HttpResponse } from 'selenium-webdriver/http';
 
 @Component({
   selector: 'app-dashboard',
@@ -36,6 +38,8 @@ export class DashboardComponent implements OnInit {
   private wishlist: any[];
   private wishlistitems: any[];
   private isAdmin: boolean;
+  
+  private selectedFile = null;
 
   constructor(private httpClient: HttpClient, private pagerService: PagerService, private router: Router) {
     this.searchString = "";
@@ -130,6 +134,30 @@ export class DashboardComponent implements OnInit {
 
   }
 
+
+  onFileSelected(event){
+    this.selectedFile = event.target.files[0];
+    console.log(this.selectedFile);
+   }
+ 
+   onUpload(){
+     var fd = new FormData();
+     fd.append('productImage',  this.selectedFile, this.selectedFile.name);
+     this.httpClient.post('http://localhost:3000/uploadImage/1', fd, {
+       reportProgress: true,
+       observe: 'events'
+     } )
+     .subscribe(res => {
+       if (res.type === HttpEventType.UploadProgress){
+         console.log('Upload Progress: ' + Math.round(res.loaded/ res.total * 100)  )
+       }
+       else if (res.type === HttpEventType.Response){
+         console.log(res);
+       }
+     });
+   }
+ 
+
   searchService(data) {
     console.log("http://localhost:3000/api/services/searchInput/" + data);
     return this.httpClient.get("http://localhost:3000/api/services/searchInput/" + data)
@@ -183,7 +211,7 @@ export class DashboardComponent implements OnInit {
   }
 
   addService() {
-
+// call the file upload function as well
   }
 
   changeEmail() {

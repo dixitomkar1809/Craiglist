@@ -29,7 +29,6 @@ export class IndexComponent implements OnInit {
     
   registrationForm: FormGroup;
   loginForm: FormGroup;
-  private selectedFile = null;
 
   constructor(private httpClient: HttpClient, private router: Router, private fb: FormBuilder) { 
     this.registrationForm = this.fb.group({
@@ -115,28 +114,6 @@ export class IndexComponent implements OnInit {
           }
         }
       )
-  }
-
-  onFileSelected(event){
-   this.selectedFile = event.target.files[0];
-   console.log(this.selectedFile);
-  }
-
-  onUpload(){
-    var fd = new FormData();
-    fd.append('productImage',  this.selectedFile, this.selectedFile.name);
-    this.httpClient.post('http://localhost:3000/uploadImage/1', fd, {
-      reportProgress: true,
-      observe: 'events'
-    } )
-    .subscribe(res => {
-      if (res.type === HttpEventType.UploadProgress){
-        console.log('Upload Progress: ' + Math.round(res.loaded/ res.total * 100)  )
-      }
-      else if (res.type === HttpEventType.Response){
-        console.log(res);
-      }
-    });
   }
 
   
