@@ -1,5 +1,7 @@
 var mysql = require('mysql');
 var express = require('express');
+var multer = require('multer');
+var upload = multer({dest: 'D:/Projects/Craiglist/CraiglistFrontEnd/src/assets/uploads/'});
 var app = express();
 var router = express.Router();
 var connection = mysql.createConnection({
@@ -9,6 +11,8 @@ var connection = mysql.createConnection({
     database: 'craiglist'
 });
 connection.connect();
+
+
 
 app.use(function(request, result, next) {
     result.header("Access-Control-Allow-Origin", "*");
@@ -29,6 +33,28 @@ app.use(function(request, result, next) {
   app.get('/', (request, result) => {
     console.log('Connected to NodeJS Services');
     result.send('Connected to NodeJS Services');
+});
+
+// Upload Image/File
+app.post('/uploadImage/:id', upload.single("productImage")  ,(request, result) => {
+    result.send(request.file);
+});
+
+// get all images of a service
+app.get('/api/service/getImages/:id', (request, result) => {
+    connection.query('select * from serviceimages where serviceId = ?', [request.params.id], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log(rows);
+        }
+    });
+});
+
+// set image path to some service
+app.get('/api/service/setImage/:id/:path', (request, result)=>{
+    // 
 });
 
 // List of all services
@@ -251,7 +277,7 @@ app.get('/api/users/get/:id', (request, result) => {
 
 // Specific Product
 app.get('/api/service/:id', (request, result) => {
-    connection.query('SELECT * FROM service WHERE serviceId= ?',[request.params.userId], function(err, rows, fields){
+    connection.query('SELECT * FROM service WHERE serviceId = ?',[request.params.id], function(err, rows, fields){
         if(err){
             console.log(err);
         }
@@ -305,3 +331,23 @@ app.get('/api/users/findUser/:emailId', (request, result) => {
         }
     });
 });
+
+// var storage = multer.diskStorage({
+//     destination: function(req, file, cb){
+//         cb(null, 'uploads/')
+//     },
+//     filename: function(req, file, cb){
+//         cb(null, file.fieldname+'-'+ Date.now()+'.jpg')
+//     }
+// });
+
+// var upload = multer({storage: storage}).single('Image');
+
+// app.post('/uploadImage', (request, result) => {
+//     upload(request, result, function(err){
+//         if(err){
+//             // error
+//         }
+//         // all good
+//     });
+// });
