@@ -4,6 +4,7 @@ import { HttpClient, HttpEventType } from '@angular/common/http';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { PagerService } from "../_services/index";
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 import { HttpResponse } from 'selenium-webdriver/http';
 
@@ -38,14 +39,27 @@ export class DashboardComponent implements OnInit {
   private wishlist: any[];
   private wishlistitems: any[];
   private isAdmin: boolean;
+
+  public loadScript() {
+    let body = <HTMLDivElement> document.body;
+    let script = document.createElement('script');
+    script.innerHTML = '';
+    script.src = 'url';
+    script.async = true;
+    script.defer = true;
+    body.appendChild(script);
+}
   
   private selectedFile = null;
 
-  constructor(private httpClient: HttpClient, private pagerService: PagerService, private router: Router) {
+  constructor(private httpClient: HttpClient, private pagerService: PagerService, private router: Router, private location: Location) {
     this.searchString = "";
     this.emailIdChangedMessage = "";
     this.phoneNoChangedMessage = "";
     this.addressChangedMessage = "";
+    if(sessionStorage.length==0){
+      this.router.navigate['/']
+    }
     this.userId = JSON.parse(sessionStorage.getItem('user')).userId;
     // getting admin details
     if(this.userId == "0"){
@@ -131,7 +145,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.loadScript();
   }
 
 

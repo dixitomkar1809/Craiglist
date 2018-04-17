@@ -16,7 +16,10 @@ export class ServiceComponent implements OnInit {
   private userId: string;
   private isAdmin: boolean;
 
-  constructor(private httpClient: HttpClient) { 
+  constructor(private httpClient: HttpClient, private router: Router) { 
+    if(sessionStorage.length<=1){
+      this.router.navigate['/']
+    }
     // this.userId = JSON.parse(sessionStorage.getItem('user')).userId;
     this.userId = JSON.parse(sessionStorage.getItem('user')).userId;
       // getting admin details
