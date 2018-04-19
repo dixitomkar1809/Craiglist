@@ -8,6 +8,8 @@ import { Location } from '@angular/common';
 import { Headers, Http, RequestOptions, Response } from '@angular/http'
 import { HttpResponse } from 'selenium-webdriver/http';
 
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -47,15 +49,32 @@ export class DashboardComponent implements OnInit {
   panelOpenState: boolean = false;
   public selectedFile = null;
   public postHeaders;
+  public addServiceData : any;
+  public addServiceName: string;
+  public addServicePrice: string;
+  public addServiceCategory:any;
+  public addServiceDesc: string;
+  addServiceForm: FormGroup;
 
-  constructor(private httpClient: HttpClient, private pagerService: PagerService, private router: Router, private location: Location) {
+  constructor(private httpClient: HttpClient, private pagerService: PagerService, private router: Router, private location: Location, private fb: FormBuilder) {
+    // add ServiceForm
+    this.addServiceForm = this.fb.group({
+      'addServiceName': ['', Validators.compose([Validators.required, Validators.minLength(8)])],
+      'addServicePrice': ['', Validators.required],
+      'addServiceCategory': ['', Validators.required],
+      'addServiceDesc': ['', Validators.compose([Validators.required, Validators.minLength(8)])],
+      "userId": this.userId
+    });
+
+
+    // console.log(sessionStorage);
     this.searchString = "";
     this.emailIdChangedMessage = "";
     this.phoneNoChangedMessage = "";
     this.addressChangedMessage = "";
     if (sessionStorage.length == 0) {
       sessionStorage.clear();
-      this.router.navigate['/'];
+      this.router.navigate(['']);
     }
     this.userId = JSON.parse(sessionStorage.getItem('user')).userId;
     // getting admin details
@@ -100,13 +119,8 @@ export class DashboardComponent implements OnInit {
             this.emailId = this.userData["emailId"];
             this.zipcode = this.userData["zipcode"];
           });
-      // get All Services
-      this.httpClient.get("http://localhost:3000/api/service/all")
-        .subscribe(
-          (data: any[]) => {
-            this.serviceInfo = data;
-            this.setPage(1);
-          })
+      // get All Serives
+      this.getAllServices();
       // make a call to the api that gives you list of all service categories
       this.httpClient.get("http://localhost:3000/api/service/serviceCategoriesAll")
         .subscribe(
@@ -116,14 +130,6 @@ export class DashboardComponent implements OnInit {
           }
         )
 
-      // make a call to the api that gives you list of all hidden services
-      this.httpClient.get("http://localhost:3000/api/hideService/get/" + this.userId)
-        .subscribe(
-          (data: any[]) => {
-            //console.log(data);
-            this.hiddenServices = data;
-          }
-        )
 
       // make a call to the api that gives you list of all wishlist
       this.httpClient.get("http://localhost:3000/api/wishlist/get/" + this.userId)
@@ -140,8 +146,8 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.postHeaders = new HttpHeaders()
-          .set('Authorization', 'my-auth-token')
-          .set('Content-Type', 'application/json');
+      .set('Authorization', 'my-auth-token')
+      .set('Content-Type', 'application/json');
   }
 
 
@@ -206,6 +212,28 @@ export class DashboardComponent implements OnInit {
     console.log(data);
   }
 
+  getAllServices() {
+    // get All Services
+    this.httpClient.get("http://localhost:3000/api/service/all/" + this.userId)
+      .subscribe(
+        (data: any[]) => {
+          this.serviceInfo = data;
+          this.setPage(1);
+        })
+  }
+
+  getHiddenServices() {
+    // make a call to the api that gives you list of all hidden services
+    this.httpClient.get("http://localhost:3000/api/hideService/get/" + this.userId)
+      .subscribe(
+        (data: any[]) => {
+          //console.log(data);
+          this.hiddenServices = data;
+        }
+      )
+
+  }
+
   getServicesByUser() {
     // console.log("here");
     return this.httpClient.get('http://localhost:3000/api/service/getByUser/' + this.userId)
@@ -237,25 +265,25 @@ export class DashboardComponent implements OnInit {
 
   logout() {
     sessionStorage.clear();
-    this.router.navigate(['/']);
+    this.router.navigate(['']);
   }
 
   addItemsToWishlist() {
 
   }
 
-  addService() {
-    // console.log(JSON.stringify("userId"));
-    this.httpClient.post("http://localhost:3000/api/service/addService", JSON.stringify({ user: "trialUser" }), {
-      headers:this.postHeaders
-    })
-      .subscribe(
-        (data: any[]) => {
-          console.log('from the nodejs', data);
-        }
-      )
+  addService(value) {
+    console.log(value);
+    // var trual = {data: "value", data2: "value2"};
+    // this.httpClient.post("http://localhost:3000/api/service/addService", addServiceData )
+    //   .subscribe(
+    //     (data: any[]) => {
+    //       console.log('from the nodejs', data);
+    //       // this.onUpload();
+    //     }
+    //   )
   }
-  
+
   changeEmail() {
     return this.httpClient.get("http://localhost:3000/api/users/changeEmail/" + this.userId + "/" + this.emailId)
       .subscribe(
@@ -292,5 +320,15 @@ export class DashboardComponent implements OnInit {
 
   changeUserStatus(value) {
     console.log(value);
+  }
+
+  hideService(value) {
+    this.httpClient.get('http://localhost:3000/api/hideService/add/' + value + '/' + this.userId)
+      .subscribe(
+        (data: any[]) => {
+          this.getAllServices();
+          this.getHiddenServices();
+        }
+      )
   }
 }

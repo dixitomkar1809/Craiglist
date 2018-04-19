@@ -25,3 +25,19 @@ main {
 .bold-text {
   font-weight: bold;
 }
+
+.footer{
+    position: absolute;
+    bottom: 0;
+    /* width: 644px;
+    height: 20px; */
+    /* margin: 0 auto; */
+}
+
+.success{
+    color: green;
+}
+
+.error{
+    color: red;
+}

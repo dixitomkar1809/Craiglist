@@ -15,12 +15,12 @@
     </ul>
   </div>
 </nav> -->
-<mat-toolbar color="primary">
+<!-- <mat-toolbar color="primary">
   <mat-toolbar-row>
     <span class="brand-logo">
       <img src="assets\images\logo2.png" height="30" width="30" style="display:inline">raiglist</span>
   </mat-toolbar-row>
-</mat-toolbar>
+</mat-toolbar> -->
 <mat-tab-group class="demo-tab-group">
   <mat-tab label="Home">
     <div class="container demo-tab-content">
@@ -319,6 +319,7 @@
             </mat-card-content>
             <mat-card-actions>
               <button mat-raised-button (click)="openService(service.serviceId)" color="primary">See More</button>
+              <button mat-raised-button (click)="hideService(service.serviceId)" color="primary">Hide</button>
             </mat-card-actions>
           </mat-card>
         </div>
@@ -380,70 +381,79 @@
     </div>
   </mat-tab>
   <mat-tab label="Add a service" *ngIf="!isAdmin">
-    <form (ngSubmit)="addService()">
-      <div class="col s12 m12 l12">
+    <div class="container">
+      <h2>Add a Service </h2>
+      <button (click)="addService()">Click</button>
+      <form (ngSubmit)="addService(addServiceForm.value)" [formGroup]="addServiceForm">
         <div class="row">
-          <div class="col s6 m6 l6">
-            <div class="input-field row">
-              <input id="servicename" type="text" class="validate">
-              <label for="servicename">Name</label>
-            </div>
-          </div>
-          <div class="col s1 m1 l1">
-
-          </div>
-          <div class="col s2 m2 l2">
-            <div class="input-field row">
-              <input id="servicequantity" type="text" class="validate">
-              <label for="servicequantity">Quantity</label>
-            </div>
-          </div>
-          <div class="col s1 m1 l1">
-
-          </div>
-          <div class="col s2 m2 l2">
-            <div class="input-field row">
-              <input id="serviceprice" type="text" class="validate">
-              <label for="serviceprice">Price</label>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col s6 m6 l6">
-            <div class="input-field row">
-              <select>
-                <option value="" *ngFor="let x of serviceCategories">{{x.serviceCategoryName}}</option>
-              </select>
-              <label>Service Category</label>
-            </div>
-          </div>
-          <div class="col s1 m1 l1">
-
-          </div>
-          <div class="col s5 m5 l5">
-            <div class="file-field input-field row">
-              <div class="btn">
-                <span>Photos</span>
-                <input type="file" (change)="onFileChanged($event)">
+          <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="row">
+              <div class="col-sm-6 col-md-6 col-lg-6">
+                <mat-form-field>
+                  <input type="text" matInput placeholder="Name" required formControlName="addServiceName">
+                </mat-form-field>
+                
               </div>
-              <div class="file-path-wrapper">
-                <input class="file-path validate" type="text">
+              <div class="col-sm-6 col-md-6 col-lg-6">
+                  <div *ngIf="!addServiceForm.controls['addServiceName'].valid && (addServiceForm.controls['addServiceName'].touched)">
+                    <div class="error" [hidden]="!addServiceForm.controls['addServiceName'].errors.required">
+                      Full Name is required
+                    </div>
+                    <div class="error" [hidden]="!addServiceForm.controls['addServiceName'].errors.minlength">
+                      Minimum 8 Characters
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6 col-md-6 col-lg-6">
+                <mat-form-field>
+                  <mat-select placeholder="Select Category" formControlName="addServiceCategory">
+                    <mat-option *ngFor="let x of serviceCategories" [value]="x">{{x.serviceCategoryName}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              
+            </div>
+            <div class="row">
+              <div class="col-sm-6 col-md-6 col-lg-6">
+                <mat-form-field>
+                  <textarea matInput placeholder="Description" required formControlName="addServiceDesc"></textarea>
+                </mat-form-field>
+
+              </div>
+              <div class="col-sm-6 col-md-6 col-lg-6">
+                  <div *ngIf="!addServiceForm.controls['addServiceDesc'].valid && (addServiceForm.controls['addServiceDesc'].touched)">
+                    <div class="error" [hidden]="!addServiceForm.controls['addServiceDesc'].errors.required">
+                      Full Name is required
+                    </div>
+                    <div class="error" [hidden]="!addServiceForm.controls['addServiceDesc'].errors.minlength">
+                      Minimum 8 Characters
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6 col-md-6 col-lg-6">
+                <mat-form-field>
+                  <input type="text" matInput placeholder="Price" required formControlName="addServicePrice">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-12">
+                <input type="file" (change)="onFileSelected($event)">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 colmd-12 col-lg-12">
+                <button mat-raised-button color="primary" type="submit">Submit</button>
               </div>
             </div>
           </div>
-
         </div>
-
-        <div class="input-field row">
-          <input id="servicedesc" type="text" class="validate">
-          <label for="servicedesc">Description</label>
-        </div>
-
-        <div class="row">
-          <button type="submit" class="btn waves-effect waves-light">Add Service</button>
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </mat-tab>
   <mat-tab label="Wishlist" *ngIf="!isAdmin">
     <ul>
@@ -459,23 +469,23 @@
   </mat-tab>
   <mat-tab label="Hidden Service" *ngIf="!isAdmin">
     <div class="container">
-        <h4>Hidden Service</h4>
+      <h4>Hidden Service</h4>
       <div class="row">
-          <div class="col-sm-6 col-md-3 col-lg-3" *ngFor="let x of hiddenServices">
-            <mat-card>
-              <mat-card-header>
-                <mat-card-title class="text-center bold-text">{{(x.serviceName | slice:0:24)+"..."}}</mat-card-title>
-              </mat-card-header>
-              <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-              <mat-card-content>
-                <mat-card-subtitle> {{(x.serviceDescription | slice: 0:30) + "..."}}</mat-card-subtitle>
-              </mat-card-content>
-              <mat-card-actions>
-                <button mat-raised-button (click)="openService(x.serviceId)" color="primary">See More</button>
-              </mat-card-actions>
-            </mat-card>
-          </div>
+        <div class="col-sm-6 col-md-3 col-lg-3" *ngFor="let x of hiddenServices">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title class="text-center bold-text">{{(x.serviceName | slice:0:24)+"..."}}</mat-card-title>
+            </mat-card-header>
+            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+            <mat-card-content>
+              <mat-card-subtitle> {{(x.serviceDescription | slice: 0:30) + "..."}}</mat-card-subtitle>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-raised-button (click)="openService(x.serviceId)" color="primary">See More</button>
+            </mat-card-actions>
+          </mat-card>
         </div>
+      </div>
     </div>
   </mat-tab>
 </mat-tab-group>
@@ -873,8 +883,8 @@
 
 </div> -->
 
-<mat-toolbar color="primary">
+<!-- <mat-toolbar color="primary">
   <mat-toolbar-row>
     <span class="roboto-condensed">© 2018 Copyright Omkar Dixit Tushar Chemburkar</span>
   </mat-toolbar-row>
-</mat-toolbar>
+</mat-toolbar> -->

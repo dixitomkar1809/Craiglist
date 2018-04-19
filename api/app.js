@@ -1,6 +1,9 @@
 var mysql = require('mysql');
 var express = require('express');
+var multer = require('multer');
+var upload = multer({dest: 'D:/Projects/Craiglist/CraiglistFrontEnd/src/assets/uploads/'});
 var app = express();
+var bodyParser = require('body-parser')
 var router = express.Router();
 var connection = mysql.createConnection({
     host: 'localhost',
@@ -9,12 +12,22 @@ var connection = mysql.createConnection({
     database: 'craiglist'
 });
 connection.connect();
+// var bodyParser = require('body-parser');
+var jsonParser = bodyParser.json();
+var urlEncodedParser = bodyParser.urlencoded({ extended: false });
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
 
 app.use(function(request, result, next) {
     result.header("Access-Control-Allow-Origin", "*");
+    result.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     result.header("Access-Control-Allow-Headers", "Origin, X-requestuested-With, Content-Type, Accept");
     next();
 });
+
 
 app.listen(3000, () => {
     console.log(`https://localhost:3000`);
@@ -31,9 +44,43 @@ app.use(function(request, result, next) {
     result.send('Connected to NodeJS Services');
 });
 
+// Upload Image/File
+app.post('/uploadImage/:id', upload.single("productImage")  ,(request, result) => {
+    result.send(request.file);
+});
+
+// get all images of a service
+app.get('/api/service/getImages/:id', (request, result) => {
+    connection.query('select * from serviceimages where serviceId = ?', [request.params.id], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log(rows);
+        }
+    });
+});
+
+// set image path to some service
+app.get('/api/service/setImage/:id/:path', (request, result)=>{
+    // 
+});
+
 // List of all services
 app.get('/api/service/all', (request, result) => {
     connection.query('SELECT * FROM service', function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
+});
+
+// services by a specific user
+app.get('/api/service/getByUser/:userId', (request, result) => {
+    connection.query("select * from service where serviceUserId = ? ", [request.params.userId], function(err, rows, fields){
         if(err){
             console.log(err);
         }
@@ -92,7 +139,7 @@ app.get('/api/hideService/add/:serviceId/:userId', (request, result) => {
     });
 });
 
-//remove a hidden product for a specific user
+//remove  hidden product for a specific user
 app.get('/api/hideService/remove/:hiddenProductId/:userId', (request, result) => {
     connection.query("DELETE FROM hiddenservices WHERE hiddenservices.serviceId = ? and hiddeservices.userId= ?", [request.params.hiddenProductId, request.params.userId], function(err, rows, fields){
         if(err){
@@ -104,9 +151,45 @@ app.get('/api/hideService/remove/:hiddenProductId/:userId', (request, result) =>
     });
 });
 
+//get hidden product for a specific user
+app.get('/api/hideService/get/:userId', (request, result) => {
+    connection.query("SELECT * FROM service, hiddenservices WHERE hiddenservices.serviceId = service.serviceId and hiddenservices.userId= ?", [request.params.userId], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
+});
+
+//get wishlist for a specific user
+app.get('/api/wishlist/get/:userId', (request, result) => {
+    connection.query("SELECT * FROM wishlist WHERE wishlist.wishlistUserId = ?", [request.params.userId], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
+});
+
+//get wishlistitems from a wishlist for a specific user
+app.get('/api/wishlistitems/get/:wishlistId', (request, result) => {
+    connection.query("SELECT * FROM wishlistitems,service WHERE wishlistitems.wishlistId = ? and wishlistitems.serviceId = service.serviceId", [request.params.wishlistId], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
+});
+
 // user register
 app.get('/api/users/register/:fullName/:password/:emailId', (request, result) => {
-    connection.query("INSERT INTO `users` (`fullName`, `emailId`, `password`) VALUES (?, ? ?)", [request.params.fullName, request.params.emailId, request.params.password], function(err, rows, fields){
+    connection.query("INSERT INTO users (`fullName`, `emailId`, `password`) VALUES (?, ?, ?)", [request.params.fullName, request.params.emailId, request.params.password], function(err, rows, fields){
         if(err){
             console.log(err);
         }
@@ -131,6 +214,30 @@ app.get('/api/users/login/:emailId/:password', (request, result) => {
 // Change Password
 app.get('/api/users/changePassword/:userId/:newPassword',(request, result) => {
     connection.query("UPDATE users SET users.password= ? WHERE userId= ?",[request.params.newPassword,request.params.userId], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
+});
+
+// Change PhoneNo
+app.get('/api/users/changePhoneNo/:userId/:phoneNo', (request, result) => {
+    connection.query('Update users set users.phoneNo = ? where userId = ?', [request.params.phoneNo, request.params.userId], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
+});
+
+// change Address
+app.get('/api/users/changeAddress/:userId/:address/:city/:state/:country/:zipcode',(request, result) => {
+    connection.query('update users set users.address= ?, users.city= ?, users.state= ?, users.country= ?, users.zipcode= ? where users.userId= ?', [request.params.address, request.params.city, request.params.state, request.params.country, request.params.zipcode, request.params.userId], function(err, rows, fields){
         if(err){
             console.log(err);
         }
@@ -166,19 +273,20 @@ app.get('/api/users/delete/:userId', (request, result) => {
 
 // Specific User 
 app.get('/api/users/get/:id', (request, result) => {
-    connection.query('SELECT * FROM users WHERE userId= ?',[request.params.userId], function(err, rows, fields){
+    connection.query('SELECT * FROM users WHERE userId = ?',[request.params.id], function(err, rows, fields){
         if(err){
             console.log(err);
         }
         else{
             result.send(rows);
+            console.log(rows);
         }
     });
 });
 
 // Specific Product
 app.get('/api/service/:id', (request, result) => {
-    connection.query('SELECT * FROM service WHERE serviceId= ?',[request.params.userId], function(err, rows, fields){
+    connection.query('SELECT * FROM service WHERE serviceId = ?',[request.params.id], function(err, rows, fields){
         if(err){
             console.log(err);
         }
@@ -211,4 +319,29 @@ app.get('/api/services/searchInput/:searchInput', (request, result) => {
             result.send(rows);
         }
     });
+});
+
+// check if the user exists 
+app.get('/api/users/findUser/:emailId', (request, result) => {
+    console.log("select * from users where users.emailId="+request.params.emailId);
+    connection.query("select * from users where users.emailId='"+request.params.emailId+"'", function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            if(rows.length > 0){
+                // result.send("User Exists");
+                result.send(rows);
+            }
+            else{
+                // result.send("User does not exist");
+                result.send(rows);
+            }
+        }
+    });
+});
+
+// add Service
+app.post('/api/service/addService', urlEncodedParser, (request, result) => {
+    result.send(request.body);
 });

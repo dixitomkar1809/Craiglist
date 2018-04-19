@@ -13,7 +13,6 @@ import { HttpResponse } from 'selenium-webdriver/http';
 })
 export class IndexComponent implements OnInit {
   
-  registerForm: FormGroup;
   public loginEmailId: string ;
   public loginPassword: string ;
   public registerFullName: string;
@@ -31,6 +30,7 @@ export class IndexComponent implements OnInit {
   loginForm: FormGroup;
 
   constructor(private httpClient: HttpClient, private router: Router, private fb: FormBuilder) { 
+    sessionStorage.clear();
     this.registrationForm = this.fb.group({
       'registerFullName': ['', Validators.compose([Validators.required, Validators.minLength(8)])],
       'registerEmailId': ['', Validators.compose([Validators.required, Validators.email])],
@@ -71,11 +71,12 @@ export class IndexComponent implements OnInit {
           if(data.length!=0){
             // console.log("there is some data");
             console.log(data);
-          sessionStorage.setItem('user', JSON.stringify({userId: data[0].userId}));
-          // console.log(JSON.parse(sessionStorage.getItem('userId')));
-          this.router.navigate(['dashboard']);
+            sessionStorage.setItem('user', JSON.stringify({userId: data[0].userId}));
+            // console.log(JSON.parse(sessionStorage.getItem('userId')));
+            this.router.navigate(['dashboard']);
           }
           else{
+            this.loginMessage = "Email-id or Password is Wrong !";
             console.log("there is no data");
             this.loginMessage = "Email-Id/Password Incorrect";
           }
