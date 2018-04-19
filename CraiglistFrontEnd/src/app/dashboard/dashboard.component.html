@@ -16,366 +16,314 @@
   </div>
 </nav> -->
 <mat-toolbar color="primary">
-    <mat-toolbar-row>
-      <span class="brand-logo">
-        <img src="assets\images\logo2.png" height="30" width="30" style="display:inline">raiglist</span>
-    </mat-toolbar-row>
-  </mat-toolbar>
-  <mat-tab-group class="demo-tab-group">
-      <mat-tab label="Home">
-          <div class="container demo-tab-content">
+  <mat-toolbar-row>
+    <span class="brand-logo">
+      <img src="assets\images\logo2.png" height="30" width="30" style="display:inline">raiglist</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-tab-group class="demo-tab-group">
+  <mat-tab label="Home">
+    <div class="container demo-tab-content">
+      <div class="row">
+        <div *ngIf="!isAdmin" class="col-sm-8">
+          <h2>Hello {{fullName}} !</h2>
+        </div>
+        <div *ngIf="isAdmin" class="col-sm-8">
+          <h2>Hello Admin !</h2>
+        </div>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-2" style="padding-top: 5%">
+          <button mat-raised-button color="warn" (click)="logout()">Logout</button>
+        </div>
+      </div>
+      <div *ngIf="!isAdmin" class="row">
+        <div class="col-sm-6 col-md-6 col-lg-6">
+          <div class="row">
+            <div class="col-sm-8 col-md-8 col-lg-8">
+              <span class="bold-text">Address:</span> {{address}}</div>
+            <div class="col-sm-4 col-md-4 col-lg-4">
+              <span class="bold-text">Zipcode:</span> {{zipcode}}</div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4 col-md-4 col-lg-4">
+              <span class="bold-text">City:</span> {{city}}</div>
+            <div class="col-sm-4 col-md-4 col-lg-4">
+              <span class="bold-text">State:</span> {{state}}</div>
+            <div class="col-sm-4 col-md-4 col-lg-4">
+              <span class="bold-text">Country:</span> {{country}}</div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6 col-md-6 col-lg-6">
+              <span class="bold-text">Phone-No:</span> {{phoneNo}}</div>
+            <div class="col-sm-6 col-md-6 col-lg-6">
+              <span class="bold-text">Email-Id:</span> {{emailId}}</div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Change Email
+                </mat-panel-title>
+              </mat-expansion-panel-header>
               <div class="row">
-                <div *ngIf="!isAdmin" class="col s8">
-                  <h2>Hello {{fullName}} !</h2>
-                </div>
-                <div *ngIf="isAdmin" class="col s8">
-                  <h2>Hello Admin !</h2>
-                </div>
-                <div class="col s2"></div>
-                <div class="col s2" style="padding-top: 5%">
-                  <button mat-raised-button color="warn" (click)="logout()">Logout</button>
-                </div>
-              </div>
-              <div class="row" *ngIf="!isAdmin">   
-                <div class="col s12 m3 l3 center-align">
-                  <button class="waves-effect waves-light btn-large btn modal-trigger" data-target="myPosts" (click)="getServicesByUser()">My Posts</button>
-                </div>
-                <!-- My Posts Modal Structure -->
-                <div id="myPosts" class="modal modal-fixed-footer">
-                  <div class="modal-content">
-                    <h5>My Posts</h5>
-                    <ul class="collection">
-                      <li *ngFor="let x of userServices" class="collection-item">
-                        {{x.serviceName}}
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="modal-footer">
-                    <!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a> -->
-                  </div>
-                </div>
-                <div class="col s12 m3 l3 center-align">
-                  <a class="waves-effect waves-light btn-large btn modal-trigger" data-target="addService">Add a Service</a>
-                </div>
-                <!-- Add Service Modal Structure -->
-                <div id="addService" class="modal">
-                  <div class="modal-content">
-                    <h5>Add Service</h5>
-                    <div class="container-fluid">
-                      <div class="row">
-                        <form (ngSubmit)="addService()">
-                          <div class="col s12 m12 l12">
-                            <div class="row">
-                              <div class="col s6 m6 l6">
-                                <div class="input-field row">
-                                  <input id="servicename" type="text" class="validate">
-                                  <label for="servicename">Name</label>
-                                </div>
-                              </div>
-                              <div class="col s1 m1 l1">
-          
-                              </div>
-                              <div class="col s2 m2 l2">
-                                <div class="input-field row">
-                                  <input id="servicequantity" type="text" class="validate">
-                                  <label for="servicequantity">Quantity</label>
-                                </div>
-                              </div>
-                              <div class="col s1 m1 l1">
-          
-                              </div>
-                              <div class="col s2 m2 l2">
-                                <div class="input-field row">
-                                  <input id="serviceprice" type="text" class="validate">
-                                  <label for="serviceprice">Price</label>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="row">
-                              <div class="col s6 m6 l6">
-                                <div class="input-field row">
-                                  <select>
-                                    <option value="" *ngFor="let x of serviceCategories">{{x.serviceCategoryName}}</option>
-                                  </select>
-                                  <label>Service Category</label>
-                                </div>
-                              </div>
-                              <div class="col s1 m1 l1">
-          
-                              </div>
-                              <div class="col s5 m5 l5">
-                                <div class="file-field input-field row">
-                                  <div class="btn">
-                                    <span>Photos</span>
-                                    <input type="file" (change)="onFileChanged($event)">
-                                  </div>
-                                  <div class="file-path-wrapper">
-                                    <input class="file-path validate" type="text">
-                                  </div>
-                                </div>
-                              </div>
-          
-                            </div>
-          
-                            <div class="input-field row">
-                              <input id="servicedesc" type="text" class="validate">
-                              <label for="servicedesc">Description</label>
-                            </div>
-          
-                            <div class="row">
-                              <button type="submit" class="btn waves-effect waves-light">Add Service</button>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
+                <form (ngSubmit)="changeEmail()" class="col s12">
+                  <div class="row">
+                    <div class="col s12 m6 l6">
+                      <mat-form-field>
+                        <input matInput placeholder="Input" [(ngModel)]="emailId" [ngModelOptions]="{standalone:true}" type="text">
+                      </mat-form-field>
                     </div>
-          
-                  </div>
-                  <!-- <div class="modal-footer"> -->
-                  <!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a> -->
-                  <!-- </div> -->
-                </div>
-                <div class="col s12 m3 l3 center-align">
-                  <a class="waves-effect waves-light btn-large btn modal-trigger" data-target="wishlist">My Wishlist</a>
-                </div>
-                <!-- Wishlist Modal Structure -->
-                <div id="wishlist" class="modal modal-fixed-footer">
-                  <div class="modal-content">
-                    <h4>Wishlist</h4>
-                    <ul class="collapsible">
-                      <li *ngFor="let x of wishlist" (click)="getWishlistItems(x.wishlistId)">
-                        <div class="collapsible-header">{{x.wishlistName}}</div>
-                        <div class="collapsible-body">
-                          <li *ngFor="let x of wishlistitems">
-                            {{x.serviceName}}
-                          </li>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="modal-footer">
-                    <!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a> -->
-                  </div>
-                </div>
-                <div class="col s12 m3 l3 center-align">
-                  <a class="waves-effect waves-light btn-large btn modal-trigger" data-target="hiddenService">Hidden Services</a>
-                </div>
-                <!-- Hidden Service Modal Structure -->
-                <div id="hiddenService" class="modal modal-fixed-footer">
-                  <div class="modal-content">
-                    <h4>Hidden Service</h4>
-                    <ul class="collection">
-                      <li *ngFor="let x of hiddenServices" class="collection-item">
-                        {{x.serviceName}}
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="modal-footer">
-                    <!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a> -->
-                  </div>
-                </div>
-              </div>
-              <div *ngIf="!isAdmin" class="row valign-wrapper">
-                <div class="col s6 m6 l6">
-                  <div class="row">
-                    <div class="col s8 m8 l8">
-                      <span class="bold-text">Address:</span> {{address}}</div>
-                    <div class="col s4 m4 l4">
-                      <span class="bold-text">Zipcode:</span> {{zipcode}}</div>
-                  </div>
-                  <div class="row">
-                    <div class="col s4 m4 l4">
-                      <span class="bold-text">City:</span> {{city}}</div>
-                    <div class="col s4 m4 l4">
-                      <span class="bold-text">State:</span> {{state}}</div>
-                    <div class="col s4 m4 l4">
-                      <span class="bold-text">Country:</span> {{country}}</div>
-                  </div>
-                  <div class="row">
-                    <div class="col s6 m6 l6">
-                      <span class="bold-text">Phone-No:</span> {{phoneNo}}</div>
-                    <div class="col s6 m6 l6">
-                      <span class="bold-text">Email-Id:</span> {{emailId}}</div>
-                  </div>
-                </div>
-                <div class="col s6">
-                  <ul class="collapsible">
-                    <li>
-                      <div class="collapsible-header">Change Email Address</div>
-                      <div class="collapsible-body">
-                        <div class="row">
-                          <form (ngSubmit)="changeEmail()" class="col s12">
-                            <div class="row">
-                              <div class="input-field col s12 m6 l6">
-                                <input id="emailId" [(ngModel)]="emailId" [ngModelOptions]="{standalone:true}" type="text" class="validate">
-                                <label for="emailId">Email-Id</label>
-                              </div>
-                              <div class="input-field col s12 m6 l6">
-                                <button type="submit" class="waves-effect waves-light btn">Change Email</button>
-                              </div>
-                            </div>
-                          </form>
-                          <div *ngIf="emailIdChangedMessage" class="green-text center-align">{{emailIdChangedMessage}}</div>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="collapsible-header">Change Phone Number</div>
-                      <div class="collapsible-body">
-                        <div class="row">
-                          <form (ngSubmit)="changePhoneNo()" class="col s12">
-                            <div class="row">
-                              <div class="input-field col s12 m6 l6">
-                                <input id="phoneNo" [(ngModel)]="phoneNo" [ngModelOptions]="{standalone: true}" type="text" class="validate">
-                                <label for="phoneNo">Phone-No</label>
-                              </div>
-                              <div class="input-field col s12 m6 l6">
-                                <button type="submit" class="waves-effect waves-light btn">Change Phone-No</button>
-                              </div>
-                            </div>
-                          </form>
-                          <div *ngIf="phoneNoChangedMessage" class="green-text center-align">{{phoneNoChangedMessage}}</div>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="collapsible-header">Change Address</div>
-                      <div class="collapsible-body">
-                        <div class="row">
-                          <form (ngSubmit)="changeAddress()" class="col s12">
-                            <div class="row">
-                              <div class="input-field col s12 m9 l9">
-                                <input id="address" [(ngModel)]="address" [ngModelOptions]="{standalone:true}" type="text" class="validate">
-                                <label for="address">Address</label>
-                              </div>
-                              <div class="input-field col s12 m3 l3">
-                                <input id="zipcode" [(ngModel)]="zipcode" [ngModelOptions]="{standalone:true}" type="text" class="validate">
-                                <label for="zipcode">Zipcode</label>
-                              </div>
-                            </div>
-                            <div class="row">
-                              <div class="input-field col s12 m4 l4">
-                                <input id="city" [(ngModel)]="city" [ngModelOptions]="{standalone:true}" type="text" class="validate">
-                                <label for="city">City</label>
-                              </div>
-                              <div class="input-field col s12 m4 l4">
-                                <input id="state" [(ngModel)]="state" [ngModelOptions]="{standalone:true}" type="text" class="validate">
-                                <label for="state">State</label>
-                              </div>
-                              <div class="input-field col s12 m4 l4">
-                                <input id="country" [(ngModel)]="country" [ngModelOptions]="{standalone:true}" type="text" class="validate">
-                                <label for="country">Country</label>
-                              </div>
-                            </div>
-                            <div class="row">
-                              <!-- <div class="input-field col m3 l3"></div> -->
-                              <div class="input-field col s12 m12 l12 center-align">
-                                <button type="submit" class="waves-effect waves-light btn">Change Address</button>
-                              </div>
-                            </div>
-                          </form>
-                          <div *ngIf="addressChangedMessage" class="green-text center-align">{{addressChangedMessage}}</div>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div *ngIf="isAdmin" class="row valign-wrapper">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Fullname</th>
-                      <th>Email-Id</th>
-                      <th>User Status</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let x of usersAll">
-                      <td>{{x.fullName}}</td>
-                      <td>{{x.emailId}}</td>
-                      <td>
-                        <span *ngIf="x.isActive == 0">
-                          Not Active
-                        </span>
-                        <span *ngIf="x.isActive == 1">
-                          Active
-                        </span>
-                      </td>
-                      <td>
-                        <button class="waves-effect waves-light btn #e53935 red darken-1" (click)="changeUserStatus(x.userId)">Disable User</button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-      </mat-tab>
-      <mat-tab label="Search">
-          <nav class=" #006064 cyan darken-4" style="z-index: inherit -2;">
-              <div class="nav-wrapper">
-                <form (ngSubmit)="searchService(searchInput)">
-                  <div class="input-field">
-                    <input [(ngModel)]="searchInput" [ngModelOptions]="{standalone:true}" id="search" type="search" required placeholder=" Search ">
-                    <label class="label-icon" for="search">
-                      <i class="material-icons">search</i>
-                    </label>
-                    <i class="material-icons">close</i>
+                    <div class="input-field col s12 m6 l6">
+                      <button type="submit" mat-raised-button color="primary">Change</button>
+                    </div>
+
                   </div>
                 </form>
+                <div *ngIf="emailIdChangedMessage" class="green-text center-align">{{emailIdChangedMessage}}</div>
               </div>
-            </nav>
-            <div class="container demo-tab-content">
-              <div class="row">
-                <div class="col s6 m6 l6">
-                  <form (ngSubmit)="searchByCategory()">
-                    <div class="input-field row">
-                      <select [(ngModel)]="selectedCategories" [ngModelOptions]="{standalone: true}" multiple>
-                        <option value="" disabled selected>Choose your option</option>
-                        <option *ngFor="let x of serviceCategories" [ngValue]="x.serviceCategoryName">{{x.serviceCategoryName}}</option>
-                      </select>
-                      <label>
-                        <h6>Search by Category</h6>
-                      </label>
-          
-                    </div>
-                  </form>
-                </div>
-              </div>
-              <div class="row">
-                <ul *ngIf="pager.pages && pager.pages.length" class="pagination center-align">
-                  <li [ngClass]="{disabled:pager.currentPage === 1}" class="waves-effect">
-                    <a (click)="setPage(pager.currentPage - 1)">
-                      <i class="material-icons">chevron_left</i>
-                    </a>
-                  </li>
-                  <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page, '#006064 cyan darken-2':pager.currentPage === page}">
-                    <a (click)="setPage(page)"> {{page}} </a>
-                  </li>
-                  <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="waves-effect">
-                    <a (click)="setPage(pager.currentPage + 1)">
-                      <i class="material-icons">chevron_right</i>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div class="row">
-                <div class="col s6 m3" *ngFor="let service of pagedItems">
-                  <div class="card small blue-grey darken-1">
-                    <div class="card-content white-text">
-                      <span class="card-title">{{service.serviceName}}</span>
-                      <p>{{service.serviceDescription}}</p>
-                    </div>
-                    <div class="card-action">
-                      <button class="btn waves-effect waves-light" (click)="openService(service.serviceId)">See More
-                        <i class="material-icons right">send</i>
-                      </button>
-                    </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Change Phone
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <form (ngSubmit)="changePhoneNo()">
+                <div class="row">
+                  <div class="col-sm-12 col-md-6 col-lg-6">
+                    <mat-form-field>
+                      <input type="text" matInput placeholder="Phone-No" [(ngModel)]="phoneNo" [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-sm-12 col-md-6 col-lg-6">
+                    <button type="submit" mat-raised-button color="primary">Change</button>
                   </div>
                 </div>
+              </form>
+              <div *ngIf="phoneNoChangedMessage" class="green-text center-align">{{phoneNoChangedMessage}}</div>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Change Address
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="row">
+                <form (ngSubmit)="changeAddress()" class="col s12">
+                  <div class="row">
+                    <div class="input-field col s12 m9 l9">
+                      <input id="address" [(ngModel)]="address" [ngModelOptions]="{standalone:true}" type="text" class="validate">
+                      <label for="address">Address</label>
+                    </div>
+                    <div class="input-field col s12 m3 l3">
+                      <input id="zipcode" [(ngModel)]="zipcode" [ngModelOptions]="{standalone:true}" type="text" class="validate">
+                      <label for="zipcode">Zipcode</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s12 m4 l4">
+                      <input id="city" [(ngModel)]="city" [ngModelOptions]="{standalone:true}" type="text" class="validate">
+                      <label for="city">City</label>
+                    </div>
+                    <div class="input-field col s12 m4 l4">
+                      <input id="state" [(ngModel)]="state" [ngModelOptions]="{standalone:true}" type="text" class="validate">
+                      <label for="state">State</label>
+                    </div>
+                    <div class="input-field col s12 m4 l4">
+                      <input id="country" [(ngModel)]="country" [ngModelOptions]="{standalone:true}" type="text" class="validate">
+                      <label for="country">Country</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <!-- <div class="input-field col m3 l3"></div> -->
+                    <div class="input-field col s12 m12 l12 center-align">
+                      <button type="submit" class="waves-effect waves-light btn">Change Address</button>
+                    </div>
+                  </div>
+                </form>
+                <div *ngIf="addressChangedMessage" class="green-text center-align">{{addressChangedMessage}}</div>
               </div>
-              <!-- <ul *ngIf="pager.pages && pager.pages.length" class="pagination center-align ">
+            </mat-expansion-panel>
+          </mat-accordion>
+          <!-- <ul class="collapsible">
+            <li>
+              <div class="collapsible-header">Change Email Address</div>
+              <div class="collapsible-body">
+                <div class="row">
+                  <form (ngSubmit)="changeEmail()" class="col s12">
+                    <div class="row">
+                      <div class="input-field col s12 m6 l6">
+                        <input id="emailId" [(ngModel)]="emailId" [ngModelOptions]="{standalone:true}" type="text" class="validate">
+                        <label for="emailId">Email-Id</label>
+                      </div>
+                      <div class="input-field col s12 m6 l6">
+                        <button type="submit" class="waves-effect waves-light btn">Change Email</button>
+                      </div>
+                    </div>
+                  </form>
+                  <div *ngIf="emailIdChangedMessage" class="green-text center-align">{{emailIdChangedMessage}}</div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header">Change Phone Number</div>
+              <div class="collapsible-body">
+                <div class="row">
+                  <form (ngSubmit)="changePhoneNo()" class="col s12">
+                    <div class="row">
+                      <div class="input-field col s12 m6 l6">
+                        <input id="phoneNo" [(ngModel)]="phoneNo" [ngModelOptions]="{standalone: true}" type="text" class="validate">
+                        <label for="phoneNo">Phone-No</label>
+                      </div>
+                      <div class="input-field col s12 m6 l6">
+                        <button type="submit" class="waves-effect waves-light btn">Change Phone-No</button>
+                      </div>
+                    </div>
+                  </form>
+                  <div *ngIf="phoneNoChangedMessage" class="green-text center-align">{{phoneNoChangedMessage}}</div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header">Change Address</div>
+              <div class="collapsible-body">
+                <div class="row">
+                  <form (ngSubmit)="changeAddress()" class="col s12">
+                    <div class="row">
+                      <div class="input-field col s12 m9 l9">
+                        <input id="address" [(ngModel)]="address" [ngModelOptions]="{standalone:true}" type="text" class="validate">
+                        <label for="address">Address</label>
+                      </div>
+                      <div class="input-field col s12 m3 l3">
+                        <input id="zipcode" [(ngModel)]="zipcode" [ngModelOptions]="{standalone:true}" type="text" class="validate">
+                        <label for="zipcode">Zipcode</label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="input-field col s12 m4 l4">
+                        <input id="city" [(ngModel)]="city" [ngModelOptions]="{standalone:true}" type="text" class="validate">
+                        <label for="city">City</label>
+                      </div>
+                      <div class="input-field col s12 m4 l4">
+                        <input id="state" [(ngModel)]="state" [ngModelOptions]="{standalone:true}" type="text" class="validate">
+                        <label for="state">State</label>
+                      </div>
+                      <div class="input-field col s12 m4 l4">
+                        <input id="country" [(ngModel)]="country" [ngModelOptions]="{standalone:true}" type="text" class="validate">
+                        <label for="country">Country</label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <!-- <div class="input-field col m3 l3"></div> -->
+          <!--<div class="input-field col s12 m12 l12 center-align">
+                        <button type="submit" class="waves-effect waves-light btn">Change Address</button>
+                      </div>
+                    </div>
+                  </form>
+                  <div *ngIf="addressChangedMessage" class="green-text center-align">{{addressChangedMessage}}</div>
+                </div>
+              </div>
+            </li>
+          </ul> -->
+        </div>
+      </div>
+      <div *ngIf="isAdmin" class="row">
+        <table>
+          <thead>
+            <tr>
+              <th>Fullname</th>
+              <th>Email-Id</th>
+              <th>User Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let x of usersAll">
+              <td>{{x.fullName}}</td>
+              <td>{{x.emailId}}</td>
+              <td>
+                <span *ngIf="x.isActive == 0">
+                  Not Active
+                </span>
+                <span *ngIf="x.isActive == 1">
+                  Active
+                </span>
+              </td>
+              <td>
+                <button class="waves-effect waves-light btn #e53935 red darken-1" (click)="changeUserStatus(x.userId)">Disable User</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="Search">
+    <div class="container demo-tab-content">
+      <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-6">
+          <form (ngSubmit)="searchService(searchInput)">
+            <div class="row">
+              <div class="col-sm-6 col-md-6 col-lg-6">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Search" [(ngModel)]="searchInput" [ngModelOptions]="{standalone:true}">
+                </mat-form-field>
+              </div>
+              <div class="col-sm-6 col-md-6 col-lg-6" style="padding-top: 5%">
+                <button mat-raised-button type="submit" color="primary">Search</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6">
+          <form (ngSubmit)="searchByCategory()">
+            <div class="row">
+              <div class="col-sm-6 col-md-6 col-lg-6">
+                <mat-form-field>
+                  <mat-select placeholder="Search by Category" [(ngModel)]="selectedCategories" [ngModelOptions]="{standalone: true}" multiple>
+                    <mat-option *ngFor="let x of serviceCategories" [value]="x">{{x.serviceCategoryName}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 col-lg-3"></div>
+        <div class="col-sm-12 col-md-3 col-lg-3">
+          <ul *ngIf="pager.pages && pager.pages.length" class="pagination text-center">
+            <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item">
+              <a (click)="setPage(pager.currentPage - 1)" class="page-link">Previous</a>
+            </li>
+            <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page, 'page-item':pager.currentPage === page}">
+              <a (click)="setPage(page)" class="page-link"> {{page}} </a>
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="page-item">
+              <a (click)="setPage(pager.currentPage + 1)" class="page-link">Next</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 col-md-3 col-lg-3" *ngFor="let service of pagedItems">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title class="text-center bold-text">{{(service.serviceName | slice: 0: 24)+"..."}}</mat-card-title>
+            </mat-card-header>
+            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+            <mat-card-content>
+              <mat-card-subtitle> {{(service.serviceDescription | slice: 0:30) + "..."}}</mat-card-subtitle>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-raised-button (click)="openService(service.serviceId)" color="primary">See More</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+      <!-- <ul *ngIf="pager.pages && pager.pages.length" class="pagination center-align ">
                     <li [ngClass]="{disabled:pager.currentPage === 1}">
                         <a (click)="setPage(1)">First</a>
                     </li>
@@ -392,26 +340,146 @@
                         <a (click)="setPage(pager.totalPages)">Last</a>
                     </li>
                 </ul> -->
-              <div class="row">
-                <ul *ngIf="pager.pages && pager.pages.length" class="pagination center-align">
-                  <li [ngClass]="{disabled:pager.currentPage === 1}" class="waves-effect">
-                    <a (click)="setPage(pager.currentPage - 1)">
-                      <i class="material-icons">chevron_left</i>
-                    </a>
-                  </li>
-                  <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page, '#006064 cyan darken-2':pager.currentPage === page} ">
-                    <a (click)="setPage(page)"> {{page}} </a>
-                    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="waves-effect">
-                      <a (click)="setPage(pager.currentPage + 1)">
-                        <i class="material-icons">chevron_right</i>
-                      </a>
-                    </li>
-                </ul>
+      <div class="row" style="margin-top:20px">
+        <div class="col-md-3 col-lg-3"></div>
+        <div class="col-sm-12 col-md-3 col-lg-3">
+          <ul *ngIf="pager.pages && pager.pages.length" class="pagination text-center">
+            <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item">
+              <a (click)="setPage(pager.currentPage - 1)" class="page-link">Previous</a>
+            </li>
+            <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page, 'page-item':pager.currentPage === page}">
+              <a (click)="setPage(page)" class="page-link"> {{page}} </a>
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="page-item">
+              <a (click)="setPage(pager.currentPage + 1)" class="page-link">Next</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="My Posts" *ngIf="!isAdmin">
+    <div class="container">
+      <h5>My Posts</h5>
+      <div class="row">
+        <div class="col-sm-6 col-md-3 col-lg-3" *ngFor="let x of userServices">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title class="text-center bold-text">{{(x.serviceName | slice:0:24)+"..."}}</mat-card-title>
+            </mat-card-header>
+            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+            <mat-card-content>
+              <mat-card-subtitle> {{(x.serviceDescription | slice: 0:30) + "..."}}</mat-card-subtitle>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-raised-button (click)="openService(x.serviceId)" color="primary">See More</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="Add a service" *ngIf="!isAdmin">
+    <form (ngSubmit)="addService()">
+      <div class="col s12 m12 l12">
+        <div class="row">
+          <div class="col s6 m6 l6">
+            <div class="input-field row">
+              <input id="servicename" type="text" class="validate">
+              <label for="servicename">Name</label>
+            </div>
+          </div>
+          <div class="col s1 m1 l1">
+
+          </div>
+          <div class="col s2 m2 l2">
+            <div class="input-field row">
+              <input id="servicequantity" type="text" class="validate">
+              <label for="servicequantity">Quantity</label>
+            </div>
+          </div>
+          <div class="col s1 m1 l1">
+
+          </div>
+          <div class="col s2 m2 l2">
+            <div class="input-field row">
+              <input id="serviceprice" type="text" class="validate">
+              <label for="serviceprice">Price</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s6 m6 l6">
+            <div class="input-field row">
+              <select>
+                <option value="" *ngFor="let x of serviceCategories">{{x.serviceCategoryName}}</option>
+              </select>
+              <label>Service Category</label>
+            </div>
+          </div>
+          <div class="col s1 m1 l1">
+
+          </div>
+          <div class="col s5 m5 l5">
+            <div class="file-field input-field row">
+              <div class="btn">
+                <span>Photos</span>
+                <input type="file" (change)="onFileChanged($event)">
+              </div>
+              <div class="file-path-wrapper">
+                <input class="file-path validate" type="text">
               </div>
             </div>
-      </mat-tab>
-    </mat-tab-group>
-    
+          </div>
+
+        </div>
+
+        <div class="input-field row">
+          <input id="servicedesc" type="text" class="validate">
+          <label for="servicedesc">Description</label>
+        </div>
+
+        <div class="row">
+          <button type="submit" class="btn waves-effect waves-light">Add Service</button>
+        </div>
+      </div>
+    </form>
+  </mat-tab>
+  <mat-tab label="Wishlist" *ngIf="!isAdmin">
+    <ul>
+      <li *ngFor="let x of wishlist" (click)="getWishlistItems(x.wishlistId)">
+        <div>{{x.wishlistName}}</div>
+        <div>
+          <li *ngFor="let x of wishlistitems">
+            {{x.serviceName}}
+          </li>
+        </div>
+      </li>
+    </ul>
+  </mat-tab>
+  <mat-tab label="Hidden Service" *ngIf="!isAdmin">
+    <div class="container">
+        <h4>Hidden Service</h4>
+      <div class="row">
+          <div class="col-sm-6 col-md-3 col-lg-3" *ngFor="let x of hiddenServices">
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title class="text-center bold-text">{{(x.serviceName | slice:0:24)+"..."}}</mat-card-title>
+              </mat-card-header>
+              <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+              <mat-card-content>
+                <mat-card-subtitle> {{(x.serviceDescription | slice: 0:30) + "..."}}</mat-card-subtitle>
+              </mat-card-content>
+              <mat-card-actions>
+                <button mat-raised-button (click)="openService(x.serviceId)" color="primary">See More</button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>
+
 
 <!-- <div id="Home" class="col s12">
   <div class="container">
@@ -431,8 +499,8 @@
       <div class="col s12 m3 l3 center-align">
         <button class="waves-effect waves-light btn-large btn modal-trigger" data-target="myPosts" (click)="getServicesByUser()">My Posts</button>
       </div> -->
-      <!-- My Posts Modal Structure -->
-      <!-- <div id="myPosts" class="modal modal-fixed-footer">
+<!-- My Posts Modal Structure -->
+<!-- <div id="myPosts" class="modal modal-fixed-footer">
         <div class="modal-content">
           <h5>My Posts</h5>
           <ul class="collection">
@@ -442,14 +510,14 @@
           </ul>
         </div>
         <div class="modal-footer"> -->
-          <!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a> -->
-        <!-- </div>
+<!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a> -->
+<!-- </div>
       </div>
       <div class="col s12 m3 l3 center-align">
         <a class="waves-effect waves-light btn-large btn modal-trigger" data-target="addService">Add a Service</a>
       </div> -->
-      <!-- Add Service Modal Structure -->
-      <!-- <div id="addService" class="modal">
+<!-- Add Service Modal Structure -->
+<!-- <div id="addService" class="modal">
         <div class="modal-content">
           <h5>Add Service</h5>
           <div class="container-fluid">
@@ -522,15 +590,15 @@
           </div>
 
         </div> -->
-        <!-- <div class="modal-footer"> -->
-        <!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a> -->
-        <!-- </div> -->
-      <!-- </div>
+<!-- <div class="modal-footer"> -->
+<!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a> -->
+<!-- </div> -->
+<!-- </div>
       <div class="col s12 m3 l3 center-align">
         <a class="waves-effect waves-light btn-large btn modal-trigger" data-target="wishlist">My Wishlist</a>
       </div> -->
-      <!-- Wishlist Modal Structure -->
-      <!-- <div id="wishlist" class="modal modal-fixed-footer">
+<!-- Wishlist Modal Structure -->
+<!-- <div id="wishlist" class="modal modal-fixed-footer">
         <div class="modal-content">
           <h4>Wishlist</h4>
           <ul class="collapsible">
@@ -545,14 +613,14 @@
           </ul>
         </div>
         <div class="modal-footer"> -->
-          <!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a> -->
-        <!-- </div>
+<!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a> -->
+<!-- </div>
       </div>
       <div class="col s12 m3 l3 center-align">
         <a class="waves-effect waves-light btn-large btn modal-trigger" data-target="hiddenService">Hidden Services</a>
       </div> -->
-      <!-- Hidden Service Modal Structure -->
-      <!-- <div id="hiddenService" class="modal modal-fixed-footer">
+<!-- Hidden Service Modal Structure -->
+<!-- <div id="hiddenService" class="modal modal-fixed-footer">
         <div class="modal-content">
           <h4>Hidden Service</h4>
           <ul class="collection">
@@ -562,8 +630,8 @@
           </ul>
         </div>
         <div class="modal-footer"> -->
-          <!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a> -->
-        <!-- </div>
+<!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a> -->
+<!-- </div>
       </div>
     </div>
     <div *ngIf="!isAdmin" class="row valign-wrapper">
@@ -659,8 +727,8 @@
                     </div>
                   </div>
                   <div class="row"> -->
-                    <!-- <div class="input-field col m3 l3"></div> -->
-                    <!-- <div class="input-field col s12 m12 l12 center-align">
+<!-- <div class="input-field col m3 l3"></div> -->
+<!-- <div class="input-field col s12 m12 l12 center-align">
                       <button type="submit" class="waves-effect waves-light btn">Change Address</button>
                     </div>
                   </div>
@@ -768,7 +836,7 @@
         </div>
       </div>
     </div> -->
-    <!-- <ul *ngIf="pager.pages && pager.pages.length" class="pagination center-align ">
+<!-- <ul *ngIf="pager.pages && pager.pages.length" class="pagination center-align ">
           <li [ngClass]="{disabled:pager.currentPage === 1}">
               <a (click)="setPage(1)">First</a>
           </li>
@@ -785,7 +853,7 @@
               <a (click)="setPage(pager.totalPages)">Last</a>
           </li>
       </ul> -->
-    <!-- <div class="row">
+<!-- <div class="row">
       <ul *ngIf="pager.pages && pager.pages.length" class="pagination center-align">
         <li [ngClass]="{disabled:pager.currentPage === 1}" class="waves-effect">
           <a (click)="setPage(pager.currentPage - 1)">
@@ -806,7 +874,7 @@
 </div> -->
 
 <mat-toolbar color="primary">
-    <mat-toolbar-row>
-      <span class="roboto-condensed">© 2018 Copyright Omkar Dixit Tushar Chemburkar</span>
-    </mat-toolbar-row>
+  <mat-toolbar-row>
+    <span class="roboto-condensed">© 2018 Copyright Omkar Dixit Tushar Chemburkar</span>
+  </mat-toolbar-row>
 </mat-toolbar>

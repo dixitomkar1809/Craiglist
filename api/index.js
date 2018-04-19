@@ -3,6 +3,7 @@ var express = require('express');
 var multer = require('multer');
 var upload = multer({dest: 'D:/Projects/Craiglist/CraiglistFrontEnd/src/assets/uploads/'});
 var app = express();
+var bodyParser = require('body-parser')
 var router = express.Router();
 var connection = mysql.createConnection({
     host: 'localhost',
@@ -12,13 +13,19 @@ var connection = mysql.createConnection({
 });
 connection.connect();
 
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
 
+// parse application/json
+app.use(bodyParser.json())
 
 app.use(function(request, result, next) {
     result.header("Access-Control-Allow-Origin", "*");
+    result.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     result.header("Access-Control-Allow-Headers", "Origin, X-requestuested-With, Content-Type, Accept");
     next();
 });
+
 
 app.listen(3000, () => {
     console.log(`https://localhost:3000`);
@@ -330,6 +337,13 @@ app.get('/api/users/findUser/:emailId', (request, result) => {
             }
         }
     });
+});
+
+// add Service
+app.post('/api/service/addService', (request, result) => {
+    console.log(request.body);
+    console.log(request.params);
+    result.send("from nodejs");
 });
 
 // var storage = multer.diskStorage({

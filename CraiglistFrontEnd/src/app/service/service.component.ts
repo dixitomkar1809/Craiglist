@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { Router } from '@angular/router';
+import { print } from 'util';
 
 @Component({
   selector: 'app-service',
@@ -58,6 +59,12 @@ export class ServiceComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  goBack(){
+    console.log(sessionStorage.getItem(''));
+    sessionStorage.removeItem('service');
+    console.log(sessionStorage.getItem(''));
   }
 
   getUserDetails(value){

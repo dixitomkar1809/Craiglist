@@ -53,25 +53,38 @@
 
   </div>
 </div> -->
-
-<nav class="nav-extended #006064 cyan darken-4">
-  <div class="nav-wrapper">
-    &nbsp;
-    <a href="#" class="brand-logo">
-      <img src="assets\images\logo2.png" height="30" width="30" style="display:inline">raiglist</a>
-  </div>
-</nav>
-<div class="container">
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span class="brand-logo">
+        <img src="assets\images\logo2.png" height="30" width="30" style="display:inline">raiglist</span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+<div class="container" style="margin-top: 20px">
   <div class="row">
-    <div class="col s3 m3 l3">
-
+    <div class="col-sm-12 col-md-12 col-lg-12">
+      <button mat-raised-button color="primary" (click)="goBack()">Go Back</button>
     </div>
-    <div class="col s9 m9 l9">
+  </div>
+  <div class="row" style="margin-top: 20px">
+    <div class="col-sm-3 col-md-3 col-lg-3">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAANlBMVEXMzMzPz8+RkZHLy8uTk5OWlpbDw8PIyMidnZ3GxsbBwcG1tbWYmJi6urqioqKwsLCoqKixsbFgFY5SAAADNUlEQVR4nO3XyZbjKgyAYTNjzJT3f9kWOHFcU/reRaW9+L9Fyqkj5yALBF4WAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL9KiZeXL+5TX4P/et/blW5dTWZcri3b7ud/TYu6phe3qdSzjZv5HFyizcX87pD/n5J1jNaVcR11jjrO4TXt5NuLFNdsc3S6fQouzkbntt8f93+mst3WtegaFlV092u3m8yylGsKm60/TjjVpdpryiOvU3CoNq3JxvWdObzmZxVUc34JMQaZcVU+TddejdocI70vriPjNY5aqyLP4xQsD0mez/55Fftg1CaDTLmPy5aLCtWNy+Ju95GGdpPsF397zL89eFnl9lOwVHYs4zX/XPy3C2mMXPXsVcnzyScpyxr38e9/hjiLU4/iBD/KO2t4ClZjAsg86O46GQ4+NduNjHb2ilEWn9sYYnhmmJw1Y6Geu+SatlzX5RSsct8ztJfKUGlro5eZOmfYYnRTfrabxcT6CDLNNlNlAp/uq3JjUsspWLl+78TvTeEvRob5ZmQthv1rk/4zdw+ZdEfNUo7d9Q/3RblRapaewWrfPdRt/6nLUGZzsg6fNVy+1nCU2LqP41aqRLepb2t4qT1/GZ1GJ0lhrsMw1uHeREM890Rn++fVJSuznYNlHY7UZEpfZx2WMutSdJF2P2fb971UTmmyWp/j9tvcKoMU/EMvrePnwoV6qepuP2yd9kM39sM8hlhcO0YaYo72dty37ftGmPvhESw/N/fDGK+T4TYX0eNMM6ZYlb4qx5RRi6afB9PN9ZKjf3y9P477meYRLImXcaax7TIZyu4XvZJmMWZXk+HKXB0NUz7lvzkfcSHKoaw/iyglLWqUL30I9jnK+S66V28lbybnLBfHC8946FnnqveG2eflsf2ppqVmwR5vG1InG6vdi3UKlo5bnW3/IJMfhRZlrLPHLEkGV/esQpe3qu3o+avOfub5bK5blBelPZVTcJBXzNyutRua1fvHK0TwPhyX6fQKFJI3889p+q0SYb4EG+/91TZDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfOsP4lsa8TKp1xgAAAAASUVORK5CYII=" alt="" class="img-thumbnail">
+    </div>
+    <div class="col-sm-9 col-md-9 col-lg-9">
       <h3>{{serviceName}}</h3>
       <h5>Price: {{servicePrice}}$</h5>
       <p>Description:</p>
-      <p>{{serviceDesc}}</p>
-      <button (click)="getUserDetails(serviceUserId)">Contact</button>
+      <p>{{serviceDesc}}Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce luctus est eget nisl sollicitudin aliquam. In pharetra pulvinar varius. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus iaculis gravida sem, quis ornare quam condimentum et. Curabitur fringilla augue sed felis malesuada, a consectetur nisi vestibulum. Vestibulum id nunc eget purus efficitur pretium sed eu erat. Integer placerat mauris dolor, vitae gravida ex sagittis id. Nam ut odio sit amet odio elementum tincidunt. </p>
+      <button mat-raised-button color="primary" (click)="getUserDetails(serviceUserId)">Contact</button>
+      <button mat-raised-button color="primary" >Update Service</button>
+      <button mat-raised-button color="primary" >Hide Service</button>
+      <button mat-raised-button color="primary" >Add to Wishlist</button>
+      <button mat-raised-button color="warn" >Delete</button>
     </div>
   </div>
 </div>
+
+<mat-toolbar color="primary" style="margin-top: 20px">
+    <mat-toolbar-row>
+      <span class="roboto-condensed">© 2018 Copyright Omkar Dixit Tushar Chemburkar</span>
+    </mat-toolbar-row>
+  </mat-toolbar>

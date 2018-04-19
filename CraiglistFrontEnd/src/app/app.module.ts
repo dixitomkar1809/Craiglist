@@ -20,6 +20,8 @@ import {MatCardModule, MatCard} from '@angular/material/card';
 import {MatTabsModule} from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonModule} from '@angular/material/button';
+import {MatSelectModule} from '@angular/material/select';
+import {MatDialogModule} from '@angular/material/dialog';
 
 const appRoutes: Routes = [
   { path: '', component: IndexComponent },
@@ -49,7 +51,9 @@ const appRoutes: Routes = [
     MatCardModule,
     MatTabsModule,
     BrowserAnimationsModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSelectModule,
+    MatDialogModule
   ],
   providers: [
     PagerService,

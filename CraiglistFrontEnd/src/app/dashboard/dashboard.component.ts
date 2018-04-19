@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { HttpClient, HttpEventType } from '@angular/common/http';
+import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { PagerService } from "../_services/index";
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
-
+import { Headers, Http, RequestOptions, Response } from '@angular/http'
 import { HttpResponse } from 'selenium-webdriver/http';
 
 @Component({
@@ -42,22 +42,11 @@ export class DashboardComponent implements OnInit {
   public usersAll: any[];
   userPager: any = {};
   userPagedItems: any[];
-  public searchInput:string;
-  public selectedCategories:any;
+  public searchInput: string;
+  public selectedCategories: any;
   panelOpenState: boolean = false;
-
-
-  public loadScript() {
-    let body = <HTMLDivElement>document.body;
-    let script = document.createElement('script');
-    script.innerHTML = '';
-    script.src = 'url';
-    script.async = true;
-    script.defer = true;
-    body.appendChild(script);
-  }
-
   public selectedFile = null;
+  public postHeaders;
 
   constructor(private httpClient: HttpClient, private pagerService: PagerService, private router: Router, private location: Location) {
     this.searchString = "";
@@ -140,12 +129,21 @@ export class DashboardComponent implements OnInit {
       this.httpClient.get("http://localhost:3000/api/wishlist/get/" + this.userId)
         .subscribe(
           (data: any[]) => {
-            //console.log(data);
+            console.log(data);
             this.wishlist = data;
           }
         )
     }
+    this.getServicesByUser();
   }
+
+
+  ngOnInit() {
+    this.postHeaders = new HttpHeaders()
+          .set('Authorization', 'my-auth-token')
+          .set('Content-Type', 'application/json');
+  }
+
 
   setPage(page: number) {
     if (page < 1 || page > this.pager.totalPages) {
@@ -159,19 +157,14 @@ export class DashboardComponent implements OnInit {
     this.pagedItems = this.serviceInfo.slice(this.pager.startIndex, this.pager.endIndex + 1);
   }
 
-  setUserPage(page: number){
-    if(page < 1 || page > this.userPager.totalPages){
+  setUserPage(page: number) {
+    if (page < 1 || page > this.userPager.totalPages) {
       return
     }
     this.userPager = this.pagerService.getPager(this.usersAll.length, page);
 
     this.userPagedItems = this.usersAll.slice(this.userPager.startIndex, this.userPager.endIndex + 1);
   }
-
-  ngOnInit() {
-    this.loadScript();
-  }
-
 
   onFileSelected(event) {
     this.selectedFile = event.target.files[0];
@@ -214,24 +207,22 @@ export class DashboardComponent implements OnInit {
   }
 
   getServicesByUser() {
-    console.log("here");
+    // console.log("here");
     return this.httpClient.get('http://localhost:3000/api/service/getByUser/' + this.userId)
       .subscribe(
         (data: any[]) => {
-          console.log(data);
+          // console.log(data);
           this.userServices = data;
         }
       )
   }
 
-
-  //make a call to the api that gives you list of all wishlistitems
   getWishlistItems(wishlistid: number) {
 
     this.httpClient.get("http://localhost:3000/api/wishlistitems/get/" + wishlistid)
       .subscribe(
         (data: any[]) => {
-          //console.log(data);
+          console.log(data);
           this.wishlistitems = data;
         }
       )
@@ -254,8 +245,17 @@ export class DashboardComponent implements OnInit {
   }
 
   addService() {
-    // call the file upload function as well
+    // console.log(JSON.stringify("userId"));
+    this.httpClient.post("http://localhost:3000/api/service/addService", JSON.stringify({ user: "trialUser" }), {
+      headers:this.postHeaders
+    })
+      .subscribe(
+        (data: any[]) => {
+          console.log('from the nodejs', data);
+        }
+      )
   }
+  
   changeEmail() {
     return this.httpClient.get("http://localhost:3000/api/users/changeEmail/" + this.userId + "/" + this.emailId)
       .subscribe(
@@ -290,7 +290,7 @@ export class DashboardComponent implements OnInit {
     //console.log(this.selectedCategories);
   }
 
-  changeUserStatus(value){
+  changeUserStatus(value) {
     console.log(value);
   }
 }
