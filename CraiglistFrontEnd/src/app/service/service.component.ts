@@ -10,11 +10,19 @@ import { Router } from '@angular/router';
 })
 export class ServiceComponent implements OnInit {
 
-  private serviceId: string;
-  private serviceInfo: any[];
-  private serviceImages: any[];
-  private userId: string;
-  private isAdmin: boolean;
+  public serviceId: string;
+  public serviceInfo: any;
+  public serviceImages: any[];
+  public userId: string;
+  public isAdmin: boolean;
+  public serviceName: string;
+  public servicePrice: string;
+  public serviceDesc: string;
+  public serviceUserId: string;
+  public serviceUserName:string;
+  public serviceUserPhone:string;
+  public serviceUserEmail:string;
+
 
   constructor(private httpClient: HttpClient, private router: Router) { 
     if(sessionStorage.length<=1){
@@ -28,12 +36,17 @@ export class ServiceComponent implements OnInit {
   }
 
     this.serviceId = JSON.parse(sessionStorage.getItem('service')).serviceId;
-    console.log(this.serviceId);
+    // console.log(this.serviceId);
     this.httpClient.get('http://localhost:3000/api/service/'+this.serviceId)
     .subscribe(
       (data:any[]) => {
-        console.log(data[0]);
+        // console.log(data);
         this.serviceInfo = data[0];
+        this.serviceName = this.serviceInfo.serviceName;
+        this.servicePrice = this.serviceInfo.servicePrice;
+        this.serviceDesc = this.serviceInfo.serviceDescription;
+        this.serviceUserId = this.serviceInfo.serviceUserId;
+        console.log(this.serviceInfo);
       }
     )
     this.httpClient.get('http://localhost:3000/api/service/getImages/'+this.serviceId)
@@ -47,4 +60,12 @@ export class ServiceComponent implements OnInit {
   ngOnInit() {
   }
 
+  getUserDetails(value){
+    this.httpClient.get("http://localhost:3000/api/users/get/"+this.serviceUserId)
+    .subscribe(
+      (data:any[])=>{
+        console.log(data);
+      }
+    )
+  }
 }

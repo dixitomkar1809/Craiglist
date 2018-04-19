@@ -1,5 +1,5 @@
-   <!-- remove service -->
-<div *ngIf="this.isAdmin" class="col s12 m3 l3 center-align ">
+<!-- remove service -->
+<!-- <div *ngIf="this.isAdmin" class="col s12 m3 l3 center-align ">
   <a class="waves-effect waves-light btn-large btn modal-trigger #e53935 red darken-1" >Delete Service</a>
 </div>
 
@@ -51,5 +51,27 @@
       </div>
     </div>
 
+  </div>
+</div> -->
+
+<nav class="nav-extended #006064 cyan darken-4">
+  <div class="nav-wrapper">
+    &nbsp;
+    <a href="#" class="brand-logo">
+      <img src="assets\images\logo2.png" height="30" width="30" style="display:inline">raiglist</a>
+  </div>
+</nav>
+<div class="container">
+  <div class="row">
+    <div class="col s3 m3 l3">
+
+    </div>
+    <div class="col s9 m9 l9">
+      <h3>{{serviceName}}</h3>
+      <h5>Price: {{servicePrice}}$</h5>
+      <p>Description:</p>
+      <p>{{serviceDesc}}</p>
+      <button (click)="getUserDetails(serviceUserId)">Contact</button>
+    </div>
   </div>
 </div>

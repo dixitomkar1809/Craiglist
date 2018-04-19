@@ -2,7 +2,7 @@ import { Component, OnInit, Inject, Injectable } from '@angular/core';
 import { Md5 } from 'ts-md5/dist/md5';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { Router } from '@angular/router';
-import {LOCAL_STORAGE, WebStorageService} from 'angular-webstorage-service';
+import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { HttpResponse } from 'selenium-webdriver/http';
 
@@ -12,7 +12,7 @@ import { HttpResponse } from 'selenium-webdriver/http';
   styleUrls: ['./index.component.css']
 })
 export class IndexComponent implements OnInit {
-
+  
   registerForm: FormGroup;
   public loginEmailId: string ;
   public loginPassword: string ;
@@ -24,7 +24,7 @@ export class IndexComponent implements OnInit {
   public registerSuccess: string;
   public hashedPassword: any;
   public isAdmin: boolean;
-  
+  panelOpenState: boolean = false;
   // constructor(private httpClient: HttpClient, private router: Router) { 
     
   registrationForm: FormGroup;
@@ -43,6 +43,7 @@ export class IndexComponent implements OnInit {
   }
 
   ngOnInit() {
+    
     this.loginEmailId = "";
     this.loginPassword = "";
     this.registerEmailId = "";

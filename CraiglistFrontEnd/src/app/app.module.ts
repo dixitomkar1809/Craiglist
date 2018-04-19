@@ -10,6 +10,16 @@ import { Md5 } from 'ts-md5/dist/md5';
 import { StorageServiceModule } from 'angular-webstorage-service';
 import { PagerService } from './_services/index';
 import { ServiceComponent } from './service/service.component';
+import { enableProdMode } from '@angular/core';
+import { MatInputModule } from '@angular/material/input';
+import { MatToolbarModule,  } from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatCardModule, MatCard} from '@angular/material/card';
+import {MatTabsModule} from '@angular/material/tabs';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatButtonModule} from '@angular/material/button';
 
 const appRoutes: Routes = [
   { path: '', component: IndexComponent },
@@ -30,7 +40,16 @@ const appRoutes: Routes = [
     HttpClientModule,
     FormsModule,
     StorageServiceModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatToolbarModule,
+    MatInputModule,
+    MatIconModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatCardModule,
+    MatTabsModule,
+    BrowserAnimationsModule,
+    MatButtonModule
   ],
   providers: [
     PagerService,

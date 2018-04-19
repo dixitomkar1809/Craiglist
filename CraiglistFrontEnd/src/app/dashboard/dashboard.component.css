@@ -17,3 +17,19 @@
         flex: 1 0 auto;
       }
           
+      .demo-tab-group {
+        border: 1px solid #e8e8e8;
+      }
+      
+      .demo-tab-content {
+        padding: 16px;
+      }
+
+      .example-container {
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .example-container > * {
+        width: 100%;
+      }
