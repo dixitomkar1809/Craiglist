@@ -23,6 +23,9 @@ export class ServiceComponent implements OnInit {
   public serviceUserName:string;
   public serviceUserPhone:string;
   public serviceUserEmail:string;
+  public isUpdatable: boolean = false;
+  public updatableForm: boolean = false;
+  public serviceCategory: string;
 
 
   constructor(private httpClient: HttpClient, private router: Router) { 
@@ -36,7 +39,7 @@ export class ServiceComponent implements OnInit {
     this.isAdmin=true;
   }
 
-    this.serviceId = JSON.parse(sessionStorage.getItem('service')).serviceId;
+  this.serviceId = JSON.parse(sessionStorage.getItem('service')).serviceId;
     // console.log(this.serviceId);
     this.httpClient.get('http://localhost:3000/api/service/'+this.serviceId)
     .subscribe(
@@ -45,6 +48,7 @@ export class ServiceComponent implements OnInit {
         this.serviceInfo = data[0];
         this.serviceName = this.serviceInfo.serviceName;
         this.servicePrice = this.serviceInfo.servicePrice;
+        this.serviceCategory = this.serviceInfo.serviceCategoryId;
         this.serviceDesc = this.serviceInfo.serviceDescription;
         this.serviceUserId = this.serviceInfo.serviceUserId;
         console.log(this.serviceInfo);
@@ -59,12 +63,22 @@ export class ServiceComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(this.serviceUserId = this.userId) {
+      this.isUpdatable = true;
+    }
   }
 
   goBack(){
     console.log(sessionStorage.getItem(''));
     sessionStorage.removeItem('service');
     console.log(sessionStorage.getItem(''));
+  }
+
+  updateService(){
+    if(!this.updatableForm) {
+      this.updatableForm = true;
+    }
+    
   }
 
   getUserDetails(value){
