@@ -62,9 +62,8 @@ export class ServiceComponent implements OnInit {
   }
 
   goBack(){
-    console.log(sessionStorage.getItem(''));
     sessionStorage.removeItem('service');
-    console.log(sessionStorage.getItem(''));
+    this.router.navigate(['dashboard'])
   }
 
   getUserDetails(value){

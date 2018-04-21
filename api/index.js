@@ -1,7 +1,16 @@
 var mysql = require('mysql');
 var express = require('express');
 var multer = require('multer');
-var upload = multer({ dest: 'D:/Projects/Craiglist/CraiglistFrontEnd/src/assets/uploads/' });
+// var upload = multer({ dest: 'D:/Projects/Craiglist/CraiglistFrontEnd/src/assets/uploads/' });
+var storage = multer.diskStorage({
+    destination: function(req, file, cb){
+        cb(null, "../CraiglistFrontEnd/src/assets/uploads/")
+    },
+    filename:function(req, file, cb){
+        cb(null, Date.now()+'.jpg')
+    }
+})
+var upload = multer({ storage:storage });
 var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
 var urlEncodedParser = bodyParser.urlencoded({ extended: false });
@@ -36,8 +45,23 @@ app.listen(3000, () => {
 });
 
 // Upload Image/File
-app.post('/uploadImage/:id', upload.single("productImage"), (request, result) => {
+app.post('/uploadImage', upload.single("productImage"), (request, result) => {
+    // result.send(request.file.body["destination"]+request.file.body["filename"]+".jpg");
     result.send(request.file);
+    console.log(result);
+});
+
+app.post('/api/setImage', (request, result) => {
+    // console.log(request.body);
+    // result.send(request.body);
+    connection.query('UPDATE `serviceimages` SET `serviceImageName`= ? WHERE ,`serviceId`= ?', [request.body.imgPath, request.body.value], function(err, rows, fields) {
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    })
 });
 
 // get all images of a service
@@ -335,13 +359,23 @@ app.get('/api/users/findUser/:emailId', (request, result) => {
 // add Service
 app.post('/api/service/addService', urlEncodedParser, (request, result) => {
     // result.send(request.body);
-    connection.query("INSERT INTO `service`(`serviceName`, `serviceCategoryId`, `serviceDescription`, `serviceUserId`, `servicePrice`) VALUES (?,?,?,?,?)", [request.body.Name, request.body.Category.serviceCategoryId, request.body.Desc, 1, request.body.Price], function(err, rows, fields){
+    connection.query("INSERT INTO `service`(`serviceName`, `serviceCategoryId`, `serviceDescription`, `serviceUserId`, `servicePrice`) VALUES (?,?,?,?,?)", [request.body.addServiceName, request.body.addServiceCategory.serviceCategoryId, request.body.addServiceDesc, request.body.userId, request.body.addServicePrice], function(err, rows, fields){
         if(err){
             console.log(err);
         }
         else{
-            result.send(rows);
+            // console.log(rows);
+            // result.send(rows);
+            connection.query('INSERT INTO `serviceimages`(`serviceImageName`, `serviceId`) VALUES (?,?)',['../CraiglistFrontEnd/src/assets/uploads/temp.jpg' , rows["insertId"]], function(err, rows, fields){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    // result.send(rows);
+                }
+            });
+            result.send(rows)
         }
-    })
+    });
     // INSERT INTO `service`(`serviceName`, `serviceCategoryId`, `serviceDescription`, `serviceUserId`, `servicePrice`) VALUES ('trial name', 1, 'trial Desc', 1, 25) 
 });

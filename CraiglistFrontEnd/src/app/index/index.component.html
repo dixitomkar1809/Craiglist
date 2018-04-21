@@ -1,16 +1,3 @@
-<!-- <mat-toolbar color="primary">
-  <mat-toolbar-row>
-    <span class="brand-logo">
-      <img src="assets\images\logo2.png" height="30" width="30" style="display:inline">raiglist</span>
-  </mat-toolbar-row>
-</mat-toolbar> -->
-<!-- <nav class="#006064 cyan darken-4">
-  <div class="nav-wrapper">
-    &nbsp;
-    <a href="#" class="brand-logo">
-      <img src="assets\images\logo2.png" height="30" width="30" style="display:inline">raiglist</a>
-  </div>
-</nav> -->
 <div class="container" style="margin-top: 20px">
   <div class="row">
     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -58,14 +45,9 @@
               </div>
             </div>
           </div>
-          <!-- <div class="input-field row">
-            <span class="helper-text">
-              <a href="#">Forgot Password?</a>
-            </span>
-          </div> -->
           <div class="row">
-           <div class="col-sm-4 col-md-4 col-lg-4"> 
-             <button type="submit" mat-raised-button color="primary" [disabled]="!loginForm.valid">Log In</button>
+            <div class="col-sm-4 col-md-4 col-lg-4">
+              <button type="submit" mat-raised-button color="primary" [disabled]="!loginForm.valid">Log In</button>
             </div>
             <div class="col-sm-8 col-md-8 col-lg-8">
               <div class="text-center error">{{loginMessage}}</div>
@@ -133,131 +115,12 @@
               <button type="submit" mat-raised-button color="primary" [disabled]="!registrationForm.valid">Create Account</button>
             </div>
             <div class="col-sm-6 col-md-6 col-lg-6">
-                <p class="text-center success" *ngIf="registerSuccess">{{registerSuccess}}</p>
-                <p class="text-center error" *ngIf="registerError">{{registerError}}</p>
+              <p class="text-center success" *ngIf="registerSuccess">{{registerSuccess}}</p>
+              <p class="text-center error" *ngIf="registerError">{{registerError}}</p>
             </div>
           </div>
         </form>
       </mat-card>
-      <!-- <ul class="collapsible popout" data-collapsible="accordion">
-        <li>
-          <div class="collapsible-header active">
-            <h5 class="cyan-text text-darken-4">Log in</h5>
-          </div>
-          <div class="collapsible-body">
-            <form (ngSubmit)="userLogin(loginForm.value)" [formGroup]="loginForm">
-              <div class="input-field row">
-                <i class="material-icons prefix">email</i>
-                <input id="loginEmailId" formControlName="loginEmailId" type="email" class="validate" required>
-                <label for="loginEmailId">Email</label>
-              </div>
-              <div class="alert input-field row" *ngIf="!loginForm.controls['loginEmailId'].valid && (loginForm.controls['loginEmailId'].touched)">
-                <div class="red-text center-align" [hidden]="!loginForm.controls['loginEmailId'].errors.required">
-                  Email-Id is required
-                </div>
-                <div class="red-text center-align" [hidden]="!loginForm.controls['loginEmailId'].errors.email">
-                  Not a Valid Email Address
-                </div>
-              </div>
-              <div class="input-field row">
-                <i class="material-icons prefix">security</i>
-                <input id="loginPassword" formControlName="loginPassword" type="password" class="validate" required>
-                <label for="loginPassword">Password</label>
-
-              </div>
-              <div class="alert input-field row" *ngIf="!loginForm.controls['loginPassword'].valid && (loginForm.controls['loginPassword'].touched)">
-                <div class="red-text center-align" [hidden]="!loginForm.controls['loginPassword'].errors.required">
-                  Password is required
-                </div>
-                <div class="red-text center-align" [hidden]="!loginForm.controls['loginPassword'].errors.minlength">
-                  Minimum 8 Characters
-                </div>
-              </div>
-              <div class="input-field row">
-                <span class="helper-text">
-                  <a href="#">Forgot Password?</a>
-                </span>
-              </div>
-              <div class="row">
-                <button type="submit" class="btn waves-effect waves-light " [disabled]="!loginForm.valid">Log In</button>
-              </div>
-            </form>
-          </div>
-        </li>
-        <li>
-          <div class="collapsible-header">
-            <h5 class="cyan-text text-darken-4">Sign up</h5>
-          </div>
-          <div class="collapsible-body">
-            <form (ngSubmit)="userRegister(registrationForm.value)" [formGroup]="registrationForm">
-              <div class="input-field row">
-                <i class="material-icons prefix">account_circle</i>
-                <input id="registerFullName" formControlName="registerFullName" type="text" class="validate" required>
-                <label for="registerFullName">Full Name</label>
-              </div>
-              <div class="alert input-field row" *ngIf="!registrationForm.controls['registerFullName'].valid && (registrationForm.controls['registerFullName'].touched)">
-                <div class="red-text center-align" [hidden]="!registrationForm.controls['registerFullName'].errors.required">
-                  Full Name is required
-                </div>
-                <div class="red-text center-align" [hidden]="!registrationForm.controls['registerFullName'].errors.minlength">
-                  Minimum 8 Characters
-                </div>
-              </div>
-              <div class="input-field row">
-                <i class="material-icons prefix">email</i>
-                <input id="registerEmailId" formControlName="registerEmailId" type="email" class="validate" required>
-                <label for="siginemail">Email</label>
-              </div>
-              <div class="alert input-field row" *ngIf="!registrationForm.controls['registerEmailId'].valid && (registrationForm.controls['registerEmailId'].touched)">
-                <div class="red-text center-align" [hidden]="!registrationForm.controls['registerEmailId'].errors.required">
-                  Email-Id is required
-                </div>
-                <div class="red-text center-align" [hidden]="!registrationForm.controls['registerEmailId'].errors.email">
-                  Not a Valid Email Address
-                </div>
-              </div>
-              <div class="input-field row">
-                <i class="material-icons prefix">security</i>
-                <input id="registerPassword" formControlName="registerPassword" type="password" class="validate" required>
-                <label for="signinpassword">Password</label>
-              </div>
-              <div class="alert input-field row" *ngIf="!registrationForm.controls['registerPassword'].valid && (registrationForm.controls['registerPassword'].touched)">
-                <div class="red-text center-align" [hidden]="!registrationForm.controls['registerPassword'].errors.required">
-                  Password is required
-                </div>
-                <div class="red-text center-align" [hidden]="!registrationForm.controls['registerPassword'].errors.minlength">
-                  Minimum 8 Characters
-                </div>
-              </div>
-              <div class="row">
-                <button type="submit" class="btn waves-effect waves-light" [disabled]="!registrationForm.valid">Create Account</button>
-              </div>
-              <p class="center-align green-text" *ngIf="registerSuccess">{{registerSuccess}}</p>
-              <p class="center-align red-text" *ngIf="registerError">{{registerError}}</p>
-            </form>
-          </div>
-        </li>
-      </ul> -->
     </div>
   </div>
 </div>
-
-<!-- Terms and Condition Modal-->
-<div id="termsmodal" class="modal">
-  <div class="modal-content">
-    <h4>Terms and Conditions</h4>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-      irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  </div>
-  <div class="modal-footer">
-    <a class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-  </div>
-</div>
-<!-- 
-<mat-toolbar color="primary" style="margin-top: 20px;" class="footer">
-  <mat-toolbar-row>
-    <span class="roboto-condensed">© 2018 Copyright Omkar Dixit Tushar Chemburkar</span>
-  </mat-toolbar-row>
-</mat-toolbar> -->

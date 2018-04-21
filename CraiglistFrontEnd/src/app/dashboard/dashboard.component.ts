@@ -49,23 +49,14 @@ export class DashboardComponent implements OnInit {
   panelOpenState: boolean = false;
   public selectedFile = null;
   public postHeaders;
-  public addServiceData : any;
+  public addServiceData: any;
   public addServiceName: string;
   public addServicePrice: string;
-  public addServiceCategory:any;
+  public addServiceCategory: any;
   public addServiceDesc: string;
   addServiceForm: FormGroup;
 
   constructor(private httpClient: HttpClient, private pagerService: PagerService, private router: Router, private location: Location, private fb: FormBuilder) {
-    // add ServiceForm
-    this.addServiceForm = this.fb.group({
-      'addServiceName': ['', Validators.compose([Validators.required, Validators.minLength(8)])],
-      'addServicePrice': ['', Validators.required],
-      'addServiceCategory': ['', Validators.required],
-      'addServiceDesc': ['', Validators.compose([Validators.required, Validators.minLength(8)])],
-      "userId": this.userId
-    });
-
 
     // console.log(sessionStorage);
     this.searchString = "";
@@ -104,6 +95,15 @@ export class DashboardComponent implements OnInit {
     }
     // getting user details
     else {
+      // add ServiceForm
+      this.addServiceForm = this.fb.group({
+        'addServiceName': ['', Validators.compose([Validators.required, Validators.minLength(8)])],
+        'addServicePrice': ['', Validators.required],
+        'addServiceCategory': ['', Validators.required],
+        'addServiceDesc': ['', Validators.compose([Validators.required, Validators.minLength(8)])],
+        "userId": this.userId
+      });
+
 
       this.httpClient.get("http://localhost:3000/api/users/get/" + this.userId)
         .subscribe(
@@ -121,6 +121,7 @@ export class DashboardComponent implements OnInit {
           });
       // get All Serives
       this.getAllServices();
+      this.getHiddenServices();
       // make a call to the api that gives you list of all service categories
       this.httpClient.get("http://localhost:3000/api/service/serviceCategoriesAll")
         .subscribe(
@@ -135,7 +136,7 @@ export class DashboardComponent implements OnInit {
       this.httpClient.get("http://localhost:3000/api/wishlist/get/" + this.userId)
         .subscribe(
           (data: any[]) => {
-            console.log(data);
+            // console.log(data);
             this.wishlist = data;
           }
         )
@@ -177,10 +178,10 @@ export class DashboardComponent implements OnInit {
     console.log(this.selectedFile);
   }
 
-  onUpload() {
+  onUpload(value) {
     var fd = new FormData();
     fd.append('productImage', this.selectedFile, this.selectedFile.name);
-    this.httpClient.post('http://localhost:3000/uploadImage/1', fd, {
+    this.httpClient.post('http://localhost:3000/uploadImage', fd, {
       reportProgress: true,
       observe: 'events'
     })
@@ -189,7 +190,15 @@ export class DashboardComponent implements OnInit {
           console.log('Upload Progress: ' + Math.round(res.loaded / res.total * 100))
         }
         else if (res.type === HttpEventType.Response) {
-          console.log(res);
+          // console.log(res);
+          // console.log(res.body);
+          var imgPath = res.body["destination"]+res.body["filename"];
+          return this.httpClient.post('http://localhost:3000/api/setImage', {imgPath, value})
+          .subscribe(
+            (data: any[]) => {
+              console.log(data);
+            }
+          )
         }
       });
   }
@@ -274,14 +283,15 @@ export class DashboardComponent implements OnInit {
 
   addService(value) {
     console.log(value);
-    // var trual = {data: "value", data2: "value2"};
-    // this.httpClient.post("http://localhost:3000/api/service/addService", addServiceData )
-    //   .subscribe(
-    //     (data: any[]) => {
-    //       console.log('from the nodejs', data);
-    //       // this.onUpload();
-    //     }
-    //   )
+    this.httpClient.post("http://localhost:3000/api/service/addService", value )
+      .subscribe(
+        (data: any[]) => {
+          console.log('from the nodejs', data["insertId"]);
+          if(this.selectedFile){
+            this.onUpload(data["insertId"]);
+          }
+        }
+      )
   }
 
   changeEmail() {
