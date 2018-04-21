@@ -178,30 +178,6 @@ app.get('/api/hideService/get/:userId', (request, result) => {
     });
 });
 
-//get wishlist for a specific user
-app.get('/api/wishlist/get/:userId', (request, result) => {
-    connection.query("SELECT * FROM wishlist WHERE wishlist.wishlistUserId = ?", [request.params.userId], function (err, rows, fields) {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            result.send(rows);
-        }
-    });
-});
-
-//get wishlistitems from a wishlist for a specific user
-app.get('/api/wishlistitems/get/:wishlistId', (request, result) => {
-    connection.query("SELECT * FROM wishlistitems,service WHERE wishlistitems.wishlistId = ? and wishlistitems.serviceId = service.serviceId", [request.params.wishlistId], function (err, rows, fields) {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            result.send(rows);
-        }
-    });
-});
-
 // user register
 app.get('/api/users/register/:fullName/:password/:emailId', (request, result) => {
     connection.query("INSERT INTO users (`fullName`, `emailId`, `password`) VALUES (?, ?, ?)", [request.params.fullName, request.params.emailId, request.params.password], function (err, rows, fields) {
@@ -379,3 +355,46 @@ app.post('/api/service/addService', urlEncodedParser, (request, result) => {
     });
     // INSERT INTO `service`(`serviceName`, `serviceCategoryId`, `serviceDescription`, `serviceUserId`, `servicePrice`) VALUES ('trial name', 1, 'trial Desc', 1, 25) 
 });
+
+
+// activate user
+app.get('/api/users/activateUser/:id', (request, result) => {
+    connection.query("UPDATE users SET isActive=1 WHERE userId = ?", [request.params.id], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
+});
+
+// deactivate user
+app.get('/api/users/deactivateUser/:id', (request, result) => {
+    connection.query("UPDATE users SET isActive=0 WHERE userId= ?", [request.params.id], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
+});
+
+// add service to wish list
+app.get(`/api/wishlist/add/:serviceId/:userId`, (request, result) => {
+    connection.query('INSERT INTO `wishlist`(`wishlistServiceId`, `wishlistUserid`) VALUES (?,?)', [request.params.serviceId, request.params.userid], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    })
+})
+
+// get wishlist service details
+
+app.get('/api/wishlist/get/:userId', (request, result) => {
+    
+})

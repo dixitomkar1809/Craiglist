@@ -28,6 +28,7 @@ export class DashboardComponent implements OnInit {
   public serviceInfo: any[];
   public userId: string;
   public zipcode: string;
+  public isActive: any;
   public searchString: string;
   public myPosts: any[];
   public userServices: any[];
@@ -71,27 +72,8 @@ export class DashboardComponent implements OnInit {
     // getting admin details
     if (this.userId == "0") {
       this.isAdmin = true;
-      this.httpClient.get("http://localhost:3000/api/service/all")
-        .subscribe(
-          (data: any[]) => {
-            this.serviceInfo = data;
-            this.setPage(1);
-          });
-
-      this.httpClient.get("http://localhost:3000/api/service/serviceCategoriesAll")
-        .subscribe(
-          (data: any[]) => {
-            //console.log(data);
-            this.serviceCategories = data;
-          });
-
-      this.httpClient.get("http://localhost:3000/api/users/usersListAll")
-        .subscribe(
-          (data: any[]) => {
-            // console.log(data);
-            this.usersAll = data;
-            // console.log(this.usersAll);
-          });
+      this.getAllUsers();
+      this.isActive = 0;
     }
     // getting user details
     else {
@@ -104,34 +86,12 @@ export class DashboardComponent implements OnInit {
         "userId": this.userId
       });
 
-
-      this.httpClient.get("http://localhost:3000/api/users/get/" + this.userId)
-        .subscribe(
-          (data: any[]) => {
-            // console.log(data[0]);
-            this.userData = data[0];
-            this.fullName = this.userData["fullName"];
-            this.address = this.userData["address"];
-            this.city = this.userData["city"];
-            this.state = this.userData["state"];
-            this.country = this.userData["country"];
-            this.phoneNo = this.userData["phoneNo"];
-            this.emailId = this.userData["emailId"];
-            this.zipcode = this.userData["zipcode"];
-          });
+      this.getUserDetails(this.userId);
       // get All Serives
       this.getAllServices();
       this.getHiddenServices();
       // make a call to the api that gives you list of all service categories
-      this.httpClient.get("http://localhost:3000/api/service/serviceCategoriesAll")
-        .subscribe(
-          (data: any[]) => {
-            //console.log(data);
-            this.serviceCategories = data;
-          }
-        )
-
-
+      this.getAllServiceCategories();
       // make a call to the api that gives you list of all wishlist
       this.httpClient.get("http://localhost:3000/api/wishlist/get/" + this.userId)
         .subscribe(
@@ -151,6 +111,44 @@ export class DashboardComponent implements OnInit {
       .set('Content-Type', 'application/json');
   }
 
+  getUserDetails(value){
+    return this.httpClient.get("http://localhost:3000/api/users/get/" + value)
+    .subscribe(
+      (data: any[]) => {
+        // console.log(data[0]);
+        this.userData = data[0];
+        this.fullName = this.userData["fullName"];
+        this.address = this.userData["address"];
+        this.city = this.userData["city"];
+        this.state = this.userData["state"];
+        this.country = this.userData["country"];
+        this.phoneNo = this.userData["phoneNo"];
+        this.emailId = this.userData["emailId"];
+        this.zipcode = this.userData["zipcode"];
+        this.isActive = this.userData["isActive"];
+        // console.log(this.userData['isActive']);
+      });
+  }
+
+  getAllServiceCategories(){
+    return this.httpClient.get("http://localhost:3000/api/service/serviceCategoriesAll")
+        .subscribe(
+          (data: any[]) => {
+            //console.log(data);
+            this.serviceCategories = data;
+          }
+        )
+  }
+
+  getAllUsers() {
+    return this.httpClient.get("http://localhost:3000/api/users/usersListAll")
+      .subscribe(
+        (data: any[]) => {
+          // console.log(data);
+          this.usersAll = data;
+          // console.log(this.usersAll);
+        });
+  }
 
   setPage(page: number) {
     if (page < 1 || page > this.pager.totalPages) {
@@ -192,13 +190,13 @@ export class DashboardComponent implements OnInit {
         else if (res.type === HttpEventType.Response) {
           // console.log(res);
           // console.log(res.body);
-          var imgPath = res.body["destination"]+res.body["filename"];
-          return this.httpClient.post('http://localhost:3000/api/setImage', {imgPath, value})
-          .subscribe(
-            (data: any[]) => {
-              console.log(data);
-            }
-          )
+          var imgPath = res.body["destination"] + res.body["filename"];
+          return this.httpClient.post('http://localhost:3000/api/setImage', { imgPath, value })
+            .subscribe(
+              (data: any[]) => {
+                console.log(data);
+              }
+            )
         }
       });
   }
@@ -283,11 +281,11 @@ export class DashboardComponent implements OnInit {
 
   addService(value) {
     console.log(value);
-    this.httpClient.post("http://localhost:3000/api/service/addService", value )
+    this.httpClient.post("http://localhost:3000/api/service/addService", value)
       .subscribe(
         (data: any[]) => {
           console.log('from the nodejs', data["insertId"]);
-          if(this.selectedFile){
+          if (this.selectedFile) {
             this.onUpload(data["insertId"]);
           }
         }
@@ -328,8 +326,22 @@ export class DashboardComponent implements OnInit {
     //console.log(this.selectedCategories);
   }
 
-  changeUserStatus(value) {
+  deactivateUser(value) {
     console.log(value);
+    return this.httpClient.get("http://localhost:3000/api/users/deactivateUser/" + value)
+      .subscribe(
+        (data: any[]) => {
+          this.getAllUsers();
+        });
+  }
+
+  activateUser(value) {
+    console.log(value);
+    return this.httpClient.get("http://localhost:3000/api/users/activateUser/" + value)
+    .subscribe(
+      (data: any[]) => {
+        this.getAllUsers();
+      });
   }
 
   hideService(value) {

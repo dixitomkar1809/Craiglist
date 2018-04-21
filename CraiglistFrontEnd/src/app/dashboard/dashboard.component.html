@@ -35,6 +35,12 @@
             <div class="col-sm-6 col-md-6 col-lg-6">
               <span class="bold-text">Email-Id:</span> {{emailId}}</div>
           </div>
+          <div class="row" *ngIf="isActive==1">
+            user is active
+          </div>
+          <div class="row" *ngIf="isActive==0">
+            user is not active
+          </div>
         </div>
         <div class="col-sm-6">
           <mat-accordion>
@@ -207,13 +213,13 @@
         </div>
       </div>
       <div *ngIf="isAdmin" class="row">
-        <table>
+        <table class="table">
           <thead>
             <tr>
-              <th>Fullname</th>
-              <th>Email-Id</th>
-              <th>User Status</th>
-              <th>Actions</th>
+              <th scope="col">Fullname</th>
+              <th scope="col">Email-Id</th>
+              <th scope="col">User Status</th>
+              <th scope="col">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -229,7 +235,8 @@
                 </span>
               </td>
               <td>
-                <button class="waves-effect waves-light btn #e53935 red darken-1" (click)="changeUserStatus(x.userId)">Disable User</button>
+                <button *ngIf="x.isActive==1" mat-raised-button color="warn" (click)="deactivateUser(x.userId)">Deactivate User</button>
+                <button *ngIf="x.isActive==0" mat-raised-button color="primary" (click)="activateUser(x.userId)">Activate User</button>
               </td>
             </tr>
           </tbody>
@@ -357,7 +364,7 @@
       </div>
     </div>
   </mat-tab>
-  <mat-tab label="Add a service" *ngIf="!isAdmin">
+  <mat-tab label="Add a service" *ngIf="!isAdmin && !isActive==0">
     <div class="container">
       <h2>Add a Service </h2>
       <form (ngSubmit)="addService(addServiceForm.value)" [formGroup]="addServiceForm">
