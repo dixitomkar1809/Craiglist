@@ -345,3 +345,15 @@ app.post('/api/service/addService', urlEncodedParser, (request, result) => {
     })
     // INSERT INTO `service`(`serviceName`, `serviceCategoryId`, `serviceDescription`, `serviceUserId`, `servicePrice`) VALUES ('trial name', 1, 'trial Desc', 1, 25) 
 });
+
+// Update Service
+app.get('/api/service/updateService/:serviceName/:servicePrice/:serviceDesc/:serviceId', (request, result) => {
+    connection.query("UPDATE service SET service.serviceName = ?, service.servicePrice = ?, service.serviceDescription = ? WHERE service.serviceId = ?", [request.params.serviceName,request.params.servicePrice,request.params.serviceDesc,request.params.serviceId], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    })
+});
