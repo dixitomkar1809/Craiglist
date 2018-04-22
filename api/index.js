@@ -242,7 +242,8 @@ app.get('/api/users/changeAddress/:userId/:address/:city/:state/:country/:zipcod
 app.get('/api/users/changeEmail/:userId/:newEmail', (request, result) => {
     connection.query('UPDATE users SET users.emailId= ? WHERE userId= ?', [request.params.newEmail, request.params.userId], function (err, rows, fields) {
         if (err) {
-            console.log(err);
+            console.log(err.sqlMessage);
+            result.send("Email Already Exist");
         }
         else {
             result.send(rows);
@@ -382,8 +383,11 @@ app.get('/api/users/deactivateUser/:id', (request, result) => {
 });
 
 // add service to wish list
-app.get(`/api/wishlist/add/:serviceId/:userId`, (request, result) => {
-    connection.query('INSERT INTO `wishlist`(`wishlistServiceId`, `wishlistUserid`) VALUES (?,?)', [request.params.serviceId, request.params.userid], function(err, rows, fields){
+// app.get(`/api/wishlist/add/:serviceId/:userId`, (request, result) => {
+//     connection.query('INSERT INTO `wishlist`(`wishlistServiceId`, `wishlistUserid`) VALUES (?,?)', [request.params.serviceId, request.params.userid], function(err, rows, fields){
+// Update Service
+app.get('/api/service/updateService/:serviceName/:servicePrice/:serviceDesc/:serviceId', (request, result) => {
+    connection.query("UPDATE service SET service.serviceName = ?, service.servicePrice = ?, service.serviceDescription = ? WHERE service.serviceId = ?", [request.params.serviceName,request.params.servicePrice,request.params.serviceDesc,request.params.serviceId], function(err, rows, fields){
         if(err){
             console.log(err);
         }
@@ -396,5 +400,5 @@ app.get(`/api/wishlist/add/:serviceId/:userId`, (request, result) => {
 // get wishlist service details
 
 app.get('/api/wishlist/get/:userId', (request, result) => {
-    
-})
+   
+});

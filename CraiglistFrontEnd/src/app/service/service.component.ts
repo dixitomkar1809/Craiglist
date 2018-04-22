@@ -25,7 +25,8 @@ export class ServiceComponent implements OnInit {
   public serviceUserEmail:string;
   public isUpdatable: boolean = false;
   public updatableForm: boolean = false;
-  public serviceCategory: string;
+  public serviceCategories: any;
+  public serviceCategoryId: number;
 
 
   constructor(private httpClient: HttpClient, private router: Router) { 
@@ -48,7 +49,7 @@ export class ServiceComponent implements OnInit {
         this.serviceInfo = data[0];
         this.serviceName = this.serviceInfo.serviceName;
         this.servicePrice = this.serviceInfo.servicePrice;
-        this.serviceCategory = this.serviceInfo.serviceCategoryId;
+        this.serviceCategoryId = this.serviceInfo.serviceCategoryId;
         this.serviceDesc = this.serviceInfo.serviceDescription;
         this.serviceUserId = this.serviceInfo.serviceUserId;
         console.log(this.serviceInfo);
@@ -60,6 +61,13 @@ export class ServiceComponent implements OnInit {
         console.log(data);
       }
     )
+
+    this.httpClient.get("http://localhost:3000/api/service/serviceCategoriesAll")
+    .subscribe(
+      (data: any[]) => {
+        //console.log(data);
+        this.serviceCategories = data;
+      });
   }
 
   ngOnInit() {
@@ -73,11 +81,20 @@ export class ServiceComponent implements OnInit {
     this.router.navigate(['dashboard'])
   }
 
-  updateService(){
+  toggleUpdate(){
     if(!this.updatableForm) {
       this.updatableForm = true;
     }
-    
+  }
+
+  updateService() {
+    this.httpClient.get("http://localhost:3000/api/service/updateService/" + this.serviceName + "/" + this.servicePrice +"/" + this.serviceDesc + "/" + this.serviceId)
+    .subscribe(
+      (data:any[])=>{
+        console.log(data);
+      }
+    )
+    this.updatableForm = false;
   }
 
   getUserDetails(value){

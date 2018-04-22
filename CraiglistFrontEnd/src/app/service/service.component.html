@@ -12,11 +12,11 @@
     <div class="col-sm-9 col-md-9 col-lg-9" [hidden]="updatableForm">
       <h3>{{serviceName}}</h3>
       <h5>Price: {{servicePrice}}$</h5>
-      <h5>Category: {{serviceCategory}}</h5>
+      <!-- <h5>Category: {{serviceCategoryId}}</h5> -->
       <p>Description:</p>
       <p>{{serviceDesc}}In pharetra pulvinar varius. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus iaculis gravida sem, quis ornare quam condimentum et. Curabitur fringilla augue sed felis malesuada, a consectetur nisi vestibulum. Vestibulum id nunc eget purus efficitur pretium sed eu erat. Integer placerat mauris dolor, vitae gravida ex sagittis id. Nam ut odio sit amet odio elementum tincidunt. </p>
       <button mat-raised-button color="primary" (click)="getUserDetails(serviceUserId)">Contact</button>
-      <button mat-raised-button color="primary" *ngIf="isUpdatable" (click)="updateService()">Update Service</button>
+      <button mat-raised-button color="primary" *ngIf="isUpdatable" (click)="toggleUpdate()">Update Service</button>
       <button mat-raised-button color="primary" >Hide Service</button>
       <button mat-raised-button color="primary" >Add to Wishlist</button>
       <button mat-raised-button color="warn" >Delete</button>
@@ -29,12 +29,12 @@
       <h5>Price:
         <input type="text" [(ngModel)]="servicePrice" [ngModelOptions]="{standalone : true}" required>
       </h5>
-        Category:
+        <!-- Category:
         <mat-form-field>
-          <mat-select [(ngModel)]="serviceCategory" [ngModelOptions]="{standalone : true}">
+          <mat-select>
             <mat-option *ngFor="let x of serviceCategories" [value]="x">{{x.serviceCategoryName}}</mat-option>
           </mat-select>
-        </mat-form-field>
+        </mat-form-field> -->
       <p>Description:
         <mat-form-field class="example-full-width">
           <textarea matInput [(ngModel)]="serviceDesc" [ngModelOptions]="{standalone : true}" required></textarea>

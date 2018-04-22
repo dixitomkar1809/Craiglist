@@ -15,32 +15,36 @@
       </div>
       <div *ngIf="!isAdmin" class="row">
         <div class="col-sm-6 col-md-6 col-lg-6">
-          <div class="row">
-            <div class="col-sm-8 col-md-8 col-lg-8">
-              <span class="bold-text">Address:</span> {{address}}</div>
-            <div class="col-sm-4 col-md-4 col-lg-4">
-              <span class="bold-text">Zipcode:</span> {{zipcode}}</div>
-          </div>
-          <div class="row">
-            <div class="col-sm-4 col-md-4 col-lg-4">
-              <span class="bold-text">City:</span> {{city}}</div>
-            <div class="col-sm-4 col-md-4 col-lg-4">
-              <span class="bold-text">State:</span> {{state}}</div>
-            <div class="col-sm-4 col-md-4 col-lg-4">
-              <span class="bold-text">Country:</span> {{country}}</div>
-          </div>
-          <div class="row">
-            <div class="col-sm-6 col-md-6 col-lg-6">
-              <span class="bold-text">Phone-No:</span> {{phoneNo}}</div>
-            <div class="col-sm-6 col-md-6 col-lg-6">
-              <span class="bold-text">Email-Id:</span> {{emailId}}</div>
-          </div>
-          <div class="row" *ngIf="isActive==1">
-            user is active
-          </div>
-          <div class="row" *ngIf="isActive==0">
-            user is not active
-          </div>
+          <mat-card>
+            <div class="row">
+              <div class="col-sm-8 col-md-8 col-lg-8">
+                <span class="bold-text">Address:</span> {{address}}</div>
+              <div class="col-sm-4 col-md-4 col-lg-4">
+                <span class="bold-text">Zipcode:</span> {{zipcode}}</div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-sm-3 col-md-3 col-lg-3">
+                <span class="bold-text">City:</span> {{city}}</div>
+              <div class="col-sm-3 col-md-3 col-lg-3">
+                <span class="bold-text">State:</span> {{state}}</div>
+              <div class="col-sm-6 col-md-6 col-lg-6">
+                <span class="bold-text">Country:</span> {{country}}</div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-sm-6 col-md-6 col-lg-6">
+                <span class="bold-text">Phone-No:</span> {{phoneNo}}</div>
+              <div class="col-sm-6 col-md-6 col-lg-6">
+                <span class="bold-text">Email-Id:</span> {{emailId}}</div>
+            </div>
+            <!-- <div class="row" *ngIf="isActive==1">
+              user is active
+            </div>
+            <div class="row" *ngIf="isActive==0">
+              user is not active
+            </div> -->
+          </mat-card>
         </div>
         <div class="col-sm-6">
           <mat-accordion>
@@ -50,22 +54,19 @@
                   Change Email
                 </mat-panel-title>
               </mat-expansion-panel-header>
-              <div class="row">
-                <form (ngSubmit)="changeEmail()" class="col s12">
-                  <div class="row">
-                    <div class="col s12 m6 l6">
-                      <mat-form-field>
-                        <input matInput placeholder="Input" [(ngModel)]="emailId" [ngModelOptions]="{standalone:true}" type="text">
-                      </mat-form-field>
-                    </div>
-                    <div class="input-field col s12 m6 l6">
-                      <button type="submit" mat-raised-button color="primary">Change</button>
-                    </div>
-
+              <form (ngSubmit)="changeEmail()">
+                <div class="row">
+                  <div class="col-sm-12 col-md-6 col-lg-6">
+                    <mat-form-field>
+                      <input matInput placeholder="Email-Id" [(ngModel)]="emailId" [ngModelOptions]="{standalone:true}" type="text">
+                    </mat-form-field>
                   </div>
-                </form>
-                <div *ngIf="emailIdChangedMessage" class="green-text center-align">{{emailIdChangedMessage}}</div>
-              </div>
+                  <div class="col-sm-12 col-md-6 col-lg-6">
+                    <button type="submit" mat-raised-button color="primary">Change</button>
+                  </div>
+                </div>
+              </form>
+              <div *ngIf="emailIdChangedMessage" class="success">{{emailIdChangedMessage}}</div>
             </mat-expansion-panel>
             <mat-expansion-panel>
               <mat-expansion-panel-header>
@@ -85,7 +86,7 @@
                   </div>
                 </div>
               </form>
-              <div *ngIf="phoneNoChangedMessage" class="green-text center-align">{{phoneNoChangedMessage}}</div>
+              <div *ngIf="phoneNoChangedMessage" class="success">{{phoneNoChangedMessage}}</div>
             </mat-expansion-panel>
             <mat-expansion-panel>
               <mat-expansion-panel-header>
@@ -93,123 +94,45 @@
                   Change Address
                 </mat-panel-title>
               </mat-expansion-panel-header>
-              <div class="row">
-                <form (ngSubmit)="changeAddress()" class="col s12">
-                  <div class="row">
-                    <div class="input-field col s12 m9 l9">
-                      <input id="address" [(ngModel)]="address" [ngModelOptions]="{standalone:true}" type="text" class="validate">
-                      <label for="address">Address</label>
-                    </div>
-                    <div class="input-field col s12 m3 l3">
-                      <input id="zipcode" [(ngModel)]="zipcode" [ngModelOptions]="{standalone:true}" type="text" class="validate">
-                      <label for="zipcode">Zipcode</label>
-                    </div>
+              <form (ngSubmit)="changeAddress()">
+                <div class="row">
+                  <div class="col-sm-12 col-md-9 col-lg-9">
+                    <mat-form-field style="width: 100%">
+                      <input id="address" [(ngModel)]="address" [ngModelOptions]="{standalone:true}" type="text" matInput placeholder="Address">
+                    </mat-form-field>
                   </div>
-                  <div class="row">
-                    <div class="input-field col s12 m4 l4">
-                      <input id="city" [(ngModel)]="city" [ngModelOptions]="{standalone:true}" type="text" class="validate">
-                      <label for="city">City</label>
-                    </div>
-                    <div class="input-field col s12 m4 l4">
-                      <input id="state" [(ngModel)]="state" [ngModelOptions]="{standalone:true}" type="text" class="validate">
-                      <label for="state">State</label>
-                    </div>
-                    <div class="input-field col s12 m4 l4">
-                      <input id="country" [(ngModel)]="country" [ngModelOptions]="{standalone:true}" type="text" class="validate">
-                      <label for="country">Country</label>
-                    </div>
+                  <div class="col-sm-12 col-md-3 col-lg-3">
+                    <mat-form-field style="width: 100%">
+                      <input id="zipcode" [(ngModel)]="zipcode" [ngModelOptions]="{standalone:true}" type="text" matInput placeholder="Zipcode">
+                    </mat-form-field>
                   </div>
-                  <div class="row">
-                    <!-- <div class="input-field col m3 l3"></div> -->
-                    <div class="input-field col s12 m12 l12 center-align">
-                      <button type="submit" class="waves-effect waves-light btn">Change Address</button>
-                    </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 col-md-4 col-lg-4">
+                    <mat-form-field style="width: 100%">
+                      <input id="city" [(ngModel)]="city" [ngModelOptions]="{standalone:true}" type="text" matInput placeholder="City">
+                    </mat-form-field>
                   </div>
-                </form>
-                <div *ngIf="addressChangedMessage" class="green-text center-align">{{addressChangedMessage}}</div>
-              </div>
+                  <div class="col-sm-12 col-md-4 col-lg-4">
+                    <mat-form-field style="width: 100%">
+                      <input id="state" [(ngModel)]="state" [ngModelOptions]="{standalone:true}" type="text" matInput placeholder="State">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-sm-12 col-md-4 col-lg-4">
+                    <mat-form-field style="width: 100%">
+                      <input id="country" [(ngModel)]="country" [ngModelOptions]="{standalone:true}" type="text" matInput placeholder="Country">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-12">
+                    <button type="submit" mat-raised-button color="primary">Change</button>
+                  </div>
+                </div>
+              </form>
+              <div *ngIf="addressChangedMessage" class="success">{{addressChangedMessage}}</div>
             </mat-expansion-panel>
           </mat-accordion>
-          <!-- <ul class="collapsible">
-            <li>
-              <div class="collapsible-header">Change Email Address</div>
-              <div class="collapsible-body">
-                <div class="row">
-                  <form (ngSubmit)="changeEmail()" class="col s12">
-                    <div class="row">
-                      <div class="input-field col s12 m6 l6">
-                        <input id="emailId" [(ngModel)]="emailId" [ngModelOptions]="{standalone:true}" type="text" class="validate">
-                        <label for="emailId">Email-Id</label>
-                      </div>
-                      <div class="input-field col s12 m6 l6">
-                        <button type="submit" class="waves-effect waves-light btn">Change Email</button>
-                      </div>
-                    </div>
-                  </form>
-                  <div *ngIf="emailIdChangedMessage" class="green-text center-align">{{emailIdChangedMessage}}</div>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="collapsible-header">Change Phone Number</div>
-              <div class="collapsible-body">
-                <div class="row">
-                  <form (ngSubmit)="changePhoneNo()" class="col s12">
-                    <div class="row">
-                      <div class="input-field col s12 m6 l6">
-                        <input id="phoneNo" [(ngModel)]="phoneNo" [ngModelOptions]="{standalone: true}" type="text" class="validate">
-                        <label for="phoneNo">Phone-No</label>
-                      </div>
-                      <div class="input-field col s12 m6 l6">
-                        <button type="submit" class="waves-effect waves-light btn">Change Phone-No</button>
-                      </div>
-                    </div>
-                  </form>
-                  <div *ngIf="phoneNoChangedMessage" class="green-text center-align">{{phoneNoChangedMessage}}</div>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="collapsible-header">Change Address</div>
-              <div class="collapsible-body">
-                <div class="row">
-                  <form (ngSubmit)="changeAddress()" class="col s12">
-                    <div class="row">
-                      <div class="input-field col s12 m9 l9">
-                        <input id="address" [(ngModel)]="address" [ngModelOptions]="{standalone:true}" type="text" class="validate">
-                        <label for="address">Address</label>
-                      </div>
-                      <div class="input-field col s12 m3 l3">
-                        <input id="zipcode" [(ngModel)]="zipcode" [ngModelOptions]="{standalone:true}" type="text" class="validate">
-                        <label for="zipcode">Zipcode</label>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="input-field col s12 m4 l4">
-                        <input id="city" [(ngModel)]="city" [ngModelOptions]="{standalone:true}" type="text" class="validate">
-                        <label for="city">City</label>
-                      </div>
-                      <div class="input-field col s12 m4 l4">
-                        <input id="state" [(ngModel)]="state" [ngModelOptions]="{standalone:true}" type="text" class="validate">
-                        <label for="state">State</label>
-                      </div>
-                      <div class="input-field col s12 m4 l4">
-                        <input id="country" [(ngModel)]="country" [ngModelOptions]="{standalone:true}" type="text" class="validate">
-                        <label for="country">Country</label>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <!-- <div class="input-field col m3 l3"></div> -->
-          <!--<div class="input-field col s12 m12 l12 center-align">
-                        <button type="submit" class="waves-effect waves-light btn">Change Address</button>
-                      </div>
-                    </div>
-                  </form>
-                  <div *ngIf="addressChangedMessage" class="green-text center-align">{{addressChangedMessage}}</div>
-                </div>
-              </div>
-            </li>
-          </ul> -->
         </div>
       </div>
       <div *ngIf="isAdmin" class="row">
@@ -370,84 +293,66 @@
       <form (ngSubmit)="addService(addServiceForm.value)" [formGroup]="addServiceForm">
         <div class="row">
           <div class="col-sm-12 col-md-12 col-lg-12">
-            <div class="row">
-              <div class="col-sm-6 col-md-6 col-lg-6">
-                <mat-form-field>
-                  <input type="text" matInput placeholder="Name" required formControlName="addServiceName">
-                </mat-form-field>
-
+            <mat-form-field style="width: 100%">
+              <input type="text" matInput placeholder="Name" required formControlName="addServiceName">
+            </mat-form-field>
+            <div *ngIf="!addServiceForm.controls['addServiceName'].valid && (addServiceForm.controls['addServiceName'].touched)">
+              <div class="error" [hidden]="!addServiceForm.controls['addServiceName'].errors.required">
+                Name is required
               </div>
-              <div class="col-sm-6 col-md-6 col-lg-6">
-                <div *ngIf="!addServiceForm.controls['addServiceName'].valid && (addServiceForm.controls['addServiceName'].touched)">
-                  <div class="error" [hidden]="!addServiceForm.controls['addServiceName'].errors.required">
-                    Name is required
-                  </div>
-                  <div class="error" [hidden]="!addServiceForm.controls['addServiceName'].errors.minlength">
-                    Minimum 8 Characters
-                  </div>
-                </div>
+              <div class="error" [hidden]="!addServiceForm.controls['addServiceName'].errors.minlength">
+                Minimum 8 Characters
               </div>
             </div>
-            <div class="row">
-              <div class="col-sm-6 col-md-6 col-lg-6">
-                <mat-form-field>
-                  <mat-select placeholder="Select Category" formControlName="addServiceCategory">
-                    <mat-option *ngFor="let x of serviceCategories" [value]="x">{{x.serviceCategoryName}}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="col-sm-6 col-md-6 col-lg-6">
-                <div class="col-sm-6 col-md-6 col-lg-6">
-                  <div *ngIf="!addServiceForm.controls['addServiceCategory'].valid && (addServiceForm.controls['addServiceCategory'].touched)">
-                    <div class="error" [hidden]="!addServiceForm.controls['addServiceCategory'].errors.required">
-                      Category is required
-                    </div>
-                  </div>
-                </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 col-md-6 col-lg-6">
+            <mat-form-field style="width: 50%">
+              <mat-select placeholder="Select Category" formControlName="addServiceCategory">
+                <mat-option *ngFor="let x of serviceCategories" [value]="x">{{x.serviceCategoryName}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div *ngIf="!addServiceForm.controls['addServiceCategory'].valid && (addServiceForm.controls['addServiceCategory'].touched)">
+              <div class="error" [hidden]="!addServiceForm.controls['addServiceCategory'].errors.required">
+                Category is required
               </div>
             </div>
-            <div class="row">
-              <div class="col-sm-6 col-md-6 col-lg-6">
-                <mat-form-field>
-                  <textarea matInput placeholder="Description" required formControlName="addServiceDesc"></textarea>
-                </mat-form-field>
-
-              </div>
-              <div class="col-sm-6 col-md-6 col-lg-6">
-                <div *ngIf="!addServiceForm.controls['addServiceDesc'].valid && (addServiceForm.controls['addServiceDesc'].touched)">
-                  <div class="error" [hidden]="!addServiceForm.controls['addServiceDesc'].errors.required">
-                    Description is required
-                  </div>
-                  <div class="error" [hidden]="!addServiceForm.controls['addServiceDesc'].errors.minlength">
-                    Minimum 8 Characters
-                  </div>
-                </div>
+          </div>
+          <div class="col-sm-6 col-md-6 col-lg-6">
+            <mat-form-field style="width: 50%">
+              <input type="text" matInput placeholder="Price" required formControlName="addServicePrice">
+            </mat-form-field>
+            <div *ngIf="!addServiceForm.controls['addServicePrice'].valid && (addServiceForm.controls['addServicePrice'].touched)">
+              <div class="error" [hidden]="!addServiceForm.controls['addServicePrice'].errors.required">
+                Price is required
               </div>
             </div>
-            <div class="row">
-              <div class="col-sm-6 col-md-6 col-lg-6">
-                <mat-form-field>
-                  <input type="text" matInput placeholder="Price" required formControlName="addServicePrice">
-                </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-12">
+            <mat-form-field style="width: 100%">
+              <textarea matInput placeholder="Description" required formControlName="addServiceDesc"></textarea>
+            </mat-form-field>
+            <div *ngIf="!addServiceForm.controls['addServiceDesc'].valid && (addServiceForm.controls['addServiceDesc'].touched)">
+              <div class="error" [hidden]="!addServiceForm.controls['addServiceDesc'].errors.required">
+                Description is required
               </div>
-              <div class="col-sm-6 col-md-6 col-lg-6">
-                <div *ngIf="!addServiceForm.controls['addServicePrice'].valid && (addServiceForm.controls['addServicePrice'].touched)">
-                  <div class="error" [hidden]="!addServiceForm.controls['addServicePrice'].errors.required">
-                    Price is required
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-12 col-md-12 col-lg-12">
-                <input type="file" (change)="onFileSelected($event)">
+              <div class="error" [hidden]="!addServiceForm.controls['addServiceDesc'].errors.minlength">
+                Minimum 8 Characters
               </div>
             </div>
-            <div class="row">
-              <div class="col-sm-12 colmd-12 col-lg-12">
-                <button mat-raised-button color="primary" type="submit" [disabled]="!addServiceForm.valid">Submit</button>
-              </div>
-            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-12">
+            <input type="file" (change)="onFileSelected($event)">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 colmd-12 col-lg-12">
+            <button mat-raised-button color="primary" type="submit" [disabled]="!addServiceForm.valid">Submit</button>
           </div>
         </div>
       </form>
