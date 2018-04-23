@@ -22,6 +22,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatDividerModule} from '@angular/material/divider';
 
 const appRoutes: Routes = [
   { path: '', component: IndexComponent },
@@ -53,7 +54,8 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     MatButtonModule,
     MatSelectModule,
-    MatDialogModule
+    MatDialogModule, 
+    MatDividerModule
   ],
   providers: [
     PagerService,

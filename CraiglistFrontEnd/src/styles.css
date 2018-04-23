@@ -41,3 +41,8 @@ main {
 .error{
     color: red;
 }
+
+.serviceImageThumbnail{
+    min-height: 250px;
+    max-height: 250px;
+}

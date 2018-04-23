@@ -1,6 +1,7 @@
 <mat-tab-group class="demo-tab-group">
   <mat-tab label="Home">
     <div class="container demo-tab-content">
+      <br>
       <div class="row">
         <div *ngIf="!isAdmin" class="col-sm-8">
           <h2>Hello {{fullName}} !</h2>
@@ -13,6 +14,8 @@
           <button mat-raised-button color="warn" (click)="logout()">Logout</button>
         </div>
       </div>
+      <mat-divider></mat-divider>
+      <br>
       <div *ngIf="!isAdmin" class="row">
         <div class="col-sm-6 col-md-6 col-lg-6">
           <mat-card>
@@ -169,38 +172,30 @@
   </mat-tab>
   <mat-tab label="Search" *ngIf="!isAdmin">
     <div class="container demo-tab-content">
-      <div class="row">
-        <div class="col-sm-12 col-md-6 col-lg-6">
-          <form (ngSubmit)="searchService(searchInput)">
-            <div class="row">
-              <div class="col-sm-6 col-md-6 col-lg-6">
-                <mat-form-field class="example-full-width">
-                  <input matInput placeholder="Search" [(ngModel)]="searchInput" [ngModelOptions]="{standalone:true}">
-                </mat-form-field>
-              </div>
-              <div class="col-sm-6 col-md-6 col-lg-6" style="padding-top: 5%">
-                <button mat-raised-button type="submit" color="primary">Search</button>
-              </div>
-            </div>
-          </form>
+      <br>
+      <form (ngSubmit)="searchService(searchInput, selectedCategories)">
+        <div class="row">
+          <div class="col-sm-6 col-md-6 col-lg-6">
+            <mat-form-field style="width: 100%">
+              <input matInput placeholder="Search" [(ngModel)]="searchInput" [ngModelOptions]="{standalone:true}">
+            </mat-form-field>
+          </div>
+          <div class="col-sm-4 col-md-4 col-lg-4">
+            <mat-form-field style="width: 100%">
+              <mat-select placeholder="Search by Category" [(ngModel)]="selectedCategories" [ngModelOptions]="{standalone: true}">
+                <mat-option *ngFor="let x of serviceCategories" [value]="x">{{x.serviceCategoryName}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-2 col-md-2 col-lg-2">
+            <button mat-raised-button type="submit" color="primary">Search</button>
+          </div>
         </div>
-        <div class="col-sm-12 col-md-6 col-lg-6">
-          <form (ngSubmit)="searchByCategory()">
-            <div class="row">
-              <div class="col-sm-6 col-md-6 col-lg-6">
-                <mat-form-field>
-                  <mat-select placeholder="Search by Category" [(ngModel)]="selectedCategories" [ngModelOptions]="{standalone: true}" multiple>
-                    <mat-option *ngFor="let x of serviceCategories" [value]="x">{{x.serviceCategoryName}}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
+      </form>
+      <mat-divider></mat-divider>
+      <br>
       <div class="row">
-        <div class="col-md-3 col-lg-3"></div>
-        <div class="col-sm-12 col-md-3 col-lg-3">
+        <div class="col-sm-12 col-md-12 col-lg-12">
           <ul *ngIf="pager.pages && pager.pages.length" class="pagination text-center">
             <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item">
               <a (click)="setPage(pager.currentPage - 1)" class="page-link">Previous</a>
@@ -220,7 +215,8 @@
             <mat-card-header>
               <mat-card-title class="text-center bold-text">{{(service.serviceName | slice: 0: 24)+"..."}}</mat-card-title>
             </mat-card-header>
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+            <img class="serviceImageThumbnail" mat-card-image src="{{service.serviceImageName | slice:24}}" alt="Not Available">
+            <!--https://material.angular.io/assets/img/examples/shiba2.jpg-->
             <mat-card-content>
               <mat-card-subtitle> {{(service.serviceDescription | slice: 0:30) + "..."}}</mat-card-subtitle>
             </mat-card-content>
@@ -249,8 +245,7 @@
                     </li>
                 </ul> -->
       <div class="row" style="margin-top:20px">
-        <div class="col-md-3 col-lg-3"></div>
-        <div class="col-sm-12 col-md-3 col-lg-3">
+        <div class="col-sm-12 col-md-12 col-lg-12">
           <ul *ngIf="pager.pages && pager.pages.length" class="pagination text-center">
             <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item">
               <a (click)="setPage(pager.currentPage - 1)" class="page-link">Previous</a>
@@ -267,15 +262,18 @@
     </div>
   </mat-tab>
   <mat-tab label="My Posts" *ngIf="!isAdmin">
-    <div class="container">
-      <h5>My Posts</h5>
+    <div class="container demo-tab-content">
+      <br>
+      <h4>My Posts</h4>
+      <mat-divider></mat-divider>
+      <br>
       <div class="row">
         <div class="col-sm-6 col-md-3 col-lg-3" *ngFor="let x of userServices">
           <mat-card>
             <mat-card-header>
               <mat-card-title class="text-center bold-text">{{(x.serviceName | slice:0:24)+"..."}}</mat-card-title>
             </mat-card-header>
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+            <img class="serviceImageThumbnail" mat-card-image src="{{x.serviceImageName | slice: 24}}" alt="Photo of a Shiba Inu">
             <mat-card-content>
               <mat-card-subtitle> {{(x.serviceDescription | slice: 0:30) + "..."}}</mat-card-subtitle>
             </mat-card-content>
@@ -288,8 +286,11 @@
     </div>
   </mat-tab>
   <mat-tab label="Add a service" *ngIf="!isAdmin && !isActive==0">
-    <div class="container">
-      <h2>Add a Service </h2>
+    <div class="container demo-tab-content">
+      <br>
+      <h4>Add a Service </h4>
+      <mat-divider></mat-divider>
+      <br>
       <form (ngSubmit)="addService(addServiceForm.value)" [formGroup]="addServiceForm">
         <div class="row">
           <div class="col-sm-12 col-md-12 col-lg-12">
@@ -359,34 +360,53 @@
     </div>
   </mat-tab>
   <mat-tab label="Wishlist" *ngIf="!isAdmin">
-    <ul>
-      <li *ngFor="let x of wishlist" (click)="getWishlistItems(x.wishlistId)">
-        <div>{{x.wishlistName}}</div>
-        <div>
-          <li *ngFor="let x of wishlistitems">
-            {{x.serviceName}}
-          </li>
+    <div class="container demo-tab-content">
+      <br>
+      <h4>Wishlist Items</h4>
+      <mat-divider></mat-divider>
+      <br>
+      <div class="row">
+          <div class="col-sm-6 col-md-3 col-lg-3" *ngFor="let x of wishlistitems">
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title class="text-center bold-text">{{(x.serviceName | slice:0:24)+"..."}}</mat-card-title>
+              </mat-card-header>
+              <img class="serviceImageThumbnail" mat-card-image src="{{x.serviceImageName | slice:24}}" alt="Photo of a Shiba Inu">
+              <mat-card-content>
+                <mat-card-subtitle> {{(x.serviceDescription | slice: 0:30) + "..."}}</mat-card-subtitle>
+              </mat-card-content>
+              <mat-card-actions>
+                <button mat-raised-button (click)="openService(x.serviceId)" color="primary">See More</button>
+                <button mat-raised-button (click)="removeFromWishlist(x.serviceId, userId)" color="primary">Remove</button>
+              </mat-card-actions>
+            </mat-card>
+            <br>
+          </div>
         </div>
-      </li>
-    </ul>
+    </div>
   </mat-tab>
   <mat-tab label="Hidden Service" *ngIf="!isAdmin">
-    <div class="container">
+    <div class="container demo-tab-content">
+      <br>
       <h4>Hidden Service</h4>
+      <mat-divider></mat-divider>
+      <br>
       <div class="row">
         <div class="col-sm-6 col-md-3 col-lg-3" *ngFor="let x of hiddenServices">
           <mat-card>
             <mat-card-header>
               <mat-card-title class="text-center bold-text">{{(x.serviceName | slice:0:24)+"..."}}</mat-card-title>
             </mat-card-header>
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+            <img class="serviceImageThumbnail" mat-card-image src="{{x.serviceImageName | slice:24}}" alt="Photo of a Shiba Inu">
             <mat-card-content>
               <mat-card-subtitle> {{(x.serviceDescription | slice: 0:30) + "..."}}</mat-card-subtitle>
             </mat-card-content>
             <mat-card-actions>
               <button mat-raised-button (click)="openService(x.serviceId)" color="primary">See More</button>
+              <button mat-raised-button (click)="unhideService(x.serviceId)" color="primary">Unhide</button>
             </mat-card-actions>
           </mat-card>
+          <br>
         </div>
       </div>
     </div>

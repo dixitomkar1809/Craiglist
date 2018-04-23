@@ -54,7 +54,7 @@ app.post('/uploadImage', upload.single("productImage"), (request, result) => {
 app.post('/api/setImage', (request, result) => {
     // console.log(request.body);
     // result.send(request.body);
-    connection.query('UPDATE `serviceimages` SET `serviceImageName`= ? WHERE ,`serviceId`= ?', [request.body.imgPath, request.body.value], function(err, rows, fields) {
+    connection.query('UPDATE `serviceimages` SET `serviceImageName`= ? WHERE `serviceId`= ?', [request.body.imgPath, request.body.value], function(err, rows, fields) {
         if(err){
             console.log(err);
         }
@@ -83,7 +83,7 @@ app.get('/api/service/setImage/:id/:path', (request, result) => {
 
 // List of all services
 app.get('/api/service/all/:userid', (request, result) => {
-    connection.query('SELECT * FROM service WHERE service.serviceId not in (select serviceId from hiddenservices where hiddenservices.userId = ? )', [request.params.userid], function (err, rows, fields) {
+    connection.query('SELECT service.*, serviceimages.serviceImageName FROM service, serviceimages WHERE service.serviceId = serviceimages.serviceId AND service.serviceId AND service.isAvailable = 1 and service.serviceId not in (select serviceId from hiddenservices where hiddenservices.userId = ?)', [request.params.userid], function (err, rows, fields) {
         if (err) {
             console.log(err);
         }
@@ -95,7 +95,7 @@ app.get('/api/service/all/:userid', (request, result) => {
 
 // services by a specific user
 app.get('/api/service/getByUser/:userId', (request, result) => {
-    connection.query("select * from service where serviceUserId = ? ", [request.params.userId], function (err, rows, fields) {
+    connection.query("select service.*, serviceimages.serviceImageName from service, serviceimages where service.serviceId = serviceimages.serviceId and serviceUserId = ? ", [request.params.userId], function (err, rows, fields) {
         if (err) {
             console.log(err);
         }
@@ -156,7 +156,7 @@ app.get('/api/hideService/add/:serviceId/:userId', (request, result) => {
 
 //remove  hidden product for a specific user
 app.get('/api/hideService/remove/:hiddenProductId/:userId', (request, result) => {
-    connection.query("DELETE FROM hiddenservices WHERE hiddenservices.serviceId = ? and hiddeservices.userId= ?", [request.params.hiddenProductId, request.params.userId], function (err, rows, fields) {
+    connection.query("DELETE FROM hiddenservices WHERE hiddenservices.serviceId = ? and hiddenservices.userId= ?", [request.params.hiddenProductId, request.params.userId], function (err, rows, fields) {
         if (err) {
             console.log(err);
         }
@@ -168,7 +168,7 @@ app.get('/api/hideService/remove/:hiddenProductId/:userId', (request, result) =>
 
 //get hidden product for a specific user
 app.get('/api/hideService/get/:userId', (request, result) => {
-    connection.query("SELECT * FROM service, hiddenservices WHERE hiddenservices.serviceId = service.serviceId and hiddenservices.userId= ?", [request.params.userId], function (err, rows, fields) {
+    connection.query("SELECT service.*, serviceimages.serviceImageName FROM service, hiddenservices, serviceimages WHERE hiddenservices.serviceId = service.serviceId and hiddenservices.userId= ? AND service.serviceId = serviceimages.serviceId ", [request.params.userId], function (err, rows, fields) {
         if (err) {
             console.log(err);
         }
@@ -278,7 +278,7 @@ app.get('/api/users/get/:id', (request, result) => {
 
 // Specific Product
 app.get('/api/service/:id', (request, result) => {
-    connection.query('SELECT * FROM service WHERE serviceId = ?', [request.params.id], function (err, rows, fields) {
+    connection.query('SELECT service.*, serviceimages.serviceImageName, servicecategory.serviceCategoryName FROM service, serviceimages, servicecategory WHERE service.serviceId = ? AND service.serviceId = serviceimages.serviceId AND service.serviceCategoryId = servicecategory.serviceCategoryId ', [request.params.id], function (err, rows, fields) {
         if (err) {
             console.log(err);
         }
@@ -382,9 +382,6 @@ app.get('/api/users/deactivateUser/:id', (request, result) => {
     });
 });
 
-// add service to wish list
-// app.get(`/api/wishlist/add/:serviceId/:userId`, (request, result) => {
-//     connection.query('INSERT INTO `wishlist`(`wishlistServiceId`, `wishlistUserid`) VALUES (?,?)', [request.params.serviceId, request.params.userid], function(err, rows, fields){
 // Update Service
 app.get('/api/service/updateService/:serviceName/:servicePrice/:serviceDesc/:serviceId', (request, result) => {
     connection.query("UPDATE service SET service.serviceName = ?, service.servicePrice = ?, service.serviceDescription = ? WHERE service.serviceId = ?", [request.params.serviceName,request.params.servicePrice,request.params.serviceDesc,request.params.serviceId], function(err, rows, fields){
@@ -397,8 +394,64 @@ app.get('/api/service/updateService/:serviceName/:servicePrice/:serviceDesc/:ser
     })
 })
 
-// get wishlist service details
 
+// add service to wish list
+app.get(`/api/wishlist/add/:serviceId/:userId`, (request, result) => {
+    console.log(request.params);
+    connection.query('INSERT INTO `wishlist`(`wishlistServiceId`, `wishlistUserid`) VALUES (?,?)', [request.params.serviceId, request.params.userId], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
+});
+
+// get wishlist service details
 app.get('/api/wishlist/get/:userId', (request, result) => {
-   
+   connection.query('select service.*, serviceimages.serviceImageName FROM service, serviceimages, wishlist where service.serviceId = wishlist.wishlistServiceId and wishlist.wishlistUserid = ? and serviceimages.serviceId = service.serviceId ', [request.params.userId], function(err, rows, fields){
+       if(err){
+           console.log(err);
+       }
+       else{
+           result.send(rows);
+       }
+   })
+});
+
+// remove from wishlist
+app.get('/api/wishlist/remove/:serviceId/:userId', (request, result) => {
+    connection.query('DELETE FROM `wishlist` WHERE wishlist.wishlistServiceId = ? and wishlist.wishlistUserid = ?', [request.params.serviceId, request.params.userId], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
+});
+
+// discontinue a service
+app.get('/api/service/discontinue/:serviceId', (request, result) => {
+    connection.query('UPDATE `service` SET `isAvailable`= 0 WHERE serviceId = ?', [request.params.serviceId], function(err, rows, fields){
+        if (err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
+});
+
+// continie a service
+app.get('/api/service/continue/:serviceId',(request, result) => {
+    connection.query('UPDATE `service` SET `isAvailable`= 1 WHERE serviceId = ?', [request.params.serviceId], function(err, rows, fields){
+        if (err){
+            console.log(err);
+        }
+        else{
+            result.send(rows);
+        }
+    });
 });
