@@ -216,8 +216,7 @@
             <mat-card-header>
               <mat-card-title class="text-center bold-text">{{(service.serviceName | slice: 0: 24)+"..."}}</mat-card-title>
             </mat-card-header>
-            <img class="serviceImageThumbnail" mat-card-image src="{{service.serviceImageName | slice:24}}" alt="Not Available" *ngIf="!(service.serviceId >= 10)">
-            <img mat-card-image src="../assets/uploads/kevlar.jpg" alt="Not Available" class="serviceImageThumbnail" *ngIf="service.serviceId >= 10">
+            <img class="serviceImageThumbnail" mat-card-image src="{{service.serviceImageName | slice:24}}" alt="Not Available">
             <!--https://material.angular.io/assets/img/examples/shiba2.jpg-->
             <mat-card-content>
               <mat-card-subtitle> {{(service.serviceDescription | slice: 0:30) + "..."}}</mat-card-subtitle>
@@ -275,8 +274,7 @@
             <mat-card-header>
               <mat-card-title class="text-center bold-text">{{(x.serviceName | slice:0:24)+"..."}}</mat-card-title>
             </mat-card-header>
-            <img class="serviceImageThumbnail" mat-card-image src="{{x.serviceImageName | slice: 24}}" alt="Not Available" *ngIf="!(x.serviceId >= 10)">
-            <img mat-card-image src="../assets/uploads/kevlar.jpg" alt="Not Available" class="serviceImageThumbnail" *ngIf="x.serviceId >= 10">
+            <img class="serviceImageThumbnail" mat-card-image src="{{x.serviceImageName | slice: 24}}" alt="Not Available">
             <mat-card-content>
               <mat-card-subtitle> {{(x.serviceDescription | slice: 0:30) + "..."}}</mat-card-subtitle>
             </mat-card-content>
