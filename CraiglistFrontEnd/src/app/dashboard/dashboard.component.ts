@@ -147,6 +147,7 @@ export class DashboardComponent implements OnInit {
   }
 
   setPage(page: number) {
+    console.log('in set page');
     if (page < 1 || page > this.pager.totalPages) {
       return;
     }
@@ -201,29 +202,43 @@ export class DashboardComponent implements OnInit {
 
 
   searchService(data, data2) {
-    // console.log(data);
-    // console.log(data2);
     if (data && data2) {
       console.log('Both data is present');
+      console.log('http://localhost:3000/api/service/get/'+data+'/'+data2.serviceCategoryId);
+      return this.httpClient.get('http://localhost:3000/api/service/get/'+data+'/'+data2.serviceCategoryId)
+      .subscribe(
+        (data:any[]) => {
+          console.log(data);
+          this.serviceInfo = data;
+          this.setPage(1);
+        }
+      )
     }
     else if (data) {
-      // console.log('search is given');
-      console.log("http://localhost:3000/api/services/searchInput/" + data);
-      return this.httpClient.get("http://localhost:3000/api/services/searchInput/" + data)
+      console.log('search is given');
+      console.log("http://localhost:3000/api/services/searchInput/" + data + "/"+this.userId);
+      return this.httpClient.get("http://localhost:3000/api/services/searchInput/" + data + "/"+ this.userId)
         .subscribe(
           (data: any[]) => {
-            // console.log(data);
             this.serviceInfo = data;
             this.setPage(1);
-            console.log(this.serviceInfo);
           }
         )
     }
     else if (data2) {
       console.log('category is given');
+      console.log(data2.serviceCategoryId);
+      return this.httpClient.get('http://localhost:3000/api/service/serviceCategory/'+ data2.serviceCategoryId + "/"+this.userId)
+      .subscribe(
+        (data:any[]) => {
+          this.serviceInfo = data;
+          this.setPage(1);
+        }
+      )
     }
-    else {
+    else {  
       console.log('none is given');
+      this.getAllServices();
     }
 
   }
@@ -269,7 +284,7 @@ export class DashboardComponent implements OnInit {
    return this.httpClient.get("http://localhost:3000/api/wishlist/get/" + value)
       .subscribe(
         (data: any[]) => {
-          console.log(data);
+          // console.log(data);
           this.wishlistitems = data;
         }
       )

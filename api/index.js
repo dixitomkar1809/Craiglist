@@ -131,8 +131,8 @@ app.get('/api/service/delete/:id', (request, result) => {
 
 
 // List of products with one category
-app.get('/api/service/serviceCategory/:categoryId', (request, result) => {
-    connection.query("SELECT * FROM service WHERE serviceCategoryId= ?", [request.params.categoryId], function (err, rows, fields) {
+app.get('/api/service/serviceCategory/:categoryId/:userId', (request, result) => {
+    connection.query("SELECT service.*, serviceimages.serviceImageName FROM service, serviceimages WHERE service.serviceId = serviceimages.serviceId AND service.serviceId AND service.isAvailable = 1 and service.serviceCategoryId = ? and service.serviceId not in (select serviceId from hiddenservices where hiddenservices.userId = ?)" , [request.params.categoryId, request.params.userId] , function (err, rows, fields) {
         if (err) {
             console.log(err);
         }
@@ -301,9 +301,10 @@ app.get('/api/users/usersListAll', (request, result) => {
 });
 
 // service by search Input
-app.get('/api/services/searchInput/:searchInput', (request, result) => {
-    console.log("SELECT * FROM `service` WHERE service.serviceName LIKE '%" + request.params.searchInput + "%'");
-    connection.query("SELECT * FROM `service` WHERE service.serviceName LIKE '%" + request.params.searchInput + "%'", function (err, rows, fields) {
+app.get('/api/services/searchInput/:searchInput/:userId', (request, result) => {
+    // SELECT service.*, serviceimages.serviceImageName FROM service, serviceimages WHERE service.serviceId = serviceimages.serviceId AND service.serviceId AND service.isAvailable = 1 and service.serviceName like '%first%' and service.serviceId not in (select serviceId from hiddenservices where hiddenservices.userId = 1)
+    // console.log("SELECT service.*, serviceimages.serviceImageName FROM service, serviceimages WHERE service.serviceId = serviceimages.serviceId AND service.serviceId AND service.isAvailable = 1 and service.serviceName like '%"+request.params.searchInput+"%' and service.serviceId not in (select serviceId from hiddenservices where hiddenservices.userId ="+ request.params.userId+" )");
+    connection.query("SELECT service.*, serviceimages.serviceImageName FROM service, serviceimages WHERE service.serviceId = serviceimages.serviceId AND service.serviceId AND service.isAvailable = 1 and service.serviceName like '%"+request.params.searchInput+"%' and service.serviceId not in (select serviceId from hiddenservices where hiddenservices.userId ="+ request.params.userId+" )", function (err, rows, fields) {
         if (err) {
             console.log(err)
         }
@@ -455,3 +456,17 @@ app.get('/api/service/continue/:serviceId',(request, result) => {
         }
     });
 });
+
+
+// serachby inputand filter
+app.get('/api/service/get/:searchInput/:categoryId', (request, result) => {
+    connection.query('SELECT service.*, serviceimages.serviceImageName FROM service, serviceimages WHERE service.serviceId = serviceimages.serviceId AND service.serviceId AND service.isAvailable = 1 and service.serviceCategoryId = ? and service.serviceName like "%'+request.params.searchInput+'%" and service.serviceId not in (select serviceId from hiddenservices where hiddenservices.userId = 1)', [request.params.categoryId], function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log(rows);
+            result.send(rows);
+        }
+    })
+})
