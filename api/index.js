@@ -4,7 +4,7 @@ var multer = require('multer');
 // var upload = multer({ dest: 'D:/Projects/Craiglist/CraiglistFrontEnd/src/assets/uploads/' });
 var storage = multer.diskStorage({
     destination: function(req, file, cb){
-        cb(null, "../CraiglistFrontEnd/src/assets/uploads/")
+        cb(null, "C:/Users/Tushar Chemburkar/Desktop/College/Spring 2018/Web Programming Languages/Project/images/")
     },
     filename:function(req, file, cb){
         cb(null, Date.now()+'.jpg')
@@ -344,7 +344,7 @@ app.post('/api/service/addService', urlEncodedParser, (request, result) => {
         else{
             // console.log(rows);
             // result.send(rows);
-            connection.query('INSERT INTO `serviceimages`(`serviceImageName`, `serviceId`) VALUES (?,?)',['../CraiglistFrontEnd/src/assets/uploads/temp.jpg' , rows["insertId"]], function(err, rows, fields){
+            connection.query('INSERT INTO `serviceimages`(`serviceImageName`, `serviceId`) VALUES (?,?)',['C:/Users/Tushar Chemburkar/Desktop/College/Spring 2018/Web Programming Languages/Project/images/temp.jpg' , rows["insertId"]], function(err, rows, fields){
                 if(err){
                     console.log(err);
                 }

@@ -1,0 +1,25 @@
+alt tag for images in my posts
+add to wishlist success error
+** Dont hide service from second page, it diverts to first page
+After adding service, my posts does not reflect
+
+No message if wishlist and hidden are empty
+no space between upload file and submit in add service
+if hidden services are discontinued they are still visiible in hidden
+Go back redirects to Home
+Info message if there are no services for search applied
+
+Presentation Flow:
+
+User Login
+User Details update
+Search w/ search by category
+See More
+update service
+discontiue service
+
+add service 
+add service in wishlist
+hide services
+
+disable user from admin login

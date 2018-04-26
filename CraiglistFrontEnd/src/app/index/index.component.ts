@@ -105,7 +105,6 @@ export class IndexComponent implements OnInit {
               (data:any[])=>{
                 console.log(data);
                 this.registerSuccess = "Succesfully Registered ! Please Login !";
-                this.registerError = "";
               }
             )
           }
