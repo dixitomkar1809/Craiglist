@@ -6,7 +6,8 @@
   </div>
   <div class="row" style="margin-top: 20px">
     <div class="col-sm-3 col-md-3 col-lg-3">
-      <img src="{{serviceImage | slice:24}}" alt="Not Available" class="img-thumbnail">
+      <img src="{{serviceImage | slice:24}}" alt="Not Available" class="img-thumbnail" *ngIf="!(serviceId >= 10)">
+      <img src="../assets/uploads/kevlar.jpg" alt="Not Available" class="img-thumbnail" *ngIf="serviceId >= 10">
     </div>
     <div class="col-sm-9 col-md-9 col-lg-9" [hidden]="updatableForm">
       <h3>{{serviceName}}</h3>
@@ -17,7 +18,7 @@
       <button mat-raised-button color="primary" *ngIf="serviceIsAvailable == 1" (click)="getUserDetails(serviceUserId)">Contact</button>
       <button mat-raised-button color="primary" *ngIf="serviceUserId == userId" (click)="toggleUpdate()">Update Service</button>
       <!-- <button mat-raised-button color="primary" *ngIf="userId != serviceUserId">Hide Service</button> -->
-      <button mat-raised-button color="primary" *ngIf="userId != serviceUserId" (click)="addToWishList()">Add to Wishlist</button>
+      <button mat-raised-button color="primary" *ngIf="userId != serviceUserId" (click)="addToWishList()">Add to Wishlist</button> <span class="success">{{addWishlistItemMessage}}</span>
       <button mat-raised-button color="warn" (click)="discontinueService()" *ngIf="userId == serviceUserId && serviceIsAvailable==1">Discontinue</button>
       <button mat-raised-button color="primary" (click)="continueService()" *ngIf="userId == serviceUserId && serviceIsAvailable==0">Continue</button>
     </div>

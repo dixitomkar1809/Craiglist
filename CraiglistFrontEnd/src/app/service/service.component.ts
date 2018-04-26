@@ -30,6 +30,7 @@ export class ServiceComponent implements OnInit {
   public serviceImage:any;
   public serviceCategory: any;
   public showContactDetails = false;
+  public addWishlistItemMessage:string;
 
 
   constructor(private httpClient: HttpClient, private router: Router) {
@@ -120,6 +121,7 @@ export class ServiceComponent implements OnInit {
       .subscribe(
         (data: any[]) => {
           console.log(data);
+          this.addWishlistItemMessage = "Added to Wishlist ! ";
         }
       )
   }

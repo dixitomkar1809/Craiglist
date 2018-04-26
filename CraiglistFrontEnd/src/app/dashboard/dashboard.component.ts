@@ -58,6 +58,7 @@ export class DashboardComponent implements OnInit {
   public addServiceDesc: string;
   addServiceForm: FormGroup;
   public addServiceMessage:string ;
+  public addWishlistItemMessage:string;
 
   constructor(private httpClient: HttpClient, private pagerService: PagerService, private router: Router, private location: Location, private fb: FormBuilder) {
 
@@ -324,10 +325,13 @@ export class DashboardComponent implements OnInit {
         (data: any[]) => {
           // console.log('from the nodejs', data["insertId"]);
           this.getAllServices();
+          this.getServicesByUser();
           if (this.selectedFile) {
             this.onUpload(data["insertId"]);
           }
           this.addServiceMessage = "Service Added !";
+          this.addServiceForm.reset();
+          this.addServiceForm.clearValidators();
         }
       )
   }
