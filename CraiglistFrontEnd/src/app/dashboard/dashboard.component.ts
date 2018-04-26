@@ -149,6 +149,7 @@ export class DashboardComponent implements OnInit {
   setPage(page: number) {
     console.log('in set page');
     if (page < 1 || page > this.pager.totalPages) {
+      console.log('returning ');
       return;
     }
 
@@ -203,49 +204,52 @@ export class DashboardComponent implements OnInit {
 
   searchService(data, data2) {
     if (data && data2) {
-      console.log('Both data is present');
-      console.log('http://localhost:3000/api/service/get/'+data+'/'+data2.serviceCategoryId);
+      // console.log('Both data is present');
+      // console.log('http://localhost:3000/api/service/get/'+data+'/'+data2.serviceCategoryId);
       return this.httpClient.get('http://localhost:3000/api/service/get/'+data+'/'+data2.serviceCategoryId)
       .subscribe(
         (data:any[]) => {
-          console.log(data);
+          // console.log(data);
           this.serviceInfo = data;
+          this.pager = {};
           this.setPage(1);
         }
       )
     }
     else if (data) {
-      console.log('search is given');
-      console.log("http://localhost:3000/api/services/searchInput/" + data + "/"+this.userId);
+      // console.log('search is given');
+      // console.log("http://localhost:3000/api/services/searchInput/" + data + "/"+this.userId);
       return this.httpClient.get("http://localhost:3000/api/services/searchInput/" + data + "/"+ this.userId)
         .subscribe(
           (data: any[]) => {
             this.serviceInfo = data;
+            this.pager = {};
             this.setPage(1);
           }
         )
     }
     else if (data2) {
-      console.log('category is given');
-      console.log(data2.serviceCategoryId);
+      // console.log('category is given');
+      // console.log(data2.serviceCategoryId);
       return this.httpClient.get('http://localhost:3000/api/service/serviceCategory/'+ data2.serviceCategoryId + "/"+this.userId)
       .subscribe(
         (data:any[]) => {
           this.serviceInfo = data;
+          this.pager = {};
           this.setPage(1);
         }
       )
     }
     else {  
-      console.log('none is given');
+      // console.log('none is given');
       this.getAllServices();
     }
 
   }
 
-  searchServiceByCategory(data) {
-    console.log(data);
-  }
+  // searchServiceByCategory(data) {
+  //   console.log(data);
+  // }
 
   getAllServices() {
     // get All Services
@@ -294,14 +298,14 @@ export class DashboardComponent implements OnInit {
     return this.httpClient.get('http://localhost:3000/api/wishlist/remove/'+value1+'/'+value2)
     .subscribe(
       (data:any[]) => {
-        console.log(data);
+        // console.log(data);
         this.getWishlistItems(this.userId);
       }
     )
   }
 
   openService(data) {
-    console.log(data);
+    // console.log(data);
     sessionStorage.setItem('service', JSON.stringify({ serviceId: data }));
     // console.log(JSON.parse(sessionStorage.getItem('userId')));
     this.router.navigate(['service']);
@@ -313,11 +317,11 @@ export class DashboardComponent implements OnInit {
   }
 
   addService(value) {
-    console.log(value);
+    // console.log(value);
     return this.httpClient.post("http://localhost:3000/api/service/addService", value)
       .subscribe(
         (data: any[]) => {
-          console.log('from the nodejs', data["insertId"]);
+          // console.log('from the nodejs', data["insertId"]);
           this.getAllServices();
           if (this.selectedFile) {
             this.onUpload(data["insertId"]);
@@ -330,7 +334,7 @@ export class DashboardComponent implements OnInit {
     return this.httpClient.get("http://localhost:3000/api/users/changeEmail/" + this.userId + "/" + this.emailId)
       .subscribe(
         (data: any[]) => {
-          console.log(data);
+          // console.log(data);
           this.emailIdChangedMessage = "Email-Id Changed !";
         }
       )
@@ -340,7 +344,7 @@ export class DashboardComponent implements OnInit {
     return this.httpClient.get("http://localhost:3000/api/users/changePhoneNo/" + this.userId + "/" + this.phoneNo)
       .subscribe(
         (data: any[]) => {
-          console.log(data);
+          // console.log(data);
           this.phoneNoChangedMessage = "Phone Number Changed !";
         }
       )
@@ -350,7 +354,7 @@ export class DashboardComponent implements OnInit {
     return this.httpClient.get("http://localhost:3000/api/users/changeAddress/" + this.userId + "/" + this.address + "/" + this.city + "/" + this.state + "/" + this.country + "/" + this.zipcode)
       .subscribe(
         (data: any[]) => {
-          console.log(data);
+          // console.log(data);
           this.addressChangedMessage = "Address Changed !";
         }
       )
@@ -361,7 +365,7 @@ export class DashboardComponent implements OnInit {
   }
 
   deactivateUser(value) {
-    console.log(value);
+    // console.log(value);
     return this.httpClient.get("http://localhost:3000/api/users/deactivateUser/" + value)
       .subscribe(
         (data: any[]) => {
@@ -370,7 +374,7 @@ export class DashboardComponent implements OnInit {
   }
 
   activateUser(value) {
-    console.log(value);
+    // console.log(value);
     return this.httpClient.get("http://localhost:3000/api/users/activateUser/" + value)
       .subscribe(
         (data: any[]) => {
