@@ -8,7 +8,6 @@
     <div class="col-sm-3 col-md-3 col-lg-3">
       <img src="{{serviceImage | slice:24}}" alt="Not Available" class="img-thumbnail">
     </div>
-  
     <div class="col-sm-9 col-md-9 col-lg-9" [hidden]="updatableForm">
       <h3>{{serviceName}}</h3>
       <h5>Price: {{servicePrice}}$</h5>
@@ -17,37 +16,53 @@
       <p>{{serviceDesc}}</p>
       <button mat-raised-button color="primary" *ngIf="serviceIsAvailable == 1" (click)="getUserDetails(serviceUserId)">Contact</button>
       <button mat-raised-button color="primary" *ngIf="serviceUserId == userId" (click)="toggleUpdate()">Update Service</button>
-      <button mat-raised-button color="primary" *ngIf="userId != serviceUserId">Hide Service</button>
+      <!-- <button mat-raised-button color="primary" *ngIf="userId != serviceUserId">Hide Service</button> -->
       <button mat-raised-button color="primary" *ngIf="userId != serviceUserId" (click)="addToWishList()">Add to Wishlist</button>
       <button mat-raised-button color="warn" (click)="discontinueService()" *ngIf="userId == serviceUserId && serviceIsAvailable==1">Discontinue</button>
       <button mat-raised-button color="primary" (click)="continueService()" *ngIf="userId == serviceUserId && serviceIsAvailable==0">Continue</button>
     </div>
-
     <div class="col-sm-9 col-md-9 col-lg-9" [hidden]="!updatableForm">
       <!-- <h3> -->
-            <mat-form-field style="width: 100%">
-              <input type="text" matInput placeholder="Name" [(ngModel)]="serviceName" [ngModelOptions]="{standalone : true}" required>
-            </mat-form-field>
-            
+      <mat-form-field style="width: 100%">
+        <input type="text" matInput placeholder="Name" [(ngModel)]="serviceName" [ngModelOptions]="{standalone : true}" required>
+      </mat-form-field>
+
       <!-- </h3> -->
       <!-- <h5>Price: -->
-        <mat-form-field>
-          <input type="text" matInput placeholder="Price" [(ngModel)]="servicePrice" [ngModelOptions]="{standalone : true}" required>
-        </mat-form-field>
-        
+      <mat-form-field>
+        <input type="text" matInput placeholder="Price" [(ngModel)]="servicePrice" [ngModelOptions]="{standalone : true}" required>
+      </mat-form-field>
+
       <!-- </h5> -->
-        <!-- Category:
+      <!-- Category:
         <mat-form-field>
           <mat-select>
             <mat-option *ngFor="let x of serviceCategories" [value]="x">{{x.serviceCategoryName}}</mat-option>
           </mat-select>
         </mat-form-field> -->
       <!-- <p>Description: -->
-        <mat-form-field class="example-full-width">
-          <textarea matInput [(ngModel)]="serviceDesc" placeholder="Description" [ngModelOptions]="{standalone : true}" required></textarea>
-        </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <textarea matInput [(ngModel)]="serviceDesc" placeholder="Description" [ngModelOptions]="{standalone : true}" required></textarea>
+      </mat-form-field>
       <!-- </p> -->
-      <button mat-raised-button color="primary" (click)="updateService()">Update Service</button>    
+      <button mat-raised-button color="primary" (click)="updateService()">Update Service</button>
     </div>
+  </div>
+  <div class="row" *ngIf="showContactDetails">
+    <div class="col-sm-3 col-md-3 col-lg-3">
+
     </div>
+    <div class="col-sm-9 col-md-9 col-lg-9">
+      <h5>Contact Details</h5>
+      <p>
+        Name: {{serviceUserName}}
+      </p>
+      <p>
+        PhoneNumber: {{serviceUserPhone}}
+      </p>
+      <p>
+        Email-Id: {{serviceUserEmail}}
+      </p>
+    </div>
+  </div>
 </div>

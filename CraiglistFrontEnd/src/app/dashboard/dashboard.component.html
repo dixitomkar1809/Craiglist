@@ -183,6 +183,7 @@
           <div class="col-sm-4 col-md-4 col-lg-4">
             <mat-form-field style="width: 100%">
               <mat-select placeholder="Search by Category" [(ngModel)]="selectedCategories" [ngModelOptions]="{standalone: true}">
+                <mat-option [value]="All">All</mat-option>
                 <mat-option *ngFor="let x of serviceCategories" [value]="x">{{x.serviceCategoryName}}</mat-option>
               </mat-select>
             </mat-form-field>
@@ -354,6 +355,11 @@
         <div class="row">
           <div class="col-sm-12 colmd-12 col-lg-12">
             <button mat-raised-button color="primary" type="submit" [disabled]="!addServiceForm.valid">Submit</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-12">
+              <p class="success">{{addServiceMessage}}</p>
           </div>
         </div>
       </form>

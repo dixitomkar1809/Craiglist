@@ -29,6 +29,7 @@ export class ServiceComponent implements OnInit {
   public serviceIsAvailable: any;
   public serviceImage:any;
   public serviceCategory: any;
+  public showContactDetails = false;
 
 
   constructor(private httpClient: HttpClient, private router: Router) {
@@ -105,7 +106,11 @@ export class ServiceComponent implements OnInit {
     this.httpClient.get("http://localhost:3000/api/users/get/" + this.serviceUserId)
       .subscribe(
         (data: any[]) => {
-          // console.log(data);
+          console.log(data);
+          this.serviceUserEmail = data[0].emailId;
+          this.serviceUserName = data[0].fullName;
+          this.serviceUserPhone = data[0].phoneNo;
+          this.showContactDetails = true;
         }
       )
   }

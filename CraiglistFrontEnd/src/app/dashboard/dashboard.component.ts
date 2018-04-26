@@ -57,6 +57,7 @@ export class DashboardComponent implements OnInit {
   public addServiceCategory: any;
   public addServiceDesc: string;
   addServiceForm: FormGroup;
+  public addServiceMessage:string ;
 
   constructor(private httpClient: HttpClient, private pagerService: PagerService, private router: Router, private location: Location, private fb: FormBuilder) {
 
@@ -326,6 +327,7 @@ export class DashboardComponent implements OnInit {
           if (this.selectedFile) {
             this.onUpload(data["insertId"]);
           }
+          this.addServiceMessage = "Service Added !";
         }
       )
   }
